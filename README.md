@@ -1,3 +1,3 @@
 # ClaudeCode-Archive
 
-<Topic> + <Date>
+Topic + Date
