@@ -1,0 +1,317 @@
+{
+  "type": "Report",
+  "props": { "theme": "auto" },
+  "children": [
+    {
+      "type": "BrandHeader",
+      "props": {
+        "badge": { "en": "Deep Research Report", "zh": "深度研究报告" },
+        "poweredBy": "Claude Code"
+      }
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Mixture of Experts: arXiv Weekly Survey (Feb 16\u201325, 2026)", "zh": "Mixture of Experts: arXiv 周报 (2026.2.16\u20132.25)" }, "icon": "paper" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "This report surveys **all Mixture-of-Experts (MoE) related papers** published on arXiv from **February 16 to February 25, 2026**. We identified **11 papers** directly submitted within this window, plus several highly relevant papers from early-to-mid February 2026 that provide important context. The papers are organized into 5 thematic categories: **Routing & Gating Mechanisms**, **Training Efficiency & Parallelism**, **Inference Optimization**, **Theory & Analysis**, and **Domain Applications**.\n\nThe week shows particularly strong activity in two areas: (1) novel routing mechanisms moving beyond standard Top-k+Softmax, and (2) systems-level optimizations for MoE inference and training at scale.",
+              "zh": "本报告调研了 **2026 年 2 月 16 日至 2 月 25 日** 期间 arXiv 上发布的所有与 **Mixture of Experts (MoE)** 相关的论文。我们在该时间窗口内直接识别出 **11 篇论文**，并补充了 2 月上旬至中旬的若干重要上下文论文。论文按 5 个主题分类：**路由与门控机制**、**训练效率与并行**、**推理优化**、**理论与分析**、**领域应用**。\n\n本周活跃度最高的两个方向是：(1) 超越标准 Top-k+Softmax 的新型路由机制；(2) 面向大规模 MoE 推理和训练的系统级优化。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Key Metrics", "zh": "关键指标" }, "icon": "chart" },
+      "children": [
+        {
+          "type": "MetricsGrid",
+          "props": {
+            "metrics": [
+              { "label": { "en": "Papers This Week", "zh": "本周论文数" }, "value": "11", "suffix": "+" },
+              { "label": { "en": "Thematic Categories", "zh": "主题分类" }, "value": "5", "suffix": "" },
+              { "label": { "en": "Routing/Gating Papers", "zh": "路由/门控论文" }, "value": "3", "suffix": "" },
+              { "label": { "en": "Systems/Infra Papers", "zh": "系统/基础设施论文" }, "value": "4", "suffix": "" },
+              { "label": { "en": "Theory Papers", "zh": "理论论文" }, "value": "2", "suffix": "" },
+              { "label": { "en": "Application Papers", "zh": "应用论文" }, "value": "2", "suffix": "" }
+            ],
+            "cols": 3
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "1. Routing & Gating Mechanisms", "zh": "1. 路由与门控机制" }, "icon": "star" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "The most intellectually active area this week. Three papers propose fundamentally new routing paradigms that move away from the standard Top-k + Softmax approach, each bringing a distinct mathematical framework.",
+              "zh": "本周学术活跃度最高的方向。三篇论文提出了从根本上不同于标准 Top-k + Softmax 的新路由范式，各自引入了独特的数学框架。"
+            }
+          }
+        },
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Feb 19", "zh": "2月19日" },
+                "title": { "en": "GrMoE: Grassmannian Mixture-of-Experts (arXiv: 2602.17798)", "zh": "GrMoE: 格拉斯曼流形上的 MoE (arXiv: 2602.17798)" },
+                "description": { "en": "**Shihab, Akter, Sharma** \u2014 Formalizes the connection between MoE routing and classification on the **Grassmannian manifold**. Derives a new gating mechanism from the **Matrix Bingham distribution**, replacing discrete top-k selection with a smooth, geometrically principled sparsity mechanism. The \"concentration matrix\" provides an interpretable knob for controlling routing entropy. Results: **zero routing collapse** across 350M\u20132.7B models, with **15\u201330% improved load balance** and comparable or better perplexity. Experts learn heterogeneous concentration values correlated with linguistic specialization, enabling **post-hoc sparsity tuning without retraining**.", "zh": "**Shihab, Akter, Sharma** \u2014 将 MoE 路由与**格拉斯曼流形**上的分类问题建立了形式化联系。从 **Matrix Bingham 分布**推导出新的门控机制，用平滑的几何稀疏机制取代离散的 top-k 选择。「浓度矩阵」提供了一个可解释的旋钮来控制路由熵。结果：在 350M\u20132.7B 模型上实现**零路由坍塌**，**负载均衡提升 15\u201330%**，困惑度持平或更优。各专家学到的浓度值与语言特化相关，支持**无需重训练的事后稀疏度调节**。" }
+              },
+              {
+                "badge": { "en": "Feb 19", "zh": "2月19日" },
+                "title": { "en": "PA-MoE: Phase-Aware MoE for Agentic RL (arXiv: 2602.17038)", "zh": "PA-MoE: 面向智能体 RL 的阶段感知 MoE (arXiv: 2602.17038)" },
+                "description": { "en": "**Yang, Li, He, Li, Cai, Jiang, Feng** (Southeast Univ. & Kuaishou) \u2014 Identifies the **simplicity bias** problem in RL policy networks where easy tasks dominate parameter updates. Proposes a **lightweight phase router** that learns latent phase boundaries directly from the RL objective (no predefined categories), allocating **temporally consistent** expert assignments. Each expert preserves phase-specific expertise, preventing catastrophic interference between task phases.", "zh": "**Yang, Li, He, Li, Cai, Jiang, Feng**（东南大学 & 快手）\u2014 揭示了 RL 策略网络中的**简单性偏差**问题：简单任务霸占了大部分参数更新。提出**轻量级阶段路由器**，直接从 RL 目标学习潜在阶段边界（无需预定义类别），实现**时间一致性**的专家分配。每个专家保持阶段特定的专长，防止任务阶段间的灾难性干扰。" }
+              },
+              {
+                "badge": { "en": "Feb 23", "zh": "2月23日" },
+                "title": { "en": "Replicate-and-Quantize: Plug-and-Play Load Balancing (arXiv: 2602.19938)", "zh": "复制-量化策略：即插即用负载均衡 (arXiv: 2602.19938)" },
+                "description": { "en": "**Liu, Peng, Duan et al.** \u2014 A **training-free** inference-time framework for dynamically rebalancing expert workloads. Key insight: expert importance cannot be reliably determined by selection frequency alone. Proposes **replicating heavy-hitter experts** to increase throughput capacity while **quantizing underutilized experts** to maintain memory budget. Introduces Load-Imbalance Score (LIS) metric. Achieves **up to 1.4x load imbalance reduction** while maintaining accuracy within \u00b10.6%.", "zh": "**Liu, Peng, Duan 等** \u2014 一种**无需训练**的推理时框架，用于动态重新平衡专家负载。核心洞察：专家重要性不能仅凭选择频率来判断。提出**复制高负载专家**以增加吞吐能力，同时**量化低利用率专家**以维持内存预算。引入负载不平衡评分 (LIS) 指标。实现**最高 1.4 倍负载不平衡降低**，精度偏差在 \u00b10.6% 以内。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "2. Training Efficiency & Parallelism", "zh": "2. 训练效率与并行" }, "icon": "bulb" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "Scaling MoE training remains a first-class systems challenge. This week's papers tackle expert parallelism, federated learning, and spectral approaches to expert specialization.",
+              "zh": "大规模 MoE 训练仍然是一个核心系统挑战。本周论文涵盖专家并行、联邦学习和基于谱分解的专家特化方法。"
+            }
+          }
+        },
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Feb 15", "zh": "2月15日" },
+                "title": { "en": "DeepFusion: Federated MoE Training from Edge Devices (arXiv: 2602.14301)", "zh": "DeepFusion: 从边缘设备联邦训练 MoE (arXiv: 2602.14301)" },
+                "description": { "en": "**Li, Hu, Abdelmoniem et al.** (AAMAS 2026) \u2014 First federated MoE training system enabling devices to train customized on-device LLMs and fuse knowledge into a global MoE. Introduces **View-Aligned Attention (VAA)** module to bridge architectural mismatches in cross-model distillation. Results: **71% communication reduction**, **5.28% perplexity improvement** over federated baselines. Validated on Qwen-MoE/DeepSeek-MoE in medical and financial domains.", "zh": "**Li, Hu, Abdelmoniem 等**（AAMAS 2026）\u2014 首个联邦 MoE 训练系统，允许各设备训练定制化的端侧 LLM 并融合知识到全局 MoE。引入**视图对齐注意力 (VAA)** 模块以桥接跨模型蒸馏中的架构差异。结果：**通信量减少 71%**，**困惑度提升 5.28%**。在 Qwen-MoE/DeepSeek-MoE 上验证，覆盖医疗和金融领域。" }
+              },
+              {
+                "badge": { "en": "Feb 13", "zh": "2月13日" },
+                "title": { "en": "SD-MoE: Spectral Decomposition for Expert Specialization (arXiv: 2602.12556)", "zh": "SD-MoE: 基于谱分解的专家特化 (arXiv: 2602.12556)" },
+                "description": { "en": "**Huang et al.** \u2014 Tackles the core problem that **expert specialization often fails** in practice: experts become functionally similar or act as de facto shared experts. Root cause analysis via spectral decomposition reveals overlapping dominant spectral components across experts + strongly aligned dominant gradient subspaces. Proposes **Spectral-Decoupled MoE** operating in spectral space to enhance differentiation. Integrates seamlessly into **Qwen and DeepSeek** architectures.", "zh": "**Huang 等** \u2014 解决 MoE 中**专家特化经常失败**的核心问题：专家变得功能相似或充当事实上的共享专家。通过谱分解进行根因分析，发现专家间主导谱成分重叠 + 主导梯度子空间强对齐。提出在谱空间中操作的 **Spectral-Decoupled MoE** 以增强差异化。可无缝集成到 **Qwen 和 DeepSeek** 架构中。" }
+              },
+              {
+                "badge": { "en": "Feb 12", "zh": "2月12日" },
+                "title": { "en": "LAER-MoE: Load-Adaptive Expert Re-layout (arXiv: 2602.11686)", "zh": "LAER-MoE: 负载自适应专家重布局 (arXiv: 2602.11686)" },
+                "description": { "en": "**Liu, Wang, Fu et al.** (ASPLOS 2026) \u2014 Introduces **Fully Sharded Expert Parallel (FSEP)**, a new parallelism paradigm that fully partitions each expert parameter across devices with selective restoration at expert granularity. Develops a load balancing planner to dynamically formulate re-layout strategies during training. Achieves **up to 1.69x speedup** over SOTA MoE training systems on A100 clusters.", "zh": "**Liu, Wang, Fu 等**（ASPLOS 2026）\u2014 提出**全分片专家并行 (FSEP)**，一种新的并行范式，将每个专家参数完全分片到各设备上，并在专家粒度选择性恢复。开发负载均衡规划器，在训练中动态制定重布局策略。在 A100 集群上实现**最高 1.69 倍加速**。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "3. Inference Optimization", "zh": "3. 推理优化" }, "icon": "bulb" },
+      "children": [
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Feb 17", "zh": "2月17日" },
+                "title": { "en": "MoE-Spec: Expert Budgeting for Speculative Decoding (arXiv: 2602.16052)", "zh": "MoE-Spec: 面向投机解码的专家预算 (arXiv: 2602.16052)" },
+                "description": { "en": "**McDanel, Li, Surineni, Khaitan** \u2014 Identifies a critical bottleneck: speculative decoding for MoE models activates too many unique experts in draft trees, creating excessive memory pressure. Proposes a **training-free** verification-time method that enforces **fixed expert capacity limits per layer**, loading only high-impact experts. Results: **10\u201330% higher throughput** than EAGLE-3 at comparable quality, with adjustable accuracy-latency tradeoffs.", "zh": "**McDanel, Li, Surineni, Khaitan** \u2014 发现关键瓶颈：MoE 模型的投机解码在草稿树中激活过多唯一专家，造成内存压力。提出**无需训练**的验证阶段方法，在每层强制执行**固定专家容量上限**，只加载高影响力专家。结果：在相当质量下**吞吐量比 EAGLE-3 高 10\u201330%**，精度-延迟权衡可调。" }
+              },
+              {
+                "badge": { "en": "Feb 10", "zh": "2月10日" },
+                "title": { "en": "Area-Efficient In-Memory Computing for MoE (arXiv: 2602.10254)", "zh": "面向 MoE 的高效面积存内计算 (arXiv: 2602.10254)" },
+                "description": { "en": "**Gao, Yang** \u2014 Proposes an area-efficient process-in-memory (PIM) architecture for MoE transformers. Key innovations: **crossbar-level multiplexing** exploiting MoE sparsity (multiple crossbars share peripheral circuits), expert grouping/scheduling to mitigate load imbalance, and a **gate-output cache** addressing the all-hidden-states bottleneck. Results: **2.2x area efficiency**, **4.2x generation performance**, **10.1x energy efficiency** vs. SOTA baseline.", "zh": "**Gao, Yang** \u2014 提出面向 MoE Transformer 的高效面积存内计算 (PIM) 架构。核心创新：利用 MoE 稀疏性的**交叉阵列级复用**（多个交叉阵列共享外围电路）、专家分组调度以缓解负载不平衡、以及解决全隐藏状态瓶颈的**门控输出缓存**。结果：面积效率 **2.2 倍**、生成性能 **4.2 倍**、能效 **10.1 倍**。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "4. Theory & Analysis", "zh": "4. 理论与分析" }, "icon": "info" },
+      "children": [
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Feb 16", "zh": "2月16日" },
+                "title": { "en": "MoE under Finite-Rate Gating: Communication\u2013Generalization Trade-offs (arXiv: 2602.15091)", "zh": "有限速率门控下的 MoE：通信-泛化权衡 (arXiv: 2602.15091)" },
+                "description": { "en": "**Khalesi, Deylam Salehi** \u2014 Models the MoE gate as a **stochastic channel under finite information rate** and develops a rate-distortion analysis. Establishes bounds on generalization error: E[R(W)] \u2264 D(R_g) + \u03b4_m + \u221a((2/m) I(S;W)). This provides **fundamental capacity-aware limits** for MoE architectures, quantifying the trade-off between gating rate, model expressivity, and generalization.", "zh": "**Khalesi, Deylam Salehi** \u2014 将 MoE 门控建模为**有限信息速率下的随机信道**，开发了率失真分析。建立泛化误差界：E[R(W)] \u2264 D(R_g) + \u03b4_m + \u221a((2/m) I(S;W))。为 MoE 架构提供了**基本的容量感知极限**，量化了门控速率、模型表达力和泛化之间的权衡。" }
+              },
+              {
+                "badge": { "en": "Feb 19", "zh": "2月19日" },
+                "title": { "en": "When More Experts Hurt: Underfitting in Multi-Expert L2D (arXiv: 2602.17144)", "zh": "更多专家反而有害：多专家 L2D 中的欠拟合 (arXiv: 2602.17144)" },
+                "description": { "en": "**Liu, Cao, Feng, An, Ong** \u2014 Proves that multi-expert Learning-to-Defer (L2D) suffers from an **intrinsic expert identifiability issue** causing classifier underfitting\u2014a problem absent in single-expert settings. Proposes **PiCCE** (Pick the Confident and Correct Expert), which adaptively identifies reliable experts and converts multi-expert to single-expert-like optimization. Provides statistical consistency guarantees.", "zh": "**Liu, Cao, Feng, An, Ong** \u2014 证明多专家 Learning-to-Defer (L2D) 存在**内在的专家可辨识性问题**，导致分类器欠拟合\u2014\u2014这在单专家场景中不存在。提出 **PiCCE**（挑选自信且正确的专家），自适应识别可靠专家，将多专家问题转化为类单专家优化。提供统计一致性保证。" }
+              },
+              {
+                "badge": { "en": "Feb 15", "zh": "2月15日" },
+                "title": { "en": "Geometry-Preserving Aggregation for MoE Embedding Models (arXiv: 2602.14039)", "zh": "MoE 嵌入模型的保几何聚合 (arXiv: 2602.14039)" },
+                "description": { "en": "**Kachuee, Sharifkhani** \u2014 Reveals that expert outputs lie on a shared **hyperspherical manifold** with tightly concentrated norms and substantial angular separation. Standard linear aggregation causes geometric distortion. Proposes **Spherical Barycentric Aggregation (SBA)** that separates radial and angular components. Consistent improvements on MTEB tasks without extra computation.", "zh": "**Kachuee, Sharifkhani** \u2014 揭示专家输出位于共享**超球面流形**上，具有紧凑的范数集中和显著的角度分离。标准线性聚合会导致几何畸变。提出**球面重心聚合 (SBA)**，分离径向和角度分量。在 MTEB 任务上实现一致提升，无额外计算开销。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "5. Domain Applications", "zh": "5. 领域应用" }, "icon": "bulb" },
+      "children": [
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Feb 22", "zh": "2月22日" },
+                "title": { "en": "Routing-Aware Explanations for MoE in Malware Detection (arXiv: 2602.19025)", "zh": "恶意软件检测中 MoE 的路由感知可解释性 (arXiv: 2602.19025)" },
+                "description": { "en": "**Shokouhinejad, Razavi-Far, Higgins, Ghorbani** \u2014 MoE framework for graph-based malware detection using control flow graphs. Six specialized experts tied to distinct view combinations with **edge-level attributions aggregated by router gates** for interpretable decisions. Superior accuracy and stable attributions vs. single-expert baselines (GCN, GIN, GAT).", "zh": "**Shokouhinejad, Razavi-Far, Higgins, Ghorbani** \u2014 基于控制流图的图级恶意软件检测 MoE 框架。六个专门化专家对应不同视图组合，通过**路由器门控聚合边级归因**实现可解释决策。精度和归因稳定性均优于单专家基线（GCN、GIN、GAT）。" }
+              },
+              {
+                "badge": { "en": "Feb 2", "zh": "2月2日" },
+                "title": { "en": "SAME: Stabilized MoE for Multimodal Continual Instruction Tuning (arXiv: 2602.01990)", "zh": "SAME: 多模态持续指令微调的稳定化 MoE (arXiv: 2602.01990)" },
+                "description": { "en": "**Xie, Tang, Shi, Ye, Zhan, Zhou** \u2014 Addresses **router drift** and **expert drift** in multimodal continual learning. Proposes orthogonal subspace decomposition to stabilize routing dynamics + curvature-aware scaling using historical input covariance for expert protection. No rehearsal data needed. State-of-the-art on multimodal continual instruction tuning benchmarks.", "zh": "**Xie, Tang, Shi, Ye, Zhan, Zhou** \u2014 解决多模态持续学习中的**路由漂移**和**专家漂移**问题。提出正交子空间分解以稳定路由动态 + 基于历史输入协方差的曲率感知缩放来保护专家。无需回放数据。在多模态持续指令微调基准上达到 SOTA。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Contextual Papers (Early\u2013Mid Feb 2026)", "zh": "上下文论文（2026年2月上旬\u2013中旬）" }, "icon": "info" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "Several important MoE papers from earlier in February provide valuable context for the week's developments:",
+              "zh": "2月上旬的几篇重要 MoE 论文为本周的进展提供了宝贵的背景："
+            }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "date", "label": { "en": "Date", "zh": "日期" } },
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "highlight", "label": { "en": "Key Contribution", "zh": "核心贡献" } }
+            ],
+            "rows": [
+              { "date": "Feb 9", "paper": "DirMoE (2602.09001, ICLR 2026)", "highlight": "Dirichlet VAE router / 基于 Dirichlet VAE 的路由，将专家选择与贡献权重解耦" },
+              { "date": "Feb 8", "paper": "Rise of Sparse MoE Survey (2602.08019)", "highlight": "Most comprehensive MoE survey to date / 迄今最全面的 MoE 综述" },
+              { "date": "Feb 5", "paper": "MoSE (2602.06154)", "highlight": "Slimmable experts with variable widths / 可变宽度的可瘦身专家" },
+              { "date": "Feb 3", "paper": "SpecMD (2602.03921)", "highlight": "Speculative expert prefetching study / 投机性专家预取研究" },
+              { "date": "Feb 1", "paper": "Sigmoid Gating Rethinking (2602.01466)", "highlight": "Sigmoid vs Softmax gate analysis / Sigmoid 与 Softmax 门控分析" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Trend Analysis & Observations", "zh": "趋势分析与观察" }, "icon": "star" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "### 1. Beyond Top-k + Softmax Routing\nThe standard Top-k + Softmax routing paradigm is being actively challenged. This week alone, **GrMoE** (Grassmannian/Bingham), **DirMoE** (Dirichlet VAE, ICLR 2026), and **PA-MoE** (phase-aware temporal routing) each propose fundamentally different mathematical foundations for expert selection. The trend is clear: the community is moving toward **geometrically principled** and **probabilistically grounded** routing that provides better theoretical guarantees against expert collapse.\n\n### 2. Training-Free Inference Optimization\nA notable theme is **training-free** methods for MoE inference: **MoE-Spec** (expert budgeting), **Replicate-and-Quantize** (load rebalancing), and the in-memory computing work all operate at inference time without model retraining. This reflects the practical reality that many organizations deploy pre-trained MoE models (DeepSeek-V3, Qwen-MoE) and need optimization without access to training infrastructure.\n\n### 3. Expert Specialization Remains Unsolved\n**SD-MoE**'s spectral analysis confirms what practitioners have long suspected: expert specialization frequently fails, with experts becoming functionally redundant. The paper's finding that dominant gradient subspaces are strongly aligned across experts provides a principled explanation. Expect more work on encouraging genuine expert differentiation.\n\n### 4. MoE Systems at Scale\nTwo papers accepted at top systems venues (**LAER-MoE** at ASPLOS 2026, **DeepFusion** at AAMAS 2026) signal that MoE parallelism and distributed training are reaching production maturity. The FSEP paradigm from LAER-MoE (1.69x speedup) is particularly noteworthy for its dynamic expert re-layout capability.\n\n### 5. Information-Theoretic Foundations\nThe rate-distortion analysis of MoE gating (2602.15091) and the hyperspherical geometry discovery in MoE embeddings (2602.14039) suggest the field is developing stronger **theoretical underpinnings**. These results could eventually inform principled architecture design rather than empirical trial-and-error.",
+              "zh": "### 1. 超越 Top-k + Softmax 路由\n标准的 Top-k + Softmax 路由范式正在被积极挑战。仅本周就有 **GrMoE**（格拉斯曼/Bingham 分布）、**DirMoE**（Dirichlet VAE，ICLR 2026）和 **PA-MoE**（阶段感知时序路由）分别提出了全新的数学基础。趋势很明确：社区正在转向**几何原理化**和**概率论基础化**的路由方案，以提供更好的理论保证来对抗专家坍塌。\n\n### 2. 无需训练的推理优化\n一个显著主题是 MoE 推理的**免训练**方法：**MoE-Spec**（专家预算）、**复制-量化策略**（负载重平衡）和存内计算工作都在推理阶段运作，无需模型重训练。这反映了现实：许多组织部署的是预训练好的 MoE 模型（DeepSeek-V3、Qwen-MoE），需要在没有训练基础设施的情况下进行优化。\n\n### 3. 专家特化仍未解决\n**SD-MoE** 的谱分析证实了从业者长期以来的怀疑：专家特化经常失败，专家变得功能冗余。论文发现主导梯度子空间在各专家间强对齐，提供了原理性解释。预计会有更多关于促进真正专家差异化的工作。\n\n### 4. 大规模 MoE 系统\n两篇被顶级系统会议接收的论文（**LAER-MoE** @ ASPLOS 2026、**DeepFusion** @ AAMAS 2026）表明 MoE 并行和分布式训练正在走向生产成熟。LAER-MoE 的 FSEP 范式（1.69 倍加速）因其动态专家重布局能力特别值得关注。\n\n### 5. 信息论基础\nMoE 门控的率失真分析 (2602.15091) 和 MoE 嵌入中超球面几何的发现 (2602.14039) 表明该领域正在发展更强的**理论基础**。这些结果最终可能指导有原则的架构设计，而非经验性的反复试验。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Complete Paper Index", "zh": "论文完整索引" }, "icon": "paper" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "id", "label": { "en": "arXiv ID", "zh": "arXiv ID" } },
+              { "key": "title", "label": { "en": "Title", "zh": "标题" } },
+              { "key": "category", "label": { "en": "Category", "zh": "分类" } },
+              { "key": "date", "label": { "en": "Date", "zh": "日期" } }
+            ],
+            "rows": [
+              { "id": "2602.19938", "title": "Replicate-and-Quantize Load Balancing", "category": "Routing", "date": "Feb 23" },
+              { "id": "2602.19025", "title": "Routing-Aware Explanations for Malware Detection", "category": "Application", "date": "Feb 22" },
+              { "id": "2602.17798", "title": "GrMoE: Grassmannian MoE", "category": "Routing", "date": "Feb 19" },
+              { "id": "2602.17144", "title": "When More Experts Hurt (L2D)", "category": "Theory", "date": "Feb 19" },
+              { "id": "2602.17038", "title": "PA-MoE: Phase-Aware MoE for RL", "category": "Routing", "date": "Feb 19" },
+              { "id": "2602.16052", "title": "MoE-Spec: Expert Budgeting", "category": "Inference", "date": "Feb 17" },
+              { "id": "2602.15091", "title": "Finite-Rate Gating Theory", "category": "Theory", "date": "Feb 16" },
+              { "id": "2602.14301", "title": "DeepFusion: Federated MoE Training", "category": "Training", "date": "Feb 15" },
+              { "id": "2602.14039", "title": "Geometry-Preserving MoE Aggregation", "category": "Theory", "date": "Feb 15" },
+              { "id": "2602.12556", "title": "SD-MoE: Spectral Expert Specialization", "category": "Training", "date": "Feb 13" },
+              { "id": "2602.11686", "title": "LAER-MoE: Load-Adaptive Expert Re-layout", "category": "Training", "date": "Feb 12" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Sources", "zh": "信息来源" }, "icon": "link" },
+      "children": [
+        {
+          "type": "LinkGroup",
+          "props": {
+            "links": [
+              { "href": "https://arxiv.org/abs/2602.17798", "label": "GrMoE: Grassmannian MoE (2602.17798)" },
+              { "href": "https://arxiv.org/abs/2602.17038", "label": "PA-MoE: Phase-Aware MoE (2602.17038)" },
+              { "href": "https://arxiv.org/abs/2602.19938", "label": "Replicate-and-Quantize (2602.19938)" },
+              { "href": "https://arxiv.org/abs/2602.16052", "label": "MoE-Spec (2602.16052)" },
+              { "href": "https://arxiv.org/abs/2602.15091", "label": "Finite-Rate Gating (2602.15091)" },
+              { "href": "https://arxiv.org/abs/2602.17144", "label": "When More Experts Hurt (2602.17144)" },
+              { "href": "https://arxiv.org/abs/2602.14301", "label": "DeepFusion (2602.14301)" },
+              { "href": "https://arxiv.org/abs/2602.12556", "label": "SD-MoE (2602.12556)" },
+              { "href": "https://arxiv.org/abs/2602.11686", "label": "LAER-MoE (2602.11686)" },
+              { "href": "https://arxiv.org/abs/2602.14039", "label": "Geometry-Preserving Aggregation (2602.14039)" },
+              { "href": "https://arxiv.org/abs/2602.10254", "label": "In-Memory Computing for MoE (2602.10254)" },
+              { "href": "https://arxiv.org/abs/2602.19025", "label": "MoE Malware Detection (2602.19025)" },
+              { "href": "https://arxiv.org/abs/2602.01990", "label": "SAME: Stabilized MoE (2602.01990)" },
+              { "href": "https://arxiv.org/abs/2602.09001", "label": "DirMoE (2602.09001, ICLR 2026)" },
+              { "href": "https://arxiv.org/abs/2602.08019", "label": "Sparse MoE Survey (2602.08019)" },
+              { "href": "https://arxiv.org/abs/2602.06154", "label": "MoSE (2602.06154)" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "BrandFooter",
+      "props": {
+        "timestamp": "2026-02-25T12:00:00Z",
+        "attribution": "Powered by Claude Code",
+        "disclaimer": {
+          "en": "This report was generated by AI using web sources. Verify critical information independently. Paper dates are based on arXiv submission timestamps and may differ from publication dates.",
+          "zh": "本报告由 AI 基于网络来源生成，请独立验证关键信息。论文日期基于 arXiv 提交时间戳，可能与正式发表日期不同。"
+        }
+      }
+    }
+  ]
+}

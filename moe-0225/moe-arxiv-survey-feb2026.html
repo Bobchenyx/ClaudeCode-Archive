@@ -1,0 +1,2502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #3b82f6;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-danger: #ef4444;
+      --color-text: #374151;
+      --color-text-muted: #6b7280;
+      --color-bg: #ffffff;
+      --color-bg-muted: #f9fafb;
+      --color-border: #e5e7eb;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-text: #f3f4f6;
+        --color-text-muted: #9ca3af;
+        --color-bg: #111827;
+        --color-bg-muted: #1f2937;
+        --color-border: #374151;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+      padding: 2rem;
+    }
+
+    .report {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Brand Header */
+    .brand-header {
+      background: var(--color-bg-muted);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-header .powered-by {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Paper Header */
+    .paper-header { margin-bottom: 1.5rem; }
+    .paper-header h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .paper-header .meta {
+      display: flex;
+      gap: 1rem;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      flex-wrap: wrap;
+    }
+    .paper-header .categories {
+      margin-top: 0.5rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .paper-header .category {
+      background: var(--color-bg-muted);
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+    }
+
+    /* Authors */
+    .authors { margin-bottom: 1rem; color: var(--color-text); }
+    .authors .affiliation { color: var(--color-text-muted); }
+
+    /* Section */
+    .section { margin-bottom: 1.5rem; }
+    .section h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--color-border);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+
+    /* Abstract */
+    .abstract {
+      color: var(--color-text);
+      text-align: justify;
+    }
+    .abstract mark {
+      background: #fef08a;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    /* Contribution List */
+    .contribution-list { list-style: decimal; padding-left: 1.5rem; }
+    .contribution-list li { margin-bottom: 0.75rem; }
+    .contribution-list .badge {
+      background: var(--color-primary);
+      color: white;
+      padding: 0.125rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      margin-right: 0.5rem;
+    }
+    .contribution-list .description { color: var(--color-text-muted); }
+
+    /* Method Overview */
+    .method-overview { display: flex; flex-direction: column; gap: 1rem; }
+    .method-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .method-step .number {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .method-step .content strong { display: block; }
+    .method-step .content p { margin: 0.25rem 0 0; color: var(--color-text-muted); }
+
+    /* Highlight */
+    .highlight {
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .highlight.quote { border-left: 4px solid var(--color-primary); background: #eff6ff; }
+    .highlight.important { border-left: 4px solid var(--color-warning); background: #fffbeb; }
+    .highlight.warning { border-left: 4px solid var(--color-danger); background: #fef2f2; }
+    .highlight.code { border-left: 4px solid var(--color-success); background: #ecfdf5; font-family: monospace; }
+    .highlight .source { margin-top: 0.5rem; font-size: 0.875rem; color: var(--color-text-muted); }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    .metric {
+      padding: 1rem;
+      background: var(--color-bg-muted);
+      border-radius: 8px;
+      text-align: center;
+    }
+    .metric .value {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .metric .value .suffix { font-size: 1rem; color: var(--color-text-muted); }
+    .metric .value .trend-up { color: var(--color-success); }
+    .metric .value .trend-down { color: var(--color-danger); }
+    .metric .label { color: var(--color-text-muted); font-size: 0.875rem; }
+
+    /* Link Group */
+    .link-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--color-primary);
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.875rem;
+    }
+    .link-button:hover { opacity: 0.9; }
+
+    /* Brand Footer */
+    .brand-footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    /* Card */
+    .card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .card.shadow { box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .card.padding-sm { padding: 0.5rem; }
+    .card.padding-md { padding: 1rem; }
+    .card.padding-lg { padding: 1.5rem; }
+
+    /* Figure / Image */
+    .figure {
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      border: 1px solid var(--color-border);
+    }
+    .figure .images {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .figure figcaption {
+      margin-top: 0.75rem;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+    .figure .label {
+      font-weight: bold;
+      color: var(--color-text);
+    }
+
+    .image {
+      margin: 1rem 0;
+      text-align: center;
+    }
+    .image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .image .caption {
+      margin-top: 0.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Formula (LaTeX) */
+    .formula {
+      margin: 1rem 0;
+      text-align: center;
+    }
+    .formula.block {
+      padding: 1rem;
+      background: var(--color-bg-muted);
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .formula .label {
+      float: right;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+    .formula code {
+      font-family: 'Computer Modern', 'Latin Modern Math', serif;
+      font-size: 1.1em;
+    }
+
+    /* Prose (Markdown) */
+    .prose {
+      line-height: 1.75;
+    }
+    .prose p { margin-bottom: 1rem; }
+    .prose h3 { margin: 1.5rem 0 0.75rem; font-size: 1.1rem; }
+    .prose h4 { margin: 1.25rem 0 0.5rem; font-size: 1rem; }
+    .prose ul, .prose ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose code {
+      background: var(--color-bg-muted);
+      padding: 0.125rem 0.375rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+    .prose strong { font-weight: 600; }
+    .prose em { font-style: italic; }
+
+    /* Callout */
+    .callout {
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+      border-left: 4px solid;
+    }
+    .callout.info { border-color: var(--color-primary); background: #eff6ff; }
+    .callout.tip { border-color: var(--color-success); background: #ecfdf5; }
+    .callout.warning { border-color: var(--color-warning); background: #fffbeb; }
+    .callout.important { border-color: var(--color-danger); background: #fef2f2; }
+    .callout.note { border-color: #8b5cf6; background: #f5f3ff; }
+    @media (prefers-color-scheme: dark) {
+      .callout.info { background: #1e3a5f; }
+      .callout.tip { background: #1a3d2e; }
+      .callout.warning { background: #3d3219; }
+      .callout.important { background: #3d1f1f; }
+      .callout.note { background: #2d2350; }
+    }
+    .callout .callout-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .callout .callout-title::before {
+      content: 'ℹ️';
+    }
+    .callout.tip .callout-title::before { content: '💡'; }
+    .callout.warning .callout-title::before { content: '⚠️'; }
+    .callout.important .callout-title::before { content: '🔴'; }
+    .callout.note .callout-title::before { content: '📝'; }
+
+    /* Definition List */
+    .definition-list {
+      margin: 1rem 0;
+    }
+    .definition-list dl {
+      display: grid;
+      gap: 0.75rem;
+    }
+    .definition-list dt {
+      font-weight: bold;
+      color: var(--color-primary);
+    }
+    .definition-list dd {
+      margin-left: 1rem;
+      color: var(--color-text);
+    }
+
+    /* Theorem */
+    .theorem {
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      background: var(--color-bg-muted);
+      border-radius: 8px;
+      border-left: 4px solid var(--color-primary);
+    }
+    .theorem .theorem-header {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: var(--color-primary);
+    }
+    .theorem.lemma { border-color: #8b5cf6; }
+    .theorem.lemma .theorem-header { color: #8b5cf6; }
+    .theorem.proposition { border-color: var(--color-success); }
+    .theorem.proposition .theorem-header { color: var(--color-success); }
+    .theorem.definition { border-color: var(--color-warning); }
+    .theorem.definition .theorem-header { color: var(--color-warning); }
+
+    /* Algorithm */
+    .algorithm {
+      margin: 1.5rem 0;
+      background: var(--color-bg-muted);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .algorithm .algorithm-title {
+      background: var(--color-primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+    }
+    .algorithm .algorithm-body {
+      padding: 1rem;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.9rem;
+    }
+    .algorithm .line {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .algorithm .line-number {
+      color: var(--color-text-muted);
+      user-select: none;
+      width: 2rem;
+      text-align: right;
+    }
+    .algorithm .line-code {
+      flex: 1;
+    }
+    .algorithm .indent-1 { padding-left: 1.5rem; }
+    .algorithm .indent-2 { padding-left: 3rem; }
+    .algorithm .indent-3 { padding-left: 4.5rem; }
+    .algorithm .algorithm-caption {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* Results Table */
+    .results-table {
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    .results-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .results-table th,
+    .results-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .results-table th {
+      background: var(--color-bg-muted);
+      font-weight: bold;
+    }
+    .results-table th.highlight {
+      background: var(--color-primary);
+      color: white;
+    }
+    .results-table td.highlight {
+      background: #fef08a;
+      font-weight: bold;
+    }
+    @media (prefers-color-scheme: dark) {
+      .results-table td.highlight {
+        background: #854d0e;
+      }
+    }
+    .results-table caption {
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      text-align: left;
+    }
+
+    /* Code Block */
+    .code-block {
+      margin: 1rem 0;
+      background: #1f2937;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-block .code-title {
+      background: #111827;
+      color: #9ca3af;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      border-bottom: 1px solid #374151;
+    }
+    .code-block pre {
+      padding: 1rem;
+      overflow-x: auto;
+      color: #e5e7eb;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .code-block .line-numbers {
+      display: inline-block;
+      margin-right: 1rem;
+      color: #6b7280;
+      user-select: none;
+      text-align: right;
+    }
+
+    /* Table (generic) */
+    .table-wrapper {
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+    .table-wrapper table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table-wrapper th,
+    .table-wrapper td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .table-wrapper th {
+      background: var(--color-bg-muted);
+      font-weight: bold;
+    }
+    .table-wrapper.striped tr:nth-child(even) td {
+      background: var(--color-bg-muted);
+    }
+    .table-wrapper.compact th,
+    .table-wrapper.compact td {
+      padding: 0.375rem 0.5rem;
+    }
+
+    /* i18n language switching */
+    html[lang="en"] .i18n-zh { display: none; }
+    html[lang="zh"] .i18n-en { display: none; }
+
+    .lang-switcher {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      display: flex;
+      gap: 0;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .lang-switcher button {
+      padding: 0.375rem 0.75rem;
+      border: none;
+      background: var(--color-bg);
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+    .lang-switcher button:hover {
+      background: var(--color-bg-muted);
+    }
+    .lang-switcher button.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    /* Print styles */
+    @media print {
+      body { padding: 0; }
+      .link-group { display: none; }
+      .lang-switcher { display: none; }
+    }
+    /* Broken image fallback */
+    .image img[data-failed],
+    .figure img[data-failed] {
+      display: none;
+    }
+    .img-fallback {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-bg-muted);
+      border: 2px dashed var(--color-border);
+      border-radius: 8px;
+      padding: 2rem;
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+      min-height: 200px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    /* 2026 visual refresh */
+    :root {
+      --color-primary: #0f766e;
+      --color-primary-strong: #115e59;
+      --color-success: #059669;
+      --color-warning: #d97706;
+      --color-danger: #dc2626;
+      --color-text: #0f172a;
+      --color-text-muted: #475569;
+      --color-bg: #f3f6fb;
+      --color-bg-muted: #e9eef6;
+      --color-surface: #ffffff;
+      --color-surface-alt: #f8fbff;
+      --color-border: rgba(15, 23, 42, 0.12);
+      --color-highlight: #fef08a;
+      --color-shadow: rgba(15, 23, 42, 0.14);
+      --color-shadow-soft: rgba(15, 23, 42, 0.08);
+      --color-code-bg: #0f172a;
+      --color-code-surface: #111b2f;
+      --color-code-text: #dbe7ff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-primary: #22c1aa;
+        --color-primary-strong: #34d3bd;
+        --color-success: #34d399;
+        --color-warning: #fbbf24;
+        --color-danger: #f87171;
+        --color-text: #e5edf7;
+        --color-text-muted: #9db0c8;
+        --color-bg: #050912;
+        --color-bg-muted: #0f1727;
+        --color-surface: #0b1322;
+        --color-surface-alt: #101b30;
+        --color-border: rgba(148, 163, 184, 0.3);
+        --color-highlight: #854d0e;
+        --color-shadow: rgba(2, 6, 23, 0.62);
+        --color-shadow-soft: rgba(2, 6, 23, 0.42);
+        --color-code-bg: #020712;
+        --color-code-surface: #0d172c;
+        --color-code-text: #dbe7ff;
+      }
+    }
+
+    body {
+      font-family: 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
+      line-height: 1.68;
+      letter-spacing: 0.01em;
+      color: var(--color-text);
+      background:
+        radial-gradient(1200px 520px at 8% -14%, rgba(14, 165, 233, 0.2), transparent 60%),
+        radial-gradient(1000px 520px at 95% -10%, rgba(16, 185, 129, 0.18), transparent 58%),
+        var(--color-bg);
+      min-height: 100vh;
+      padding: clamp(1rem, 2vw, 2.5rem);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background:
+          radial-gradient(1200px 540px at 10% -14%, rgba(14, 165, 233, 0.14), transparent 64%),
+          radial-gradient(1000px 520px at 90% -8%, rgba(34, 197, 170, 0.14), transparent 62%),
+          var(--color-bg);
+      }
+    }
+
+    a {
+      color: var(--color-primary);
+      text-underline-offset: 0.14em;
+    }
+
+    a:hover {
+      color: var(--color-primary-strong);
+    }
+
+    .report {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: clamp(1.25rem, 2.4vw, 2.75rem);
+      background: linear-gradient(160deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+      border: 1px solid var(--color-border);
+      border-radius: 24px;
+      box-shadow: 0 30px 70px var(--color-shadow), 0 8px 24px var(--color-shadow-soft);
+    }
+
+    .brand-header {
+      background: linear-gradient(125deg, rgba(15, 118, 110, 0.12), rgba(14, 165, 233, 0.08));
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-header > span:first-child {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-header .powered-by {
+      color: var(--color-text-muted);
+      font-size: 0.84rem;
+    }
+
+    .paper-header {
+      margin-bottom: 1.6rem;
+    }
+
+    .paper-header h1 {
+      font-size: clamp(1.6rem, 2.6vw, 2.35rem);
+      line-height: 1.24;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+    }
+
+    .paper-header .meta {
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      font-size: 0.84rem;
+    }
+
+    .paper-header .meta span {
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      padding: 0.25rem 0.65rem;
+    }
+
+    .paper-header .categories,
+    .categories {
+      margin-top: 0.85rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .paper-header .category,
+    .categories .category {
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      padding: 0.2rem 0.62rem;
+      font-size: 0.75rem;
+      color: var(--color-text);
+      text-decoration: none;
+    }
+
+    .authors {
+      margin-bottom: 1.2rem;
+      color: var(--color-text);
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.72rem 0.9rem;
+    }
+
+    .section {
+      margin-bottom: 1.8rem;
+    }
+
+    .section h2 {
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 0.7rem;
+      margin-bottom: 1rem;
+      font-size: 1.08rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .section h2 > span:first-child {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.7rem;
+      height: 1.7rem;
+      border-radius: 999px;
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      font-size: 0.85rem;
+    }
+
+    .abstract {
+      color: var(--color-text);
+      font-size: 1.01rem;
+    }
+
+    .abstract mark {
+      background: var(--color-highlight);
+      border-radius: 4px;
+      padding: 0 0.2rem;
+    }
+
+    .contribution-list {
+      list-style: decimal;
+      padding-left: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .contribution-list li {
+      margin-bottom: 0;
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.8rem 0.95rem;
+    }
+
+    .contribution-list li::marker {
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+
+    .contribution-list .badge {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+      border-radius: 999px;
+      padding: 0.15rem 0.55rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .method-overview {
+      gap: 0.85rem;
+    }
+
+    .method-step {
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.75rem 0.9rem;
+    }
+
+    .method-step .number {
+      width: 1.9rem;
+      height: 1.9rem;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+      font-size: 0.84rem;
+      box-shadow: 0 6px 14px rgba(15, 118, 110, 0.22);
+    }
+
+    .highlight {
+      border-left: none;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      background: var(--color-bg-muted);
+    }
+
+    .highlight.quote {
+      background: rgba(14, 165, 233, 0.1);
+      border-color: rgba(14, 165, 233, 0.28);
+    }
+
+    .highlight.important {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .highlight.warning {
+      background: rgba(239, 68, 68, 0.11);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .highlight.code {
+      background: rgba(16, 185, 129, 0.11);
+      border-color: rgba(16, 185, 129, 0.32);
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    }
+
+    .metrics-grid {
+      margin: 1.1rem 0;
+      gap: 0.8rem;
+    }
+
+    .metric {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      padding: 1rem 0.8rem;
+      box-shadow: 0 8px 18px var(--color-shadow-soft);
+    }
+
+    .metric .value {
+      font-size: 1.68rem;
+      letter-spacing: -0.02em;
+      font-weight: 800;
+    }
+
+    .link-group {
+      gap: 0.6rem;
+      align-items: flex-start;
+      margin: 1rem 0;
+    }
+
+    .link-button {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 0.5rem 0.92rem;
+      font-weight: 600;
+      box-shadow: 0 10px 22px rgba(15, 118, 110, 0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    }
+
+    .link-button:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(15, 118, 110, 0.28);
+    }
+
+    .brand-footer {
+      margin-top: 2.2rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      font-size: 0.84rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .brand-footer p:first-child {
+      border: 1px solid var(--color-border);
+      background: var(--color-bg-muted);
+      border-radius: 10px;
+      padding: 0.55rem 0.72rem;
+      color: var(--color-text);
+    }
+
+    .grid {
+      gap: 0.85rem;
+    }
+
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+    }
+
+    .card.shadow {
+      box-shadow: 0 10px 26px var(--color-shadow-soft);
+    }
+
+    .figure img,
+    .image img {
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-alt);
+      box-shadow: 0 8px 20px var(--color-shadow-soft);
+    }
+
+    .figure .images {
+      gap: 0.85rem;
+    }
+
+    .figure figcaption,
+    .image .caption {
+      color: var(--color-text-muted);
+      font-size: 0.82rem;
+    }
+
+    .formula {
+      margin: 1.15rem 0;
+    }
+
+    .formula.block {
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+
+    .formula .label {
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+    }
+
+    .formula code {
+      font-size: 1.05rem;
+    }
+
+    .prose {
+      color: var(--color-text);
+      line-height: 1.8;
+    }
+
+    .prose code {
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: 0.12rem 0.42rem;
+      font-size: 0.86em;
+    }
+
+    .callout {
+      border-left: none;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      background: var(--color-bg-muted);
+    }
+
+    .callout.info {
+      border-color: rgba(14, 165, 233, 0.3);
+      background: rgba(14, 165, 233, 0.1);
+    }
+
+    .callout.tip {
+      border-color: rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    .callout.warning {
+      border-color: rgba(245, 158, 11, 0.3);
+      background: rgba(245, 158, 11, 0.1);
+    }
+
+    .callout.important {
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .callout.note {
+      border-color: rgba(148, 163, 184, 0.45);
+      background: rgba(148, 163, 184, 0.14);
+    }
+
+    .definition-list dt {
+      color: var(--color-text);
+      font-weight: 700;
+    }
+
+    .definition-list dd {
+      margin-left: 0;
+      padding-left: 0.75rem;
+      border-left: 2px solid var(--color-border);
+      color: var(--color-text-muted);
+    }
+
+    .theorem {
+      border: 1px solid var(--color-border);
+      border-left: 4px solid var(--color-primary);
+      border-radius: 12px;
+      background: var(--color-bg-muted);
+      padding: 0.95rem 1.15rem;
+    }
+
+    .theorem .theorem-header {
+      color: var(--color-primary-strong);
+    }
+
+    .theorem.lemma {
+      border-left-color: #0284c7;
+    }
+
+    .theorem.lemma .theorem-header {
+      color: #0284c7;
+    }
+
+    .theorem.proposition {
+      border-left-color: var(--color-success);
+    }
+
+    .theorem.proposition .theorem-header {
+      color: var(--color-success);
+    }
+
+    .theorem.definition {
+      border-left-color: var(--color-warning);
+    }
+
+    .theorem.definition .theorem-header {
+      color: var(--color-warning);
+    }
+
+    .algorithm {
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--color-bg-muted);
+    }
+
+    .algorithm .algorithm-title {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+    }
+
+    .algorithm .algorithm-body {
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+      background: var(--color-surface);
+    }
+
+    .results-table,
+    .table-wrapper {
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      background: var(--color-surface);
+      overflow-x: auto;
+    }
+
+    .results-table table,
+    .table-wrapper table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+    }
+
+    .results-table th,
+    .results-table td,
+    .table-wrapper th,
+    .table-wrapper td {
+      border-bottom: 1px solid var(--color-border);
+      padding: 0.72rem 0.8rem;
+    }
+
+    .results-table th,
+    .table-wrapper th {
+      background: var(--color-bg-muted);
+      font-weight: 700;
+      font-size: 0.84rem;
+      letter-spacing: 0.01em;
+    }
+
+    .results-table td.highlight {
+      background: rgba(14, 165, 233, 0.16);
+    }
+
+    .results-table caption,
+    .table-wrapper caption {
+      display: block;
+      margin: 0.6rem 0 0.2rem;
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      padding-left: 0.15rem;
+      text-align: left;
+    }
+
+    .code-block {
+      background: var(--color-code-bg);
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      border-radius: 14px;
+      box-shadow: 0 16px 28px var(--color-shadow-soft);
+    }
+
+    .code-block .code-title {
+      background: var(--color-code-surface);
+      color: #b7c8e7;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+      font-weight: 600;
+    }
+
+    .code-block pre {
+      color: var(--color-code-text);
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.84rem;
+    }
+
+    .code-block .line-numbers {
+      color: #7487a6;
+    }
+
+    .lang-switcher {
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 26px var(--color-shadow-soft);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .lang-switcher {
+        background: rgba(11, 19, 34, 0.86);
+      }
+    }
+
+    .lang-switcher button {
+      border-radius: 999px;
+      background: transparent;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.34rem 0.72rem;
+      min-width: 2.65rem;
+      color: var(--color-text-muted);
+      transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .lang-switcher button:hover {
+      background: var(--color-bg-muted);
+      transform: translateY(-1px);
+    }
+
+    .lang-switcher button.active {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+      color: #ffffff;
+    }
+
+    .img-fallback {
+      border: 1px dashed var(--color-border);
+      border-radius: 12px;
+      background: var(--color-bg-muted);
+      color: var(--color-text-muted);
+    }
+
+    @media (max-width: 860px) {
+      body {
+        padding: 0.9rem;
+      }
+
+      .report {
+        border-radius: 18px;
+        padding: 1.05rem;
+      }
+
+      .lang-switcher {
+        position: sticky;
+        top: 0.6rem;
+        right: auto;
+        margin: 0 0 0.7rem auto;
+        width: max-content;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+
+      .grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .brand-header {
+        align-items: flex-start;
+      }
+
+      .paper-header .meta span {
+        width: 100%;
+      }
+
+      .link-group {
+        flex-direction: column;
+      }
+
+      .link-button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .method-step {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .results-table table,
+      .table-wrapper table {
+        min-width: 520px;
+      }
+    }
+
+    /* 2026 v2 editorial refresh */
+    :root {
+      --color-primary: #0b57d0;
+      --color-primary-strong: #003eaa;
+      --color-success: #1b8f5c;
+      --color-warning: #b16a1b;
+      --color-danger: #c23a3a;
+      --color-text: #10131a;
+      --color-text-muted: #565f6f;
+      --color-bg: #f3f3ef;
+      --color-bg-muted: #e9e9e2;
+      --color-surface: #fcfcf8;
+      --color-surface-alt: #f7f7f2;
+      --color-border: #d4d6cf;
+      --color-highlight: #f2dc72;
+      --color-shadow: rgba(16, 19, 26, 0.12);
+      --color-shadow-soft: rgba(16, 19, 26, 0.06);
+      --color-code-bg: #0c1220;
+      --color-code-surface: #121a2e;
+      --color-code-text: #dbe4ff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-primary: #8ab4ff;
+        --color-primary-strong: #aac7ff;
+        --color-success: #4ecb92;
+        --color-warning: #f2be6d;
+        --color-danger: #ff8b8b;
+        --color-text: #ebf0fb;
+        --color-text-muted: #9ea9be;
+        --color-bg: #0b0e13;
+        --color-bg-muted: #151a22;
+        --color-surface: #0f141d;
+        --color-surface-alt: #141b26;
+        --color-border: #2a313d;
+        --color-highlight: #6b5316;
+        --color-shadow: rgba(0, 0, 0, 0.55);
+        --color-shadow-soft: rgba(0, 0, 0, 0.35);
+        --color-code-bg: #040913;
+        --color-code-surface: #0c1424;
+        --color-code-text: #dbe4ff;
+      }
+    }
+
+    body {
+      font-family: 'Space Grotesk', 'Avenir Next', 'Segoe UI', sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0.005em;
+      background: var(--color-bg);
+      padding: clamp(1rem, 2.3vw, 2.8rem);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(16, 19, 26, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 19, 26, 0.03) 1px, transparent 1px);
+      background-size: 36px 36px;
+      opacity: 0.35;
+      z-index: 0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body::before {
+        background-image:
+          linear-gradient(rgba(235, 240, 251, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(235, 240, 251, 0.04) 1px, transparent 1px);
+        opacity: 0.22;
+      }
+    }
+
+    .report {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      padding: clamp(1.3rem, 2.5vw, 2.9rem);
+      border-radius: 14px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      box-shadow: 0 22px 50px var(--color-shadow);
+    }
+
+    .brand-header {
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      background: var(--color-surface-alt);
+      padding: 0.75rem 0.85rem;
+    }
+
+    .brand-header > span:first-child {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.73rem;
+      letter-spacing: 0.06em;
+      text-transform: none;
+      border-radius: 6px;
+      padding: 0.2rem 0.46rem;
+      background: transparent;
+    }
+
+    .brand-header .powered-by {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-header .powered-by a,
+    .brand-header .powered-by a:visited {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .brand-header .powered-by a:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.14em;
+    }
+
+    .paper-header h1 {
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1.16;
+      letter-spacing: -0.03em;
+      max-width: 20ch;
+    }
+
+    .paper-header .meta span {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.72rem;
+      border-radius: 6px;
+    }
+
+    .paper-header .categories,
+    .categories {
+      gap: 0.4rem;
+    }
+
+    .paper-header .category,
+    .categories .category {
+      border-radius: 6px;
+      padding: 0.19rem 0.45rem;
+      font-size: 0.7rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      letter-spacing: 0.02em;
+    }
+
+    .authors {
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+
+    .section h2 {
+      border-bottom: none;
+      font-size: 0.76rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      gap: 0.55rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .section h2::after {
+      content: '';
+      flex: 1 1 auto;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    .section h2 > span:first-child {
+      width: auto;
+      height: auto;
+      min-width: 1.7rem;
+      border-radius: 6px;
+      padding: 0.16rem 0.36rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.66rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid var(--color-border);
+    }
+
+    .contribution-list {
+      list-style: none;
+      padding-left: 0;
+      counter-reset: contribution;
+      gap: 0;
+    }
+
+    .contribution-list li {
+      position: relative;
+      counter-increment: contribution;
+      border: none;
+      border-bottom: 1px dashed var(--color-border);
+      border-radius: 0;
+      background: transparent;
+      padding: 0.86rem 0.1rem 0.9rem 2.5rem;
+    }
+
+    .contribution-list li::before {
+      content: counter(contribution, decimal-leading-zero);
+      position: absolute;
+      left: 0;
+      top: 0.88rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.75rem;
+      color: var(--color-primary);
+      letter-spacing: 0.04em;
+    }
+
+    .contribution-list li::marker {
+      content: '';
+    }
+
+    .contribution-list .badge {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      border-radius: 5px;
+      padding: 0.1rem 0.38rem;
+      font-size: 0.66rem;
+      box-shadow: none;
+    }
+
+    .method-step {
+      border: none;
+      border-left: 2px solid var(--color-border);
+      border-radius: 0;
+      background: transparent;
+      padding: 0.28rem 0 0.4rem 0.85rem;
+      gap: 0.7rem;
+    }
+
+    .method-step .number {
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 6px;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.72rem;
+      box-shadow: none;
+    }
+
+    .highlight,
+    .callout,
+    .theorem,
+    .authors {
+      border-radius: 10px;
+    }
+
+    .highlight,
+    .callout {
+      border-left: 1px solid var(--color-border);
+    }
+
+    .highlight.code,
+    .prose code,
+    .formula code,
+    .algorithm .algorithm-body,
+    .algorithm .line-number,
+    .algorithm .line-code,
+    .code-block pre,
+    .code-block .line-numbers,
+    .definition-list dt,
+    .definition-list dd {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+    }
+
+    .metrics-grid {
+      gap: 0.55rem;
+    }
+
+    .metric {
+      border-radius: 8px;
+      box-shadow: none;
+      padding: 0.82rem 0.64rem;
+    }
+
+    .metric .value {
+      font-size: 1.55rem;
+    }
+
+    .metric .label {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .link-button {
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: transparent;
+      color: var(--color-text);
+      box-shadow: none;
+      font-size: 0.8rem;
+      padding: 0.5rem 0.72rem;
+      font-weight: 600;
+    }
+
+    .link-button:hover {
+      transform: translateY(-1px);
+      background: var(--color-primary);
+      color: #ffffff;
+      border-color: var(--color-primary);
+      box-shadow: none;
+    }
+
+    .brand-footer {
+      border-top: 1px dashed var(--color-border);
+      gap: 0.35rem;
+    }
+
+    .brand-footer p:first-child {
+      border-style: dashed;
+      background: transparent;
+    }
+
+    .card,
+    .results-table,
+    .table-wrapper,
+    .figure img,
+    .image img,
+    .formula.block,
+    .algorithm,
+    .code-block,
+    .img-fallback {
+      border-radius: 10px;
+    }
+
+    .code-block {
+      box-shadow: none;
+    }
+
+    .code-block .code-title {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .lang-switcher {
+      border-radius: 9px;
+      padding: 1px;
+      gap: 1px;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .lang-switcher button {
+      border-radius: 7px;
+      min-width: 2.45rem;
+      font-size: 0.72rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      letter-spacing: 0.03em;
+      transform: none;
+    }
+
+    .lang-switcher button:hover {
+      transform: none;
+    }
+
+    .lang-switcher button.active {
+      background: var(--color-text);
+      color: var(--color-surface);
+    }
+
+    .callout .callout-title::before {
+      content: '';
+      display: none;
+    }
+
+    @media (max-width: 860px) {
+      body {
+        padding: 0.85rem;
+      }
+
+      .report {
+        border-radius: 10px;
+        padding: 1.05rem;
+      }
+
+      .lang-switcher {
+        position: sticky;
+        top: 0.52rem;
+        margin-bottom: 0.7rem;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .paper-header h1 {
+        max-width: none;
+      }
+
+      .section h2 {
+        letter-spacing: 0.12em;
+      }
+
+      .results-table table,
+      .table-wrapper table {
+        min-width: 500px;
+      }
+    }
+
+    /* 2026 v4 wireframe style */
+    :root {
+      --color-primary: #ff4020;
+      --color-primary-strong: #ff4020;
+      --color-success: #2db37a;
+      --color-warning: #d08b3a;
+      --color-danger: #d65b5b;
+      --color-text: #f2f3f5;
+      --color-text-muted: #9ea3ad;
+      --color-bg: #050608;
+      --color-bg-muted: #0a0d12;
+      --color-surface: #050608;
+      --color-surface-alt: #050608;
+      --color-border: rgba(255, 255, 255, 0.14);
+      --color-highlight: rgba(255, 208, 97, 0.28);
+      --color-shadow: transparent;
+      --color-shadow-soft: transparent;
+      --color-code-bg: #070b14;
+      --color-code-surface: #0d1220;
+      --color-code-text: #d8e2ff;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --color-primary: #e5371a;
+        --color-primary-strong: #e5371a;
+        --color-success: #1b8f5c;
+        --color-warning: #a96a24;
+        --color-danger: #bf4444;
+        --color-text: #151820;
+        --color-text-muted: #5f6572;
+        --color-bg: #f6f7f9;
+        --color-bg-muted: #eceef2;
+        --color-surface: #f6f7f9;
+        --color-surface-alt: #f6f7f9;
+        --color-border: rgba(21, 24, 32, 0.18);
+        --color-highlight: rgba(229, 55, 26, 0.16);
+        --color-code-bg: #101724;
+        --color-code-surface: #161f2f;
+        --color-code-text: #e1ebff;
+      }
+    }
+
+    body {
+      font-family: 'Space Grotesk', 'Avenir Next', 'Segoe UI', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      display: none;
+    }
+
+    .report {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .brand-header {
+      margin: 0;
+      min-height: 68px;
+      padding: 0.9rem clamp(1rem, 10vw, 180px);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      border-left: none;
+      border-right: none;
+      border-radius: 0;
+      background: transparent;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: nowrap;
+    }
+
+    .brand-header > span:first-child {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      background: transparent;
+    }
+
+    .brand-header > span:first-child::before {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: var(--color-primary);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .brand-header .powered-by {
+      font-size: 0.8rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      letter-spacing: 0.02em;
+      color: var(--color-text-muted);
+    }
+
+    .fallback-lang-row {
+      margin: 0;
+      padding: 0.9rem clamp(1rem, 10vw, 180px);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      background: transparent;
+    }
+
+    .fallback-lang-row .lang-switcher {
+      margin-left: 0;
+    }
+
+    .report-hero {
+      margin: 0;
+      padding: clamp(1.2rem, 3.8vw, 3rem) clamp(1rem, 10vw, 180px);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      background: transparent;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      padding: 0.32rem 0.74rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      background: transparent;
+    }
+
+    .hero-chip-primary {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #ffffff;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(2.2rem, 6.3vw, 5.4rem);
+      line-height: 0.97;
+      letter-spacing: -0.04em;
+      max-width: 16ch;
+    }
+
+    .hero-subtitle {
+      margin-top: 1rem;
+      max-width: 58ch;
+      color: var(--color-text-muted);
+      font-size: 1.02rem;
+      line-height: 1.58;
+    }
+
+    .section {
+      margin: 0;
+      padding: clamp(1.25rem, 4vw, 3.2rem) clamp(1rem, 10vw, 180px);
+      border-top: 1px solid var(--color-border);
+      border-radius: 0;
+    }
+
+    .section:last-of-type {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .section h2 {
+      margin-bottom: 1.25rem;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      gap: 0.6rem;
+    }
+
+    .section h2::after {
+      display: none;
+    }
+
+    .section h2 > span:first-child {
+      width: auto;
+      height: auto;
+      min-width: 1.8rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      padding: 0.13rem 0.35rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.66rem;
+      background: transparent;
+      text-transform: uppercase;
+    }
+
+    .paper-header,
+    .authors,
+    .highlight,
+    .callout,
+    .metric,
+    .card,
+    .table-wrapper,
+    .results-table,
+    .formula.block,
+    .algorithm,
+    .code-block,
+    .img-fallback,
+    .brand-footer p:first-child,
+    .paper-header .meta span,
+    .paper-header .category,
+    .categories .category,
+    .link-button,
+    .lang-switcher,
+    .lang-switcher button {
+      border-radius: 0;
+    }
+
+    .paper-header {
+      margin: 0;
+      padding: clamp(1.8rem, 5vw, 3.8rem) clamp(1rem, 10vw, 180px);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      background: transparent;
+    }
+
+    .paper-header h1 {
+      font-size: clamp(2.15rem, 5.8vw, 5.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      margin-bottom: 1rem;
+      max-width: 16ch;
+    }
+
+    .paper-header .meta span,
+    .paper-header .category,
+    .categories .category {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.03em;
+    }
+
+    .contribution-list li,
+    .method-step,
+    .metric,
+    .callout,
+    .highlight,
+    .authors,
+    .definition-list dd,
+    .theorem,
+    .algorithm,
+    .table-wrapper,
+    .results-table {
+      border-color: var(--color-border);
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .contribution-list li {
+      border-left: 1px solid var(--color-border);
+      padding-left: 2.2rem;
+    }
+
+    .metric .label,
+    .algorithm .algorithm-title,
+    .code-block .code-title {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+    }
+
+    .link-button {
+      background: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      box-shadow: none;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .link-button:hover {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #ffffff;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .brand-footer {
+      margin: 0;
+      padding: 1.4rem clamp(1rem, 10vw, 180px) 3.4rem;
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      font-size: 0.82rem;
+      gap: 0.45rem;
+    }
+
+    .brand-footer p:first-child {
+      border-style: solid;
+      background: transparent;
+      padding: 0.6rem 0.75rem;
+    }
+
+    .lang-switcher {
+      position: static;
+      top: auto;
+      right: auto;
+      z-index: auto;
+      margin-left: auto;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      padding: 0;
+      gap: 0.9rem;
+    }
+
+    .lang-switcher button {
+      border: none;
+      padding: 0;
+      min-width: 0;
+      background: transparent;
+      color: var(--color-text-muted);
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+    }
+
+    .lang-switcher button:hover {
+      transform: none;
+      background: transparent;
+      color: var(--color-text);
+    }
+
+    .lang-switcher button.active {
+      background: transparent;
+      color: var(--color-text);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+
+    .corner-powered {
+      position: fixed;
+      right: clamp(0.8rem, 2vw, 1.4rem);
+      bottom: clamp(0.8rem, 2vw, 1.35rem);
+      z-index: 1200;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.12rem;
+      min-width: 160px;
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      background: rgba(10, 13, 18, 0.72);
+      padding: 0.7rem 0.78rem;
+      color: var(--color-text-muted);
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.72rem;
+      text-decoration: none;
+    }
+
+    .corner-powered strong {
+      color: var(--color-text);
+      font-family: 'Space Grotesk', 'Avenir Next', 'Segoe UI', sans-serif;
+      font-size: 0.98rem;
+      line-height: 1.12;
+      letter-spacing: 0.01em;
+    }
+
+    .corner-powered:hover {
+      border-color: var(--color-primary);
+      color: var(--color-text);
+    }
+
+    @media (prefers-color-scheme: light) {
+      .corner-powered {
+        background: rgba(246, 247, 249, 0.9);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .brand-header,
+      .fallback-lang-row,
+      .section,
+      .paper-header,
+      .brand-footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .lang-switcher {
+        margin-left: auto;
+      }
+
+      .corner-powered {
+        right: 0.7rem;
+        bottom: 0.7rem;
+        min-width: 136px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .paper-header h1 {
+        font-size: clamp(1.85rem, 11vw, 2.8rem);
+        line-height: 1.02;
+      }
+
+      .hero-chip {
+        min-height: 30px;
+        padding: 0.26rem 0.56rem;
+        font-size: 0.66rem;
+      }
+
+      .hero-title {
+        font-size: clamp(1.85rem, 11vw, 2.8rem);
+        line-height: 1.02;
+      }
+
+      .section {
+        padding-top: 1rem;
+        padding-bottom: 1.35rem;
+      }
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        background: #ffffff;
+      }
+
+      .report {
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+        background: #ffffff;
+      }
+
+      .corner-powered {
+        display: none;
+      }
+
+      .fallback-lang-row {
+        display: none;
+      }
+    }
+  </style>
+  <!-- KaTeX for LaTeX rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Render LaTeX formulas with KaTeX
+      document.querySelectorAll('.formula[data-latex]').forEach(function(el) {
+        var latex = el.getAttribute('data-latex');
+        var isBlock = el.classList.contains('block');
+        var label = el.querySelector('.label');
+        try {
+          var rendered = katex.renderToString(latex, {
+            displayMode: isBlock,
+            throwOnError: false,
+            trust: true,
+          });
+          var container = el.querySelector('.formula-content');
+          if (container) container.innerHTML = rendered;
+        } catch(e) {
+          // Keep raw LaTeX on error
+        }
+      });
+
+      // i18n language switcher
+      (function() {
+        var saved = localStorage.getItem('json-ui-lang');
+        if (saved && (saved === 'en' || saved === 'zh')) {
+          document.documentElement.lang = saved;
+        }
+        var buttons = document.querySelectorAll('.lang-switcher button');
+        function updateActive() {
+          var lang = document.documentElement.lang || 'en';
+          buttons.forEach(function(btn) {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+          });
+        }
+        buttons.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var lang = btn.getAttribute('data-lang');
+            document.documentElement.lang = lang;
+            localStorage.setItem('json-ui-lang', lang);
+            updateActive();
+          });
+        });
+        updateActive();
+      })();
+
+      // Handle broken images
+      document.querySelectorAll('.image img, .figure img').forEach(function(img) {
+        img.addEventListener('error', function() {
+          img.setAttribute('data-failed', 'true');
+          var fallback = document.createElement('div');
+          fallback.className = 'img-fallback';
+          fallback.textContent = 'Image: ' + (img.alt || 'unavailable');
+          img.parentNode.insertBefore(fallback, img.nextSibling);
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <article class="report">
+    <div class="brand-header">
+        <span>ACTIVE_RESEARCH_REPORT.ARX</span>
+        <div class="lang-switcher">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="zh">中文</button>
+  </div>
+      </div>
+<section class="report-hero">
+    <div class="hero-meta"><span class="hero-chip hero-chip-primary">ACTIVE RESEARCH</span><span class="hero-chip">FEB 25, 2026</span></div>
+    <h1 class="hero-title"><span class="i18n-en">all Mixture-of-Experts (MoE) related papers</span><span class="i18n-zh">2026 年 2 月 16 日至 2 月 25 日</span></h1>
+    
+  </section>
+<section class="section">
+        <h2><span>::</span><span class="i18n-en">Mixture of Experts: arXiv Weekly Survey (Feb 16–25, 2026)</span><span class="i18n-zh">Mixture of Experts: arXiv 周报 (2026.2.16–2.25)</span></h2>
+        <div class="prose"><p><span class="i18n-en">This report surveys <strong>all Mixture-of-Experts (MoE) related papers</strong> published on arXiv from <strong>February 16 to February 25, 2026</strong>. We identified <strong>11 papers</strong> directly submitted within this window, plus several highly relevant papers from early-to-mid February 2026 that provide important context. The papers are organized into 5 thematic categories: <strong>Routing &amp; Gating Mechanisms</strong>, <strong>Training Efficiency &amp; Parallelism</strong>, <strong>Inference Optimization</strong>, <strong>Theory &amp; Analysis</strong>, and <strong>Domain Applications</strong>.</p><p>The week shows particularly strong activity in two areas: (1) novel routing mechanisms moving beyond standard Top-k+Softmax, and (2) systems-level optimizations for MoE inference and training at scale.</span><span class="i18n-zh">本报告调研了 <strong>2026 年 2 月 16 日至 2 月 25 日</strong> 期间 arXiv 上发布的所有与 <strong>Mixture of Experts (MoE)</strong> 相关的论文。我们在该时间窗口内直接识别出 <strong>11 篇论文</strong>，并补充了 2 月上旬至中旬的若干重要上下文论文。论文按 5 个主题分类：<strong>路由与门控机制</strong>、<strong>训练效率与并行</strong>、<strong>推理优化</strong>、<strong>理论与分析</strong>、<strong>领域应用</strong>。</p><p>本周活跃度最高的两个方向是：(1) 超越标准 Top-k+Softmax 的新型路由机制；(2) 面向大规模 MoE 推理和训练的系统级优化。</span></p></div>
+      </section>
+<section class="section">
+        <h2><span>||</span><span class="i18n-en">Key Metrics</span><span class="i18n-zh">关键指标</span></h2>
+        <div class="metrics-grid" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="metric">
+          
+          <div class="value">
+            11<span class="suffix">+</span>
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">Papers This Week</span><span class="i18n-zh">本周论文数</span></div>
+        </div><div class="metric">
+          
+          <div class="value">
+            5
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">Thematic Categories</span><span class="i18n-zh">主题分类</span></div>
+        </div><div class="metric">
+          
+          <div class="value">
+            3
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">Routing/Gating Papers</span><span class="i18n-zh">路由/门控论文</span></div>
+        </div><div class="metric">
+          
+          <div class="value">
+            4
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">Systems/Infra Papers</span><span class="i18n-zh">系统/基础设施论文</span></div>
+        </div><div class="metric">
+          
+          <div class="value">
+            2
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">Theory Papers</span><span class="i18n-zh">理论论文</span></div>
+        </div><div class="metric">
+          
+          <div class="value">
+            2
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">Application Papers</span><span class="i18n-zh">应用论文</span></div>
+        </div>
+      </div>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">1. Routing &amp; Gating Mechanisms</span><span class="i18n-zh">1. 路由与门控机制</span></h2>
+        <div class="prose"><p><span class="i18n-en">The most intellectually active area this week. Three papers propose fundamentally new routing paradigms that move away from the standard Top-k + Softmax approach, each bringing a distinct mathematical framework.</span><span class="i18n-zh">本周学术活跃度最高的方向。三篇论文提出了从根本上不同于标准 Top-k + Softmax 的新路由范式，各自引入了独特的数学框架。</span></p></div>
+<ol class="contribution-list">
+        <li>
+          <span class="badge"><span class="i18n-en">Feb 19</span><span class="i18n-zh">2月19日</span></span>
+          <strong><span class="i18n-en">GrMoE: Grassmannian Mixture-of-Experts (arXiv: 2602.17798)</span><span class="i18n-zh">GrMoE: 格拉斯曼流形上的 MoE (arXiv: 2602.17798)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Shihab, Akter, Sharma** — Formalizes the connection between MoE routing and classification on the **Grassmannian manifold**. Derives a new gating mechanism from the **Matrix Bingham distribution**, replacing discrete top-k selection with a smooth, geometrically principled sparsity mechanism. The &quot;concentration matrix&quot; provides an interpretable knob for controlling routing entropy. Results: **zero routing collapse** across 350M–2.7B models, with **15–30% improved load balance** and comparable or better perplexity. Experts learn heterogeneous concentration values correlated with linguistic specialization, enabling **post-hoc sparsity tuning without retraining**.</span><span class="i18n-zh">**Shihab, Akter, Sharma** — 将 MoE 路由与**格拉斯曼流形**上的分类问题建立了形式化联系。从 **Matrix Bingham 分布**推导出新的门控机制，用平滑的几何稀疏机制取代离散的 top-k 选择。「浓度矩阵」提供了一个可解释的旋钮来控制路由熵。结果：在 350M–2.7B 模型上实现**零路由坍塌**，**负载均衡提升 15–30%**，困惑度持平或更优。各专家学到的浓度值与语言特化相关，支持**无需重训练的事后稀疏度调节**。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Feb 19</span><span class="i18n-zh">2月19日</span></span>
+          <strong><span class="i18n-en">PA-MoE: Phase-Aware MoE for Agentic RL (arXiv: 2602.17038)</span><span class="i18n-zh">PA-MoE: 面向智能体 RL 的阶段感知 MoE (arXiv: 2602.17038)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Yang, Li, He, Li, Cai, Jiang, Feng** (Southeast Univ. &amp; Kuaishou) — Identifies the **simplicity bias** problem in RL policy networks where easy tasks dominate parameter updates. Proposes a **lightweight phase router** that learns latent phase boundaries directly from the RL objective (no predefined categories), allocating **temporally consistent** expert assignments. Each expert preserves phase-specific expertise, preventing catastrophic interference between task phases.</span><span class="i18n-zh">**Yang, Li, He, Li, Cai, Jiang, Feng**（东南大学 &amp; 快手）— 揭示了 RL 策略网络中的**简单性偏差**问题：简单任务霸占了大部分参数更新。提出**轻量级阶段路由器**，直接从 RL 目标学习潜在阶段边界（无需预定义类别），实现**时间一致性**的专家分配。每个专家保持阶段特定的专长，防止任务阶段间的灾难性干扰。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Feb 23</span><span class="i18n-zh">2月23日</span></span>
+          <strong><span class="i18n-en">Replicate-and-Quantize: Plug-and-Play Load Balancing (arXiv: 2602.19938)</span><span class="i18n-zh">复制-量化策略：即插即用负载均衡 (arXiv: 2602.19938)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Liu, Peng, Duan et al.** — A **training-free** inference-time framework for dynamically rebalancing expert workloads. Key insight: expert importance cannot be reliably determined by selection frequency alone. Proposes **replicating heavy-hitter experts** to increase throughput capacity while **quantizing underutilized experts** to maintain memory budget. Introduces Load-Imbalance Score (LIS) metric. Achieves **up to 1.4x load imbalance reduction** while maintaining accuracy within ±0.6%.</span><span class="i18n-zh">**Liu, Peng, Duan 等** — 一种**无需训练**的推理时框架，用于动态重新平衡专家负载。核心洞察：专家重要性不能仅凭选择频率来判断。提出**复制高负载专家**以增加吞吐能力，同时**量化低利用率专家**以维持内存预算。引入负载不平衡评分 (LIS) 指标。实现**最高 1.4 倍负载不平衡降低**，精度偏差在 ±0.6% 以内。</span></span>
+        </li>
+      </ol>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">2. Training Efficiency &amp; Parallelism</span><span class="i18n-zh">2. 训练效率与并行</span></h2>
+        <div class="prose"><p><span class="i18n-en">Scaling MoE training remains a first-class systems challenge. This week's papers tackle expert parallelism, federated learning, and spectral approaches to expert specialization.</span><span class="i18n-zh">大规模 MoE 训练仍然是一个核心系统挑战。本周论文涵盖专家并行、联邦学习和基于谱分解的专家特化方法。</span></p></div>
+<ol class="contribution-list">
+        <li>
+          <span class="badge"><span class="i18n-en">Feb 15</span><span class="i18n-zh">2月15日</span></span>
+          <strong><span class="i18n-en">DeepFusion: Federated MoE Training from Edge Devices (arXiv: 2602.14301)</span><span class="i18n-zh">DeepFusion: 从边缘设备联邦训练 MoE (arXiv: 2602.14301)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Li, Hu, Abdelmoniem et al.** (AAMAS 2026) — First federated MoE training system enabling devices to train customized on-device LLMs and fuse knowledge into a global MoE. Introduces **View-Aligned Attention (VAA)** module to bridge architectural mismatches in cross-model distillation. Results: **71% communication reduction**, **5.28% perplexity improvement** over federated baselines. Validated on Qwen-MoE/DeepSeek-MoE in medical and financial domains.</span><span class="i18n-zh">**Li, Hu, Abdelmoniem 等**（AAMAS 2026）— 首个联邦 MoE 训练系统，允许各设备训练定制化的端侧 LLM 并融合知识到全局 MoE。引入**视图对齐注意力 (VAA)** 模块以桥接跨模型蒸馏中的架构差异。结果：**通信量减少 71%**，**困惑度提升 5.28%**。在 Qwen-MoE/DeepSeek-MoE 上验证，覆盖医疗和金融领域。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Feb 13</span><span class="i18n-zh">2月13日</span></span>
+          <strong><span class="i18n-en">SD-MoE: Spectral Decomposition for Expert Specialization (arXiv: 2602.12556)</span><span class="i18n-zh">SD-MoE: 基于谱分解的专家特化 (arXiv: 2602.12556)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Huang et al.** — Tackles the core problem that **expert specialization often fails** in practice: experts become functionally similar or act as de facto shared experts. Root cause analysis via spectral decomposition reveals overlapping dominant spectral components across experts + strongly aligned dominant gradient subspaces. Proposes **Spectral-Decoupled MoE** operating in spectral space to enhance differentiation. Integrates seamlessly into **Qwen and DeepSeek** architectures.</span><span class="i18n-zh">**Huang 等** — 解决 MoE 中**专家特化经常失败**的核心问题：专家变得功能相似或充当事实上的共享专家。通过谱分解进行根因分析，发现专家间主导谱成分重叠 + 主导梯度子空间强对齐。提出在谱空间中操作的 **Spectral-Decoupled MoE** 以增强差异化。可无缝集成到 **Qwen 和 DeepSeek** 架构中。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Feb 12</span><span class="i18n-zh">2月12日</span></span>
+          <strong><span class="i18n-en">LAER-MoE: Load-Adaptive Expert Re-layout (arXiv: 2602.11686)</span><span class="i18n-zh">LAER-MoE: 负载自适应专家重布局 (arXiv: 2602.11686)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Liu, Wang, Fu et al.** (ASPLOS 2026) — Introduces **Fully Sharded Expert Parallel (FSEP)**, a new parallelism paradigm that fully partitions each expert parameter across devices with selective restoration at expert granularity. Develops a load balancing planner to dynamically formulate re-layout strategies during training. Achieves **up to 1.69x speedup** over SOTA MoE training systems on A100 clusters.</span><span class="i18n-zh">**Liu, Wang, Fu 等**（ASPLOS 2026）— 提出**全分片专家并行 (FSEP)**，一种新的并行范式，将每个专家参数完全分片到各设备上，并在专家粒度选择性恢复。开发负载均衡规划器，在训练中动态制定重布局策略。在 A100 集群上实现**最高 1.69 倍加速**。</span></span>
+        </li>
+      </ol>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">3. Inference Optimization</span><span class="i18n-zh">3. 推理优化</span></h2>
+        <ol class="contribution-list">
+        <li>
+          <span class="badge"><span class="i18n-en">Feb 17</span><span class="i18n-zh">2月17日</span></span>
+          <strong><span class="i18n-en">MoE-Spec: Expert Budgeting for Speculative Decoding (arXiv: 2602.16052)</span><span class="i18n-zh">MoE-Spec: 面向投机解码的专家预算 (arXiv: 2602.16052)</span></strong>
+          <span class="description"> — <span class="i18n-en">**McDanel, Li, Surineni, Khaitan** — Identifies a critical bottleneck: speculative decoding for MoE models activates too many unique experts in draft trees, creating excessive memory pressure. Proposes a **training-free** verification-time method that enforces **fixed expert capacity limits per layer**, loading only high-impact experts. Results: **10–30% higher throughput** than EAGLE-3 at comparable quality, with adjustable accuracy-latency tradeoffs.</span><span class="i18n-zh">**McDanel, Li, Surineni, Khaitan** — 发现关键瓶颈：MoE 模型的投机解码在草稿树中激活过多唯一专家，造成内存压力。提出**无需训练**的验证阶段方法，在每层强制执行**固定专家容量上限**，只加载高影响力专家。结果：在相当质量下**吞吐量比 EAGLE-3 高 10–30%**，精度-延迟权衡可调。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Feb 10</span><span class="i18n-zh">2月10日</span></span>
+          <strong><span class="i18n-en">Area-Efficient In-Memory Computing for MoE (arXiv: 2602.10254)</span><span class="i18n-zh">面向 MoE 的高效面积存内计算 (arXiv: 2602.10254)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Gao, Yang** — Proposes an area-efficient process-in-memory (PIM) architecture for MoE transformers. Key innovations: **crossbar-level multiplexing** exploiting MoE sparsity (multiple crossbars share peripheral circuits), expert grouping/scheduling to mitigate load imbalance, and a **gate-output cache** addressing the all-hidden-states bottleneck. Results: **2.2x area efficiency**, **4.2x generation performance**, **10.1x energy efficiency** vs. SOTA baseline.</span><span class="i18n-zh">**Gao, Yang** — 提出面向 MoE Transformer 的高效面积存内计算 (PIM) 架构。核心创新：利用 MoE 稀疏性的**交叉阵列级复用**（多个交叉阵列共享外围电路）、专家分组调度以缓解负载不平衡、以及解决全隐藏状态瓶颈的**门控输出缓存**。结果：面积效率 **2.2 倍**、生成性能 **4.2 倍**、能效 **10.1 倍**。</span></span>
+        </li>
+      </ol>
+      </section>
+<section class="section">
+        <h2><span>i</span><span class="i18n-en">4. Theory &amp; Analysis</span><span class="i18n-zh">4. 理论与分析</span></h2>
+        <ol class="contribution-list">
+        <li>
+          <span class="badge"><span class="i18n-en">Feb 16</span><span class="i18n-zh">2月16日</span></span>
+          <strong><span class="i18n-en">MoE under Finite-Rate Gating: Communication–Generalization Trade-offs (arXiv: 2602.15091)</span><span class="i18n-zh">有限速率门控下的 MoE：通信-泛化权衡 (arXiv: 2602.15091)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Khalesi, Deylam Salehi** — Models the MoE gate as a **stochastic channel under finite information rate** and develops a rate-distortion analysis. Establishes bounds on generalization error: E[R(W)] ≤ D(R_g) + δ_m + √((2/m) I(S;W)). This provides **fundamental capacity-aware limits** for MoE architectures, quantifying the trade-off between gating rate, model expressivity, and generalization.</span><span class="i18n-zh">**Khalesi, Deylam Salehi** — 将 MoE 门控建模为**有限信息速率下的随机信道**，开发了率失真分析。建立泛化误差界：E[R(W)] ≤ D(R_g) + δ_m + √((2/m) I(S;W))。为 MoE 架构提供了**基本的容量感知极限**，量化了门控速率、模型表达力和泛化之间的权衡。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Feb 19</span><span class="i18n-zh">2月19日</span></span>
+          <strong><span class="i18n-en">When More Experts Hurt: Underfitting in Multi-Expert L2D (arXiv: 2602.17144)</span><span class="i18n-zh">更多专家反而有害：多专家 L2D 中的欠拟合 (arXiv: 2602.17144)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Liu, Cao, Feng, An, Ong** — Proves that multi-expert Learning-to-Defer (L2D) suffers from an **intrinsic expert identifiability issue** causing classifier underfitting—a problem absent in single-expert settings. Proposes **PiCCE** (Pick the Confident and Correct Expert), which adaptively identifies reliable experts and converts multi-expert to single-expert-like optimization. Provides statistical consistency guarantees.</span><span class="i18n-zh">**Liu, Cao, Feng, An, Ong** — 证明多专家 Learning-to-Defer (L2D) 存在**内在的专家可辨识性问题**，导致分类器欠拟合——这在单专家场景中不存在。提出 **PiCCE**（挑选自信且正确的专家），自适应识别可靠专家，将多专家问题转化为类单专家优化。提供统计一致性保证。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Feb 15</span><span class="i18n-zh">2月15日</span></span>
+          <strong><span class="i18n-en">Geometry-Preserving Aggregation for MoE Embedding Models (arXiv: 2602.14039)</span><span class="i18n-zh">MoE 嵌入模型的保几何聚合 (arXiv: 2602.14039)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Kachuee, Sharifkhani** — Reveals that expert outputs lie on a shared **hyperspherical manifold** with tightly concentrated norms and substantial angular separation. Standard linear aggregation causes geometric distortion. Proposes **Spherical Barycentric Aggregation (SBA)** that separates radial and angular components. Consistent improvements on MTEB tasks without extra computation.</span><span class="i18n-zh">**Kachuee, Sharifkhani** — 揭示专家输出位于共享**超球面流形**上，具有紧凑的范数集中和显著的角度分离。标准线性聚合会导致几何畸变。提出**球面重心聚合 (SBA)**，分离径向和角度分量。在 MTEB 任务上实现一致提升，无额外计算开销。</span></span>
+        </li>
+      </ol>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">5. Domain Applications</span><span class="i18n-zh">5. 领域应用</span></h2>
+        <ol class="contribution-list">
+        <li>
+          <span class="badge"><span class="i18n-en">Feb 22</span><span class="i18n-zh">2月22日</span></span>
+          <strong><span class="i18n-en">Routing-Aware Explanations for MoE in Malware Detection (arXiv: 2602.19025)</span><span class="i18n-zh">恶意软件检测中 MoE 的路由感知可解释性 (arXiv: 2602.19025)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Shokouhinejad, Razavi-Far, Higgins, Ghorbani** — MoE framework for graph-based malware detection using control flow graphs. Six specialized experts tied to distinct view combinations with **edge-level attributions aggregated by router gates** for interpretable decisions. Superior accuracy and stable attributions vs. single-expert baselines (GCN, GIN, GAT).</span><span class="i18n-zh">**Shokouhinejad, Razavi-Far, Higgins, Ghorbani** — 基于控制流图的图级恶意软件检测 MoE 框架。六个专门化专家对应不同视图组合，通过**路由器门控聚合边级归因**实现可解释决策。精度和归因稳定性均优于单专家基线（GCN、GIN、GAT）。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Feb 2</span><span class="i18n-zh">2月2日</span></span>
+          <strong><span class="i18n-en">SAME: Stabilized MoE for Multimodal Continual Instruction Tuning (arXiv: 2602.01990)</span><span class="i18n-zh">SAME: 多模态持续指令微调的稳定化 MoE (arXiv: 2602.01990)</span></strong>
+          <span class="description"> — <span class="i18n-en">**Xie, Tang, Shi, Ye, Zhan, Zhou** — Addresses **router drift** and **expert drift** in multimodal continual learning. Proposes orthogonal subspace decomposition to stabilize routing dynamics + curvature-aware scaling using historical input covariance for expert protection. No rehearsal data needed. State-of-the-art on multimodal continual instruction tuning benchmarks.</span><span class="i18n-zh">**Xie, Tang, Shi, Ye, Zhan, Zhou** — 解决多模态持续学习中的**路由漂移**和**专家漂移**问题。提出正交子空间分解以稳定路由动态 + 基于历史输入协方差的曲率感知缩放来保护专家。无需回放数据。在多模态持续指令微调基准上达到 SOTA。</span></span>
+        </li>
+      </ol>
+      </section>
+<section class="section">
+        <h2><span>i</span><span class="i18n-en">Contextual Papers (Early–Mid Feb 2026)</span><span class="i18n-zh">上下文论文（2026年2月上旬–中旬）</span></h2>
+        <div class="prose"><p><span class="i18n-en">Several important MoE papers from earlier in February provide valuable context for the week's developments:</span><span class="i18n-zh">2月上旬的几篇重要 MoE 论文为本周的进展提供了宝贵的背景：</span></p></div>
+<div class="table-wrapper striped compact">
+        
+        <table>
+          <thead>
+            <tr>
+              <th><span class="i18n-en">Date</span><span class="i18n-zh">日期</span></th><th><span class="i18n-en">Paper</span><span class="i18n-zh">论文</span></th><th><span class="i18n-en">Key Contribution</span><span class="i18n-zh">核心贡献</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>Feb 9</td><td>DirMoE (2602.09001, ICLR 2026)</td><td>Dirichlet VAE router / 基于 Dirichlet VAE 的路由，将专家选择与贡献权重解耦</td>
+              </tr>
+            
+              <tr>
+                <td>Feb 8</td><td>Rise of Sparse MoE Survey (2602.08019)</td><td>Most comprehensive MoE survey to date / 迄今最全面的 MoE 综述</td>
+              </tr>
+            
+              <tr>
+                <td>Feb 5</td><td>MoSE (2602.06154)</td><td>Slimmable experts with variable widths / 可变宽度的可瘦身专家</td>
+              </tr>
+            
+              <tr>
+                <td>Feb 3</td><td>SpecMD (2602.03921)</td><td>Speculative expert prefetching study / 投机性专家预取研究</td>
+              </tr>
+            
+              <tr>
+                <td>Feb 1</td><td>Sigmoid Gating Rethinking (2602.01466)</td><td>Sigmoid vs Softmax gate analysis / Sigmoid 与 Softmax 门控分析</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">Trend Analysis &amp; Observations</span><span class="i18n-zh">趋势分析与观察</span></h2>
+        <div class="prose"><p><span class="i18n-en"><h4>1. Beyond Top-k + Softmax Routing</h4>
+The standard Top-k + Softmax routing paradigm is being actively challenged. This week alone, <strong>GrMoE</strong> (Grassmannian/Bingham), <strong>DirMoE</strong> (Dirichlet VAE, ICLR 2026), and <strong>PA-MoE</strong> (phase-aware temporal routing) each propose fundamentally different mathematical foundations for expert selection. The trend is clear: the community is moving toward <strong>geometrically principled</strong> and <strong>probabilistically grounded</strong> routing that provides better theoretical guarantees against expert collapse.</p><p><h4>2. Training-Free Inference Optimization</h4>
+A notable theme is <strong>training-free</strong> methods for MoE inference: <strong>MoE-Spec</strong> (expert budgeting), <strong>Replicate-and-Quantize</strong> (load rebalancing), and the in-memory computing work all operate at inference time without model retraining. This reflects the practical reality that many organizations deploy pre-trained MoE models (DeepSeek-V3, Qwen-MoE) and need optimization without access to training infrastructure.</p><p><h4>3. Expert Specialization Remains Unsolved</h4>
+<strong>SD-MoE</strong>'s spectral analysis confirms what practitioners have long suspected: expert specialization frequently fails, with experts becoming functionally redundant. The paper's finding that dominant gradient subspaces are strongly aligned across experts provides a principled explanation. Expect more work on encouraging genuine expert differentiation.</p><p><h4>4. MoE Systems at Scale</h4>
+Two papers accepted at top systems venues (<strong>LAER-MoE</strong> at ASPLOS 2026, <strong>DeepFusion</strong> at AAMAS 2026) signal that MoE parallelism and distributed training are reaching production maturity. The FSEP paradigm from LAER-MoE (1.69x speedup) is particularly noteworthy for its dynamic expert re-layout capability.</p><p><h4>5. Information-Theoretic Foundations</h4>
+The rate-distortion analysis of MoE gating (2602.15091) and the hyperspherical geometry discovery in MoE embeddings (2602.14039) suggest the field is developing stronger <strong>theoretical underpinnings</strong>. These results could eventually inform principled architecture design rather than empirical trial-and-error.</span><span class="i18n-zh"><h4>1. 超越 Top-k + Softmax 路由</h4>
+标准的 Top-k + Softmax 路由范式正在被积极挑战。仅本周就有 <strong>GrMoE</strong>（格拉斯曼/Bingham 分布）、<strong>DirMoE</strong>（Dirichlet VAE，ICLR 2026）和 <strong>PA-MoE</strong>（阶段感知时序路由）分别提出了全新的数学基础。趋势很明确：社区正在转向<strong>几何原理化</strong>和<strong>概率论基础化</strong>的路由方案，以提供更好的理论保证来对抗专家坍塌。</p><p><h4>2. 无需训练的推理优化</h4>
+一个显著主题是 MoE 推理的<strong>免训练</strong>方法：<strong>MoE-Spec</strong>（专家预算）、<strong>复制-量化策略</strong>（负载重平衡）和存内计算工作都在推理阶段运作，无需模型重训练。这反映了现实：许多组织部署的是预训练好的 MoE 模型（DeepSeek-V3、Qwen-MoE），需要在没有训练基础设施的情况下进行优化。</p><p><h4>3. 专家特化仍未解决</h4>
+<strong>SD-MoE</strong> 的谱分析证实了从业者长期以来的怀疑：专家特化经常失败，专家变得功能冗余。论文发现主导梯度子空间在各专家间强对齐，提供了原理性解释。预计会有更多关于促进真正专家差异化的工作。</p><p><h4>4. 大规模 MoE 系统</h4>
+两篇被顶级系统会议接收的论文（<strong>LAER-MoE</strong> @ ASPLOS 2026、<strong>DeepFusion</strong> @ AAMAS 2026）表明 MoE 并行和分布式训练正在走向生产成熟。LAER-MoE 的 FSEP 范式（1.69 倍加速）因其动态专家重布局能力特别值得关注。</p><p><h4>5. 信息论基础</h4>
+MoE 门控的率失真分析 (2602.15091) 和 MoE 嵌入中超球面几何的发现 (2602.14039) 表明该领域正在发展更强的<strong>理论基础</strong>。这些结果最终可能指导有原则的架构设计，而非经验性的反复试验。</span></p></div>
+      </section>
+<section class="section">
+        <h2><span>::</span><span class="i18n-en">Complete Paper Index</span><span class="i18n-zh">论文完整索引</span></h2>
+        <div class="table-wrapper striped compact">
+        
+        <table>
+          <thead>
+            <tr>
+              <th><span class="i18n-en">arXiv ID</span><span class="i18n-zh">arXiv ID</span></th><th><span class="i18n-en">Title</span><span class="i18n-zh">标题</span></th><th><span class="i18n-en">Category</span><span class="i18n-zh">分类</span></th><th><span class="i18n-en">Date</span><span class="i18n-zh">日期</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>2602.19938</td><td>Replicate-and-Quantize Load Balancing</td><td>Routing</td><td>Feb 23</td>
+              </tr>
+            
+              <tr>
+                <td>2602.19025</td><td>Routing-Aware Explanations for Malware Detection</td><td>Application</td><td>Feb 22</td>
+              </tr>
+            
+              <tr>
+                <td>2602.17798</td><td>GrMoE: Grassmannian MoE</td><td>Routing</td><td>Feb 19</td>
+              </tr>
+            
+              <tr>
+                <td>2602.17144</td><td>When More Experts Hurt (L2D)</td><td>Theory</td><td>Feb 19</td>
+              </tr>
+            
+              <tr>
+                <td>2602.17038</td><td>PA-MoE: Phase-Aware MoE for RL</td><td>Routing</td><td>Feb 19</td>
+              </tr>
+            
+              <tr>
+                <td>2602.16052</td><td>MoE-Spec: Expert Budgeting</td><td>Inference</td><td>Feb 17</td>
+              </tr>
+            
+              <tr>
+                <td>2602.15091</td><td>Finite-Rate Gating Theory</td><td>Theory</td><td>Feb 16</td>
+              </tr>
+            
+              <tr>
+                <td>2602.14301</td><td>DeepFusion: Federated MoE Training</td><td>Training</td><td>Feb 15</td>
+              </tr>
+            
+              <tr>
+                <td>2602.14039</td><td>Geometry-Preserving MoE Aggregation</td><td>Theory</td><td>Feb 15</td>
+              </tr>
+            
+              <tr>
+                <td>2602.12556</td><td>SD-MoE: Spectral Expert Specialization</td><td>Training</td><td>Feb 13</td>
+              </tr>
+            
+              <tr>
+                <td>2602.11686</td><td>LAER-MoE: Load-Adaptive Expert Re-layout</td><td>Training</td><td>Feb 12</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      </section>
+<section class="section">
+        <h2><span>-></span><span class="i18n-en">Sources</span><span class="i18n-zh">信息来源</span></h2>
+        <div class="link-group">
+        <a href="https://arxiv.org/abs/2602.17798" class="link-button" target="_blank" rel="noopener">
+          GrMoE: Grassmannian MoE (2602.17798)
+        </a><a href="https://arxiv.org/abs/2602.17038" class="link-button" target="_blank" rel="noopener">
+          PA-MoE: Phase-Aware MoE (2602.17038)
+        </a><a href="https://arxiv.org/abs/2602.19938" class="link-button" target="_blank" rel="noopener">
+          Replicate-and-Quantize (2602.19938)
+        </a><a href="https://arxiv.org/abs/2602.16052" class="link-button" target="_blank" rel="noopener">
+          MoE-Spec (2602.16052)
+        </a><a href="https://arxiv.org/abs/2602.15091" class="link-button" target="_blank" rel="noopener">
+          Finite-Rate Gating (2602.15091)
+        </a><a href="https://arxiv.org/abs/2602.17144" class="link-button" target="_blank" rel="noopener">
+          When More Experts Hurt (2602.17144)
+        </a><a href="https://arxiv.org/abs/2602.14301" class="link-button" target="_blank" rel="noopener">
+          DeepFusion (2602.14301)
+        </a><a href="https://arxiv.org/abs/2602.12556" class="link-button" target="_blank" rel="noopener">
+          SD-MoE (2602.12556)
+        </a><a href="https://arxiv.org/abs/2602.11686" class="link-button" target="_blank" rel="noopener">
+          LAER-MoE (2602.11686)
+        </a><a href="https://arxiv.org/abs/2602.14039" class="link-button" target="_blank" rel="noopener">
+          Geometry-Preserving Aggregation (2602.14039)
+        </a><a href="https://arxiv.org/abs/2602.10254" class="link-button" target="_blank" rel="noopener">
+          In-Memory Computing for MoE (2602.10254)
+        </a><a href="https://arxiv.org/abs/2602.19025" class="link-button" target="_blank" rel="noopener">
+          MoE Malware Detection (2602.19025)
+        </a><a href="https://arxiv.org/abs/2602.01990" class="link-button" target="_blank" rel="noopener">
+          SAME: Stabilized MoE (2602.01990)
+        </a><a href="https://arxiv.org/abs/2602.09001" class="link-button" target="_blank" rel="noopener">
+          DirMoE (2602.09001, ICLR 2026)
+        </a><a href="https://arxiv.org/abs/2602.08019" class="link-button" target="_blank" rel="noopener">
+          Sparse MoE Survey (2602.08019)
+        </a><a href="https://arxiv.org/abs/2602.06154" class="link-button" target="_blank" rel="noopener">
+          MoSE (2602.06154)
+        </a>
+      </div>
+      </section>
+<footer class="brand-footer">
+        <p><span class="i18n-en">This report was generated by AI using web sources. Verify critical information independently. Paper dates are based on arXiv submission timestamps and may differ from publication dates.</span><span class="i18n-zh">本报告由 AI 基于网络来源生成，请独立验证关键信息。论文日期基于 arXiv 提交时间戳，可能与正式发表日期不同。</span></p>
+        <p><strong>Powered by Claude Code</strong> | Generated: 2026-02-25T12:00:00Z</p>
+      </footer>
+  </article>
+  <a class="corner-powered" href="https://actionbook.dev" target="_blank" rel="noopener noreferrer">
+    <span>Powered by</span>
+    <strong>Actionbook</strong>
+  </a>
+</body>
+</html>
