@@ -188,17 +188,27 @@ llama.cpp achieves higher precision (dynamic scales + fine granularity + no cros
 
 Source: `ggml/src/ggml-cpu/quants.c`, `arch/x86/quants.c`, `arch/arm/quants.c`
 
-**Quantized matmul has only one path: INT8×INT8.** There is no FP32 fallback. Even without SIMD, the scalar fallback still uses integer multiplication:
+**Quantized matmul has only one path: integer arithmetic.** There is no FP32 fallback — there is no branch that says "if the CPU lacks INT8 instructions, fall back to FP32 matmul."
+
+**Scalar fallback (CPUs without SIMD):** Any CPU can execute this path, as it only uses basic C integer operations:
 
 ```c
-aux16[l] = q8[l] * a[l];          // int8 x int8 -> int16
-aux32[l] += scale * aux16[l];     // int32 accumulation
+// Q4_0 x Q8_0 scalar path (quants.c lines 137-141)
+const int v0 = (x[ib].qs[j] & 0x0F) - 8;   // Unpack to int (value range [-8, 7])
+sumi0 += (v0 * y[ib].qs[j]);                // int x int8_t -> int
+
+// Q4_K x Q8_K scalar path (quants.c lines 603-604)
+aux16[l] = q8[l] * a[l];                    // int8_t x int8_t -> int16_t
+aux32[l] += scale * aux16[l];               // int32_t accumulation
 ```
 
-SIMD only affects **parallelism**, not the computation type:
+Note: In the scalar path, the **value range** is INT8 (-128 to 127), but the **C types** are not all `int8_t` — the Q4_0 path stores unpacked values as `int` (typically 32-bit), so the multiplication is `int × int8_t`. This does not affect correctness since the value range is unchanged.
+
+**SIMD-accelerated paths:** VNNI, DOTPROD, etc. are not required — they only affect **parallelism and speed**, not the computation logic:
 
 | Instruction Set | Multiply Precision | Accumulate Precision |
 |----------------|-------------------|---------------------|
+| No SIMD (scalar fallback) | int x int8_t -> int | int accumulation |
 | SSSE3 `_mm_maddubs_epi16` | uint8 x int8 -> INT16 | INT16 -> INT32 |
 | AVX512-VNNI `_mm256_dpbusd_epi32` | uint8 x int8 -> INT32 | INT32 |
 | AMX-INT8 | INT8 x INT8 -> INT32 | INT32 (matrix-level) |
@@ -206,7 +216,7 @@ SIMD only affects **parallelism**, not the computation type:
 | NEON (no DOTPROD) `vmull_s8` | int8 x int8 -> INT16 | INT16 -> INT32 |
 | SVE `svdot_s32` | int8 x int8 -> INT32 | INT32 |
 
-Selected at compile time via `__AVX512VNNI__`, `__ARM_FEATURE_DOTPROD__`, etc. Not runtime dispatch.
+SIMD paths are selected at compile time via `__AVX512VNNI__`, `__ARM_FEATURE_DOTPROD__`, etc. Not runtime dispatch.
 
 Non-quantized matmul: FP32×FP32 -> FP32.
 
@@ -304,8 +314,8 @@ The same quantized model on the same GPU may take different precision paths depe
 
 | | CPU | CUDA (MMQ) | CUDA (cuBLAS fallback) | Metal |
 |--|-----|-----------|----------------------|-------|
-| Quantized matmul method | INT8xINT8 vec_dot | INT8xINT8 dp4a | Dequantize -> FP16/FP32 | Dequantize -> FP32 |
-| Multiply precision | INT8xINT8 | INT8xINT8 | FP16 or FP32 | FP32 |
+| Quantized matmul method | Integer vec_dot | INT8xINT8 dp4a | Dequantize -> FP16/FP32 | Dequantize -> FP32 |
+| Multiply precision | Integer multiply (INT8 value range) | INT8xINT8 | FP16 or FP32 | FP32 |
 | Accumulate precision | INT32 -> FP32 | INT32 -> FP32 | FP16 or FP32 | FP32 |
 | Activation handling | FP32 -> Q8 (INT8) | FP32 -> Q8 (INT8) | Stays FP32 | Stays FP32 |
 | Alternative path | None | <-> cuBLAS (auto) | <-> MMQ (auto) | None |

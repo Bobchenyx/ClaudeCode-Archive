@@ -188,17 +188,27 @@ llama.cpp 精度更高（动态 scale + 细粒度 + 不跨层累积），代价�
 
 源码：`ggml/src/ggml-cpu/quants.c`, `arch/x86/quants.c`, `arch/arm/quants.c`
 
-**量化 matmul 唯一路径：INT8×INT8。** 没有 FP32 备选。即使没有 SIMD，标量回退仍是整数乘法：
+**量化 matmul 唯一路径：整数乘法。** 没有 FP32 备选路径——不存在"如果 CPU 没有 INT8 指令就回退到 FP32 matmul"的分支。
+
+**标量回退路径（无 SIMD 的 CPU）：** 任何 CPU 都能执行，因为只用了 C 语言基本整数运算：
 
 ```c
-aux16[l] = q8[l] * a[l];          // int8 × int8 → int16
-aux32[l] += scale * aux16[l];     // int32 累加
+// Q4_0 × Q8_0 标量路径（quants.c 行 137-141）
+const int v0 = (x[ib].qs[j] & 0x0F) - 8;   // 解包到 int（值域 [-8, 7]）
+sumi0 += (v0 * y[ib].qs[j]);                // int × int8_t → int
+
+// Q4_K × Q8_K 标量路径（quants.c 行 603-604）
+aux16[l] = q8[l] * a[l];                    // int8_t × int8_t → int16_t
+aux32[l] += scale * aux16[l];               // int32_t 累加
 ```
 
-SIMD 只影响**并行度**，不影响计算类型：
+注意：标量路径中**值域**是 INT8 范围（-128~127），但 **C 类型**不全是 `int8_t`——Q4_0 路径将解包后的值存为 `int`（通常 32 位），乘法是 `int × int8_t`。这不影响结果正确性，因为值域不变。
+
+**SIMD 加速路径：** VNNI、DOTPROD 等不是必需的，它们只影响**并行度和速度**，不改变计算逻辑：
 
 | 指令集 | 乘法精度 | 累加精度 |
 |-------|---------|---------|
+| 无 SIMD（标量回退） | int × int8_t → int | int 累加 |
 | SSSE3 `_mm_maddubs_epi16` | uint8 × int8 → INT16 | INT16 → INT32 |
 | AVX512-VNNI `_mm256_dpbusd_epi32` | uint8 × int8 → INT32 | INT32 |
 | AMX-INT8 | INT8 × INT8 → INT32 | INT32（矩阵级） |
@@ -206,7 +216,7 @@ SIMD 只影响**并行度**，不影响计算类型：
 | NEON（无 DOTPROD）`vmull_s8` | int8 × int8 → INT16 | INT16 → INT32 |
 | SVE `svdot_s32` | int8 × int8 → INT32 | INT32 |
 
-编译时通过 `__AVX512VNNI__`、`__ARM_FEATURE_DOTPROD__` 等宏选择。非运行时分发。
+SIMD 路径在编译时通过 `__AVX512VNNI__`、`__ARM_FEATURE_DOTPROD__` 等宏选择，非运行时分发。
 
 非量化 matmul：FP32×FP32 → FP32。
 
@@ -304,8 +314,8 @@ CPU 和 Metal 始终 FP32，此开关主要影响 CUDA cuBLAS 路径。
 
 | | CPU | CUDA（MMQ） | CUDA（cuBLAS 回退） | Metal |
 |--|-----|-----------|------------------|-------|
-| 量化 matmul 方式 | INT8×INT8 vec_dot | INT8×INT8 dp4a | 反量化→FP16/FP32 | 反量化→FP32 |
-| 乘法精度 | INT8×INT8 | INT8×INT8 | FP16 或 FP32 | FP32 |
+| 量化 matmul 方式 | 整数 vec_dot | INT8×INT8 dp4a | 反量化→FP16/FP32 | 反量化→FP32 |
+| 乘法精度 | INT8 值域的整数乘法 | INT8×INT8 | FP16 或 FP32 | FP32 |
 | 累加精度 | INT32 → FP32 | INT32 → FP32 | FP16 或 FP32 | FP32 |
 | 激活值处理 | FP32 → Q8（INT8） | FP32 → Q8（INT8） | 保持 FP32 | 保持 FP32 |
 | 备选路径 | 无 | ↔ cuBLAS（自动） | ↔ MMQ（自动） | 无 |
