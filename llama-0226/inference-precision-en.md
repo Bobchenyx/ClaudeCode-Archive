@@ -182,6 +182,51 @@ llama.cpp:
 
 llama.cpp achieves higher precision (dynamic scales + fine granularity + no cross-layer accumulation), at the cost of an extra quantization operation per layer.
 
+### 2.6 Scope of Q8 Quantization: Regular Activations, Not Just KV Cache
+
+A common misconception is that "activation quantization only affects KV Cache." In reality, Q8 quantization affects **the hidden state of every linear layer that uses quantized weights**.
+
+Each Transformer layer has two categories of `ggml_mul_mat`. Only the first triggers Q8 activation quantization:
+
+**Category 1: Weight Projections (triggers Q8 quantization)**
+
+```
+src0 = quantized weights (Q4_K)    src1 = FP32 hidden state (regular activation)
+
+build_lora_mm(wq, cur)       → ggml_mul_mat(wq, cur)       // Q projection
+build_lora_mm(wk, cur)       → ggml_mul_mat(wk, cur)       // K projection
+build_lora_mm(wv, cur)       → ggml_mul_mat(wv, cur)       // V projection
+build_lora_mm(wo, attn_out)  → ggml_mul_mat(wo, attn_out)  // Output projection
+build_lora_mm(ffn_up, cur)   → ggml_mul_mat(ffn_up, cur)   // FFN up
+build_lora_mm(ffn_gate, cur) → ggml_mul_mat(ffn_gate, cur) // FFN gate
+build_lora_mm(ffn_down, cur) → ggml_mul_mat(ffn_down, cur) // FFN down
+```
+
+Source: `src/models/llama.cpp` lines 46-116
+
+`src0` (weights) is a quantized type → `type_traits_cpu[src0->type].vec_dot_type` table lookup yields Q8_K → `src1` (hidden state) is quantized to Q8. **This happens 7 times per layer (once for each linear layer).**
+
+**Category 2: Attention K×Q / V×KQ (not triggered by default)**
+
+```
+src0 = K or V (from KV Cache, default F16)    src1 = Q or KQ (FP32/F16)
+
+ggml_mul_mat(k, q)     // K×Q attention score    (llama-graph.cpp line 1798)
+ggml_mul_mat(v, kq)    // V×KQ attention output  (llama-graph.cpp line 1842)
+```
+
+KV Cache default type is **F16** (`llama-context.cpp` lines 2792-2793), not a quantized format. Since `src0` is not a quantized type → the `type_traits_cpu` quantization table is not consulted → **Q8 activation quantization is not triggered**, and the FP path is used instead.
+
+> Users can set `--cache-type-k q8_0` / `--cache-type-v q8_0` to store KV Cache in quantized format, which would trigger activation quantization for Attention matmuls as well. However, this is an explicit user choice, not the default behavior.
+
+**Summary:**
+
+| Matmul Type | src0 | src1 | Q8 Quantization Triggered? |
+|---|---|---|---|
+| Weight projections (QKV/FFN, 7 per layer) | Q4_K (quantized weights) | FP32 hidden state | **Yes, every time** |
+| Attention K×Q | F16 (KV Cache, default) | F16/FP32 (Q vectors) | **No** |
+| Attention V×KQ | F16 (KV Cache, default) | FP32 (attention weights) | **No** |
+
 ## 3. Matmul Compute Precision Across Three Backends
 
 ### 3.1 CPU

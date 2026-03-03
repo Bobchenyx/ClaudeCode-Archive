@@ -182,6 +182,51 @@ llama.cpp：
 
 llama.cpp 精度更高（动态 scale + 细粒度 + 不跨层累积），代价是每层多做一次量化操作。
 
+### 2.6 Q8 量化的作用范围：常规 activation，不仅是 KV Cache
+
+一个常见的误解是"激活量化只影响 KV Cache"。实际上，Q8 量化影响的是**每一个经过量化权重的线性层的 hidden state**。
+
+Transformer 每层中有两类 `ggml_mul_mat`，只有第一类会触发 Q8 激活量化：
+
+**类型 1：权重投影（触发 Q8 量化）**
+
+```
+src0 = 量化权重（Q4_K）    src1 = FP32 hidden state（常规 activation）
+
+build_lora_mm(wq, cur)       → ggml_mul_mat(wq, cur)       // Q 投影
+build_lora_mm(wk, cur)       → ggml_mul_mat(wk, cur)       // K 投影
+build_lora_mm(wv, cur)       → ggml_mul_mat(wv, cur)       // V 投影
+build_lora_mm(wo, attn_out)  → ggml_mul_mat(wo, attn_out)  // 输出投影
+build_lora_mm(ffn_up, cur)   → ggml_mul_mat(ffn_up, cur)   // FFN up
+build_lora_mm(ffn_gate, cur) → ggml_mul_mat(ffn_gate, cur) // FFN gate
+build_lora_mm(ffn_down, cur) → ggml_mul_mat(ffn_down, cur) // FFN down
+```
+
+源码：`src/models/llama.cpp` 行 46-116
+
+`src0`（权重）是量化类型 → `type_traits_cpu[src0->type].vec_dot_type` 查表得到 Q8_K → `src1`（hidden state）被量化为 Q8。**每层 7 个线性层，每个都会触发一次。**
+
+**类型 2：Attention K×Q / V×KQ（默认不触发）**
+
+```
+src0 = K 或 V（来自 KV Cache，默认 F16）    src1 = Q 或 KQ（FP32/F16）
+
+ggml_mul_mat(k, q)     // K×Q attention score    （llama-graph.cpp 行 1798）
+ggml_mul_mat(v, kq)    // V×KQ attention output  （llama-graph.cpp 行 1842）
+```
+
+KV Cache 默认类型是 **F16**（`llama-context.cpp` 行 2792-2793），不是量化格式。`src0` 不是量化类型 → 不查 `type_traits_cpu` 量化表 → **不触发 Q8 激活量化**，直接走 FP 路径。
+
+> 用户可通过 `--cache-type-k q8_0` / `--cache-type-v q8_0` 将 KV Cache 设为量化格式，此时 Attention 的 matmul 也会触发激活量化。但这是用户主动选择，非默认行为。
+
+**总结：**
+
+| matmul 类型 | src0 | src1 | 触发 Q8 量化？ |
+|---|---|---|---|
+| 权重投影（QKV/FFN 等，每层 7 次） | Q4_K（量化权重） | FP32 hidden state | **是，每次都触发** |
+| Attention K×Q | F16（KV Cache，默认） | F16/FP32（Q 向量） | **否** |
+| Attention V×KQ | F16（KV Cache，默认） | FP32（attention weights） | **否** |
+
 ## 3. 三个后端的 matmul 计算精度
 
 ### 3.1 CPU
