@@ -1,0 +1,2830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Prism.js for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" id="prism-light" integrity="sha384-rCCjoCPCsizaAAYVoz1Q0CmCTvnctK0JkfCSjx7IIxexTBg+uCKtFYycedUjMyA2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" id="prism-dark" integrity="sha384-wFjoQjtV1y5jVHbt0p35Ui8aV8GVpEZkyF99OXWqP/eNJDU93D3Ugxkoyh6Y2I4A" crossorigin="anonymous" disabled>
+  <style>
+    :root {
+      --color-primary: #3b82f6;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-danger: #ef4444;
+      --color-text: #374151;
+      --color-text-muted: #6b7280;
+      --color-bg: #ffffff;
+      --color-bg-muted: #f9fafb;
+      --color-border: #e5e7eb;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-text: #f3f4f6;
+        --color-text-muted: #9ca3af;
+        --color-bg: #111827;
+        --color-bg-muted: #1f2937;
+        --color-border: #374151;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+      padding: 2rem;
+    }
+
+    .report {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Brand Header */
+    .brand-header {
+      background: var(--color-bg-muted);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-header .powered-by {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Paper Header */
+    .paper-header { margin-bottom: 1.5rem; }
+    .paper-header h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .paper-header .meta {
+      display: flex;
+      gap: 1rem;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      flex-wrap: wrap;
+    }
+    .paper-header .categories {
+      margin-top: 0.5rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .paper-header .category {
+      background: var(--color-bg-muted);
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+    }
+
+    /* Authors */
+    .authors { margin-bottom: 1rem; color: var(--color-text); }
+    .authors .affiliation { color: var(--color-text-muted); }
+
+    /* Section */
+    .section { margin-bottom: 1.5rem; }
+    .section h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--color-border);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+
+    /* Abstract */
+    .abstract {
+      color: var(--color-text);
+      text-align: justify;
+    }
+    .abstract mark {
+      background: #fef08a;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    /* Contribution List */
+    .contribution-list { list-style: decimal; padding-left: 1.5rem; }
+    .contribution-list li { margin-bottom: 0.75rem; }
+    .contribution-list .badge {
+      background: var(--color-primary);
+      color: white;
+      padding: 0.125rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      margin-right: 0.5rem;
+    }
+    .contribution-list .description { color: var(--color-text-muted); }
+
+    /* Method Overview */
+    .method-overview { display: flex; flex-direction: column; gap: 1rem; }
+    .method-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .method-step .number {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .method-step .content strong { display: block; }
+    .method-step .content p { margin: 0.25rem 0 0; color: var(--color-text-muted); }
+
+    /* Highlight */
+    .highlight {
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .highlight.quote { border-left: 4px solid var(--color-primary); background: #eff6ff; }
+    .highlight.important { border-left: 4px solid var(--color-warning); background: #fffbeb; }
+    .highlight.warning { border-left: 4px solid var(--color-danger); background: #fef2f2; }
+    .highlight.code { border-left: 4px solid var(--color-success); background: #ecfdf5; font-family: monospace; }
+    .highlight .source { margin-top: 0.5rem; font-size: 0.875rem; color: var(--color-text-muted); }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    .metric {
+      padding: 1rem;
+      background: var(--color-bg-muted);
+      border-radius: 8px;
+      text-align: center;
+    }
+    .metric .value {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .metric .value .suffix { font-size: 1rem; color: var(--color-text-muted); }
+    .metric .value .trend-up { color: var(--color-success); }
+    .metric .value .trend-down { color: var(--color-danger); }
+    .metric .label { color: var(--color-text-muted); font-size: 0.875rem; }
+
+    /* Link Group */
+    .link-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--color-primary);
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.875rem;
+    }
+    .link-button:hover { opacity: 0.9; }
+
+    /* Brand Footer */
+    .brand-footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    /* Card */
+    .card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .card.shadow { box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .card.padding-sm { padding: 0.5rem; }
+    .card.padding-md { padding: 1rem; }
+    .card.padding-lg { padding: 1.5rem; }
+
+    /* Figure / Image */
+    .figure {
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      border: 1px solid var(--color-border);
+    }
+    .figure .images {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .figure figcaption {
+      margin-top: 0.75rem;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+    .figure .label {
+      font-weight: bold;
+      color: var(--color-text);
+    }
+
+    .image {
+      margin: 1rem 0;
+      text-align: center;
+    }
+    .image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .image .caption {
+      margin-top: 0.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Formula (LaTeX) */
+    .formula {
+      margin: 1rem 0;
+      text-align: center;
+    }
+    .formula.block {
+      padding: 1rem;
+      background: var(--color-bg-muted);
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .formula .label {
+      float: right;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+    .formula code {
+      font-family: 'Computer Modern', 'Latin Modern Math', serif;
+      font-size: 1.1em;
+    }
+
+    /* Prose (Markdown) */
+    .prose {
+      line-height: 1.75;
+    }
+    .prose p { margin-bottom: 1rem; }
+    .prose h3 { margin: 1.5rem 0 0.75rem; font-size: 1.1rem; }
+    .prose h4 { margin: 1.25rem 0 0.5rem; font-size: 1rem; }
+    .prose ul, .prose ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose code {
+      background: var(--color-bg-muted);
+      padding: 0.125rem 0.375rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+    .prose pre,
+    .prose pre[class*="language-"] {
+      background: var(--color-bg-muted) !important;
+      padding: 1rem !important;
+      border-radius: 8px !important;
+      overflow-x: auto;
+      margin: 1rem 0 !important;
+      border: 1px solid var(--color-border);
+      white-space: pre-wrap !important;
+      word-break: break-word;
+    }
+    .prose pre code,
+    .prose code[class*="language-"] {
+      background: transparent !important;
+      padding: 0 !important;
+      border-radius: 0;
+      font-size: 0.875em;
+      line-height: 1.6;
+      display: block;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      text-shadow: none !important;
+      white-space: pre-wrap !important;
+      word-break: break-word;
+    }
+    .prose strong { font-weight: 600; }
+    .prose em { font-style: italic; }
+
+    /* Callout */
+    .callout {
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+      border-left: 4px solid;
+    }
+    .callout.info { border-color: var(--color-primary); background: #eff6ff; }
+    .callout.tip { border-color: var(--color-success); background: #ecfdf5; }
+    .callout.warning { border-color: var(--color-warning); background: #fffbeb; }
+    .callout.important { border-color: var(--color-danger); background: #fef2f2; }
+    .callout.note { border-color: #8b5cf6; background: #f5f3ff; }
+    @media (prefers-color-scheme: dark) {
+      .callout.info { background: #1e3a5f; }
+      .callout.tip { background: #1a3d2e; }
+      .callout.warning { background: #3d3219; }
+      .callout.important { background: #3d1f1f; }
+      .callout.note { background: #2d2350; }
+    }
+    .callout .callout-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .callout .callout-title::before {
+      content: 'ℹ️';
+    }
+    .callout.tip .callout-title::before { content: '💡'; }
+    .callout.warning .callout-title::before { content: '⚠️'; }
+    .callout.important .callout-title::before { content: '🔴'; }
+    .callout.note .callout-title::before { content: '📝'; }
+
+    /* Definition List */
+    .definition-list {
+      margin: 1rem 0;
+    }
+    .definition-list dl {
+      display: grid;
+      gap: 0.75rem;
+    }
+    .definition-list dt {
+      font-weight: bold;
+      color: var(--color-primary);
+    }
+    .definition-list dd {
+      margin-left: 1rem;
+      color: var(--color-text);
+    }
+
+    /* Theorem */
+    .theorem {
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      background: var(--color-bg-muted);
+      border-radius: 8px;
+      border-left: 4px solid var(--color-primary);
+    }
+    .theorem .theorem-header {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: var(--color-primary);
+    }
+    .theorem.lemma { border-color: #8b5cf6; }
+    .theorem.lemma .theorem-header { color: #8b5cf6; }
+    .theorem.proposition { border-color: var(--color-success); }
+    .theorem.proposition .theorem-header { color: var(--color-success); }
+    .theorem.definition { border-color: var(--color-warning); }
+    .theorem.definition .theorem-header { color: var(--color-warning); }
+
+    /* Algorithm */
+    .algorithm {
+      margin: 1.5rem 0;
+      background: var(--color-bg-muted);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .algorithm .algorithm-title {
+      background: var(--color-primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+    }
+    .algorithm .algorithm-body {
+      padding: 1rem;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.9rem;
+    }
+    .algorithm .line {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .algorithm .line-number {
+      color: var(--color-text-muted);
+      user-select: none;
+      width: 2rem;
+      text-align: right;
+    }
+    .algorithm .line-code {
+      flex: 1;
+    }
+    .algorithm .indent-1 { padding-left: 1.5rem; }
+    .algorithm .indent-2 { padding-left: 3rem; }
+    .algorithm .indent-3 { padding-left: 4.5rem; }
+    .algorithm .algorithm-caption {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* Results Table */
+    .results-table {
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    .results-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .results-table th,
+    .results-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .results-table th {
+      background: var(--color-bg-muted);
+      font-weight: bold;
+    }
+    .results-table th.highlight {
+      background: var(--color-primary);
+      color: white;
+    }
+    .results-table td.highlight {
+      background: #fef08a;
+      font-weight: bold;
+    }
+    @media (prefers-color-scheme: dark) {
+      .results-table td.highlight {
+        background: #854d0e;
+      }
+    }
+    .results-table caption {
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      text-align: left;
+    }
+
+    /* Code Block */
+    .code-block {
+      margin: 1rem 0;
+      background: #1f2937;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-block .code-title {
+      background: #111827;
+      color: #9ca3af;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      border-bottom: 1px solid #374151;
+    }
+    .code-block pre {
+      padding: 1rem;
+      overflow-x: auto;
+      color: #e5e7eb;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .code-block .line-numbers {
+      display: inline-block;
+      margin-right: 1rem;
+      color: #6b7280;
+      user-select: none;
+      text-align: right;
+    }
+
+    /* Table (generic) */
+    .table-wrapper {
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+    .table-wrapper table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table-wrapper th,
+    .table-wrapper td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .table-wrapper th {
+      background: var(--color-bg-muted);
+      font-weight: bold;
+    }
+    .table-wrapper.striped tr:nth-child(even) td {
+      background: var(--color-bg-muted);
+    }
+    .table-wrapper.compact th,
+    .table-wrapper.compact td {
+      padding: 0.375rem 0.5rem;
+    }
+
+    /* i18n language switching */
+    html[lang="en"] .i18n-zh { display: none; }
+    html[lang="zh"] .i18n-en { display: none; }
+
+    .lang-switcher {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      display: flex;
+      gap: 0;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .lang-switcher button {
+      padding: 0.375rem 0.75rem;
+      border: none;
+      background: var(--color-bg);
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+    .lang-switcher button:hover {
+      background: var(--color-bg-muted);
+    }
+    .lang-switcher button.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    /* Print styles */
+    @media print {
+      body { padding: 0; }
+      .link-group { display: none; }
+      .lang-switcher { display: none; }
+    }
+    /* Broken image fallback */
+    .image img[data-failed],
+    .figure img[data-failed] {
+      display: none;
+    }
+    .img-fallback {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-bg-muted);
+      border: 2px dashed var(--color-border);
+      border-radius: 8px;
+      padding: 2rem;
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+      min-height: 200px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    /* 2026 visual refresh */
+    :root {
+      --color-primary: #0f766e;
+      --color-primary-strong: #115e59;
+      --color-success: #059669;
+      --color-warning: #d97706;
+      --color-danger: #dc2626;
+      --color-text: #0f172a;
+      --color-text-muted: #475569;
+      --color-bg: #f3f6fb;
+      --color-bg-muted: #e9eef6;
+      --color-surface: #ffffff;
+      --color-surface-alt: #f8fbff;
+      --color-border: rgba(15, 23, 42, 0.12);
+      --color-highlight: #fef08a;
+      --color-shadow: rgba(15, 23, 42, 0.14);
+      --color-shadow-soft: rgba(15, 23, 42, 0.08);
+      --color-code-bg: #0f172a;
+      --color-code-surface: #111b2f;
+      --color-code-text: #dbe7ff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-primary: #22c1aa;
+        --color-primary-strong: #34d3bd;
+        --color-success: #34d399;
+        --color-warning: #fbbf24;
+        --color-danger: #f87171;
+        --color-text: #e5edf7;
+        --color-text-muted: #9db0c8;
+        --color-bg: #050912;
+        --color-bg-muted: #0f1727;
+        --color-surface: #0b1322;
+        --color-surface-alt: #101b30;
+        --color-border: rgba(148, 163, 184, 0.3);
+        --color-highlight: #854d0e;
+        --color-shadow: rgba(2, 6, 23, 0.62);
+        --color-shadow-soft: rgba(2, 6, 23, 0.42);
+        --color-code-bg: #020712;
+        --color-code-surface: #0d172c;
+        --color-code-text: #dbe7ff;
+      }
+    }
+
+    body {
+      font-family: 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
+      line-height: 1.68;
+      letter-spacing: 0.01em;
+      color: var(--color-text);
+      background:
+        radial-gradient(1200px 520px at 8% -14%, rgba(14, 165, 233, 0.2), transparent 60%),
+        radial-gradient(1000px 520px at 95% -10%, rgba(16, 185, 129, 0.18), transparent 58%),
+        var(--color-bg);
+      min-height: 100vh;
+      padding: clamp(1rem, 2vw, 2.5rem);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background:
+          radial-gradient(1200px 540px at 10% -14%, rgba(14, 165, 233, 0.14), transparent 64%),
+          radial-gradient(1000px 520px at 90% -8%, rgba(34, 197, 170, 0.14), transparent 62%),
+          var(--color-bg);
+      }
+    }
+
+    a {
+      color: var(--color-primary);
+      text-underline-offset: 0.14em;
+    }
+
+    a:hover {
+      color: var(--color-primary-strong);
+    }
+
+    .report {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: clamp(1.25rem, 2.4vw, 2.75rem);
+      background: linear-gradient(160deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+      border: 1px solid var(--color-border);
+      border-radius: 24px;
+      box-shadow: 0 30px 70px var(--color-shadow), 0 8px 24px var(--color-shadow-soft);
+    }
+
+    .brand-header {
+      background: linear-gradient(125deg, rgba(15, 118, 110, 0.12), rgba(14, 165, 233, 0.08));
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-header > span:first-child {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-header .powered-by {
+      color: var(--color-text-muted);
+      font-size: 0.84rem;
+    }
+
+    .paper-header {
+      margin-bottom: 1.6rem;
+    }
+
+    .paper-header h1 {
+      font-size: clamp(1.6rem, 2.6vw, 2.35rem);
+      line-height: 1.24;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+    }
+
+    .paper-header .meta {
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      font-size: 0.84rem;
+    }
+
+    .paper-header .meta span {
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      padding: 0.25rem 0.65rem;
+    }
+
+    .paper-header .categories,
+    .categories {
+      margin-top: 0.85rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .paper-header .category,
+    .categories .category {
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      padding: 0.2rem 0.62rem;
+      font-size: 0.75rem;
+      color: var(--color-text);
+      text-decoration: none;
+    }
+
+    .authors {
+      margin-bottom: 1.2rem;
+      color: var(--color-text);
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.72rem 0.9rem;
+    }
+
+    .section {
+      margin-bottom: 1.8rem;
+    }
+
+    .section h2 {
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 0.7rem;
+      margin-bottom: 1rem;
+      font-size: 1.08rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .section h2 > span:first-child {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.7rem;
+      height: 1.7rem;
+      border-radius: 999px;
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      font-size: 0.85rem;
+    }
+
+    .abstract {
+      color: var(--color-text);
+      font-size: 1.01rem;
+    }
+
+    .abstract mark {
+      background: var(--color-highlight);
+      border-radius: 4px;
+      padding: 0 0.2rem;
+    }
+
+    .contribution-list {
+      list-style: decimal;
+      padding-left: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .contribution-list li {
+      margin-bottom: 0;
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.8rem 0.95rem;
+    }
+
+    .contribution-list li::marker {
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+
+    .contribution-list .badge {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+      border-radius: 999px;
+      padding: 0.15rem 0.55rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .method-overview {
+      gap: 0.85rem;
+    }
+
+    .method-step {
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.75rem 0.9rem;
+    }
+
+    .method-step .number {
+      width: 1.9rem;
+      height: 1.9rem;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+      font-size: 0.84rem;
+      box-shadow: 0 6px 14px rgba(15, 118, 110, 0.22);
+    }
+
+    .highlight {
+      border-left: none;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      background: var(--color-bg-muted);
+    }
+
+    .highlight.quote {
+      background: rgba(14, 165, 233, 0.1);
+      border-color: rgba(14, 165, 233, 0.28);
+    }
+
+    .highlight.important {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .highlight.warning {
+      background: rgba(239, 68, 68, 0.11);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .highlight.code {
+      background: rgba(16, 185, 129, 0.11);
+      border-color: rgba(16, 185, 129, 0.32);
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    }
+
+    .metrics-grid {
+      margin: 1.1rem 0;
+      gap: 0.8rem;
+    }
+
+    .metric {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      padding: 1rem 0.8rem;
+      box-shadow: 0 8px 18px var(--color-shadow-soft);
+    }
+
+    .metric .value {
+      font-size: 1.68rem;
+      letter-spacing: -0.02em;
+      font-weight: 800;
+    }
+
+    .link-group {
+      gap: 0.6rem;
+      align-items: flex-start;
+      margin: 1rem 0;
+    }
+
+    .link-button {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 0.5rem 0.92rem;
+      font-weight: 600;
+      box-shadow: 0 10px 22px rgba(15, 118, 110, 0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    }
+
+    .link-button:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(15, 118, 110, 0.28);
+    }
+
+    .brand-footer {
+      margin-top: 2.2rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      font-size: 0.84rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .brand-footer p:first-child {
+      border: 1px solid var(--color-border);
+      background: var(--color-bg-muted);
+      border-radius: 10px;
+      padding: 0.55rem 0.72rem;
+      color: var(--color-text);
+    }
+
+    .grid {
+      gap: 0.85rem;
+    }
+
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+    }
+
+    .card.shadow {
+      box-shadow: 0 10px 26px var(--color-shadow-soft);
+    }
+
+    .figure img,
+    .image img {
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-alt);
+      box-shadow: 0 8px 20px var(--color-shadow-soft);
+    }
+
+    .figure .images {
+      gap: 0.85rem;
+    }
+
+    .figure figcaption,
+    .image .caption {
+      color: var(--color-text-muted);
+      font-size: 0.82rem;
+    }
+
+    .formula {
+      margin: 1.15rem 0;
+    }
+
+    .formula.block {
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+
+    .formula .label {
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+    }
+
+    .formula code {
+      font-size: 1.05rem;
+    }
+
+    .prose {
+      color: var(--color-text);
+      line-height: 1.8;
+    }
+
+    .prose code {
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+      background: var(--color-bg-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: 0.12rem 0.42rem;
+      font-size: 0.86em;
+    }
+
+    .prose pre,
+    .prose pre[class*="language-"] {
+      background: var(--color-bg-muted) !important;
+      padding: 1rem !important;
+      border-radius: 8px !important;
+      overflow-x: auto;
+      margin: 1rem 0 !important;
+      border: 1px solid var(--color-border);
+      white-space: pre-wrap !important;
+      word-break: break-word;
+    }
+
+    .prose pre code,
+    .prose code[class*="language-"] {
+      background: transparent !important;
+      padding: 0 !important;
+      border-radius: 0;
+      border: none;
+      font-size: 0.875em;
+      line-height: 1.6;
+      display: block;
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+      text-shadow: none !important;
+      white-space: pre-wrap !important;
+      word-break: break-word;
+    }
+
+    .callout {
+      border-left: none;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      background: var(--color-bg-muted);
+    }
+
+    .callout.info {
+      border-color: rgba(14, 165, 233, 0.3);
+      background: rgba(14, 165, 233, 0.1);
+    }
+
+    .callout.tip {
+      border-color: rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    .callout.warning {
+      border-color: rgba(245, 158, 11, 0.3);
+      background: rgba(245, 158, 11, 0.1);
+    }
+
+    .callout.important {
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .callout.note {
+      border-color: rgba(148, 163, 184, 0.45);
+      background: rgba(148, 163, 184, 0.14);
+    }
+
+    .definition-list dt {
+      color: var(--color-text);
+      font-weight: 700;
+    }
+
+    .definition-list dd {
+      margin-left: 0;
+      padding-left: 0.75rem;
+      border-left: 2px solid var(--color-border);
+      color: var(--color-text-muted);
+    }
+
+    .theorem {
+      border: 1px solid var(--color-border);
+      border-left: 4px solid var(--color-primary);
+      border-radius: 12px;
+      background: var(--color-bg-muted);
+      padding: 0.95rem 1.15rem;
+    }
+
+    .theorem .theorem-header {
+      color: var(--color-primary-strong);
+    }
+
+    .theorem.lemma {
+      border-left-color: #0284c7;
+    }
+
+    .theorem.lemma .theorem-header {
+      color: #0284c7;
+    }
+
+    .theorem.proposition {
+      border-left-color: var(--color-success);
+    }
+
+    .theorem.proposition .theorem-header {
+      color: var(--color-success);
+    }
+
+    .theorem.definition {
+      border-left-color: var(--color-warning);
+    }
+
+    .theorem.definition .theorem-header {
+      color: var(--color-warning);
+    }
+
+    .algorithm {
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--color-bg-muted);
+    }
+
+    .algorithm .algorithm-title {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+    }
+
+    .algorithm .algorithm-body {
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+      background: var(--color-surface);
+    }
+
+    .results-table,
+    .table-wrapper {
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      background: var(--color-surface);
+      overflow-x: auto;
+    }
+
+    .results-table table,
+    .table-wrapper table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+    }
+
+    .results-table th,
+    .results-table td,
+    .table-wrapper th,
+    .table-wrapper td {
+      border-bottom: 1px solid var(--color-border);
+      padding: 0.72rem 0.8rem;
+    }
+
+    .results-table th,
+    .table-wrapper th {
+      background: var(--color-bg-muted);
+      font-weight: 700;
+      font-size: 0.84rem;
+      letter-spacing: 0.01em;
+    }
+
+    .results-table td.highlight {
+      background: rgba(14, 165, 233, 0.16);
+    }
+
+    .results-table caption,
+    .table-wrapper caption {
+      display: block;
+      margin: 0.6rem 0 0.2rem;
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      padding-left: 0.15rem;
+      text-align: left;
+    }
+
+    .code-block {
+      background: var(--color-code-bg);
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      border-radius: 14px;
+      box-shadow: 0 16px 28px var(--color-shadow-soft);
+    }
+
+    .code-block .code-title {
+      background: var(--color-code-surface);
+      color: #b7c8e7;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+      font-weight: 600;
+    }
+
+    .code-block pre {
+      color: var(--color-code-text);
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.84rem;
+    }
+
+    .code-block .line-numbers {
+      color: #7487a6;
+    }
+
+    .lang-switcher {
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 26px var(--color-shadow-soft);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .lang-switcher {
+        background: rgba(11, 19, 34, 0.86);
+      }
+    }
+
+    .lang-switcher button {
+      border-radius: 999px;
+      background: transparent;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.34rem 0.72rem;
+      min-width: 2.65rem;
+      color: var(--color-text-muted);
+      transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .lang-switcher button:hover {
+      background: var(--color-bg-muted);
+      transform: translateY(-1px);
+    }
+
+    .lang-switcher button.active {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+      color: #ffffff;
+    }
+
+    .img-fallback {
+      border: 1px dashed var(--color-border);
+      border-radius: 12px;
+      background: var(--color-bg-muted);
+      color: var(--color-text-muted);
+    }
+
+    @media (max-width: 860px) {
+      body {
+        padding: 0.9rem;
+      }
+
+      .report {
+        border-radius: 18px;
+        padding: 1.05rem;
+      }
+
+      .lang-switcher {
+        position: sticky;
+        top: 0.6rem;
+        right: auto;
+        margin: 0 0 0.7rem auto;
+        width: max-content;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+
+      .grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .brand-header {
+        align-items: flex-start;
+      }
+
+      .paper-header .meta span {
+        width: 100%;
+      }
+
+      .link-group {
+        flex-direction: column;
+      }
+
+      .link-button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .method-step {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .results-table table,
+      .table-wrapper table {
+        min-width: 520px;
+      }
+    }
+
+    /* 2026 v2 editorial refresh */
+    :root {
+      --color-primary: #0b57d0;
+      --color-primary-strong: #003eaa;
+      --color-success: #1b8f5c;
+      --color-warning: #b16a1b;
+      --color-danger: #c23a3a;
+      --color-text: #10131a;
+      --color-text-muted: #565f6f;
+      --color-bg: #f3f3ef;
+      --color-bg-muted: #e9e9e2;
+      --color-surface: #fcfcf8;
+      --color-surface-alt: #f7f7f2;
+      --color-border: #d4d6cf;
+      --color-highlight: #f2dc72;
+      --color-shadow: rgba(16, 19, 26, 0.12);
+      --color-shadow-soft: rgba(16, 19, 26, 0.06);
+      --color-code-bg: #0c1220;
+      --color-code-surface: #121a2e;
+      --color-code-text: #dbe4ff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-primary: #8ab4ff;
+        --color-primary-strong: #aac7ff;
+        --color-success: #4ecb92;
+        --color-warning: #f2be6d;
+        --color-danger: #ff8b8b;
+        --color-text: #ebf0fb;
+        --color-text-muted: #9ea9be;
+        --color-bg: #0b0e13;
+        --color-bg-muted: #151a22;
+        --color-surface: #0f141d;
+        --color-surface-alt: #141b26;
+        --color-border: #2a313d;
+        --color-highlight: #6b5316;
+        --color-shadow: rgba(0, 0, 0, 0.55);
+        --color-shadow-soft: rgba(0, 0, 0, 0.35);
+        --color-code-bg: #040913;
+        --color-code-surface: #0c1424;
+        --color-code-text: #dbe4ff;
+      }
+    }
+
+    body {
+      font-family: 'Space Grotesk', 'Avenir Next', 'Segoe UI', sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0.005em;
+      background: var(--color-bg);
+      padding: clamp(1rem, 2.3vw, 2.8rem);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(16, 19, 26, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 19, 26, 0.03) 1px, transparent 1px);
+      background-size: 36px 36px;
+      opacity: 0.35;
+      z-index: 0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body::before {
+        background-image:
+          linear-gradient(rgba(235, 240, 251, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(235, 240, 251, 0.04) 1px, transparent 1px);
+        opacity: 0.22;
+      }
+    }
+
+    .report {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      padding: clamp(1.3rem, 2.5vw, 2.9rem);
+      border-radius: 14px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      box-shadow: 0 22px 50px var(--color-shadow);
+    }
+
+    .brand-header {
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      background: var(--color-surface-alt);
+      padding: 0.75rem 0.85rem;
+    }
+
+    .brand-header > span:first-child {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.73rem;
+      letter-spacing: 0.06em;
+      text-transform: none;
+      border-radius: 6px;
+      padding: 0.2rem 0.46rem;
+      background: transparent;
+    }
+
+    .brand-header .powered-by {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-header .powered-by a,
+    .brand-header .powered-by a:visited {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .brand-header .powered-by a:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.14em;
+    }
+
+    .paper-header h1 {
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1.16;
+      letter-spacing: -0.03em;
+      max-width: 20ch;
+    }
+
+    .paper-header .meta span {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.72rem;
+      border-radius: 6px;
+    }
+
+    .paper-header .categories,
+    .categories {
+      gap: 0.4rem;
+    }
+
+    .paper-header .category,
+    .categories .category {
+      border-radius: 6px;
+      padding: 0.19rem 0.45rem;
+      font-size: 0.7rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      letter-spacing: 0.02em;
+    }
+
+    .authors {
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+
+    .section h2 {
+      border-bottom: none;
+      font-size: 0.76rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      gap: 0.55rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .section h2::after {
+      content: '';
+      flex: 1 1 auto;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    .section h2 > span:first-child {
+      width: auto;
+      height: auto;
+      min-width: 1.7rem;
+      border-radius: 6px;
+      padding: 0.16rem 0.36rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.66rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid var(--color-border);
+    }
+
+    .contribution-list {
+      list-style: none;
+      padding-left: 0;
+      counter-reset: contribution;
+      gap: 0;
+    }
+
+    .contribution-list li {
+      position: relative;
+      counter-increment: contribution;
+      border: none;
+      border-bottom: 1px dashed var(--color-border);
+      border-radius: 0;
+      background: transparent;
+      padding: 0.86rem 0.1rem 0.9rem 2.5rem;
+    }
+
+    .contribution-list li::before {
+      content: counter(contribution, decimal-leading-zero);
+      position: absolute;
+      left: 0;
+      top: 0.88rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.75rem;
+      color: var(--color-primary);
+      letter-spacing: 0.04em;
+    }
+
+    .contribution-list li::marker {
+      content: '';
+    }
+
+    .contribution-list .badge {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      border-radius: 5px;
+      padding: 0.1rem 0.38rem;
+      font-size: 0.66rem;
+      box-shadow: none;
+    }
+
+    .method-step {
+      border: none;
+      border-left: 2px solid var(--color-border);
+      border-radius: 0;
+      background: transparent;
+      padding: 0.28rem 0 0.4rem 0.85rem;
+      gap: 0.7rem;
+    }
+
+    .method-step .number {
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 6px;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.72rem;
+      box-shadow: none;
+    }
+
+    .highlight,
+    .callout,
+    .theorem,
+    .authors {
+      border-radius: 10px;
+    }
+
+    .highlight,
+    .callout {
+      border-left: 1px solid var(--color-border);
+    }
+
+    .highlight.code,
+    .prose code,
+    .formula code,
+    .algorithm .algorithm-body,
+    .algorithm .line-number,
+    .algorithm .line-code,
+    .code-block pre,
+    .code-block .line-numbers,
+    .definition-list dt,
+    .definition-list dd {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+    }
+
+    .metrics-grid {
+      gap: 0.55rem;
+    }
+
+    .metric {
+      border-radius: 8px;
+      box-shadow: none;
+      padding: 0.82rem 0.64rem;
+    }
+
+    .metric .value {
+      font-size: 1.55rem;
+    }
+
+    .metric .label {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .link-button {
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: transparent;
+      color: var(--color-text);
+      box-shadow: none;
+      font-size: 0.8rem;
+      padding: 0.5rem 0.72rem;
+      font-weight: 600;
+    }
+
+    .link-button:hover {
+      transform: translateY(-1px);
+      background: var(--color-primary);
+      color: #ffffff;
+      border-color: var(--color-primary);
+      box-shadow: none;
+    }
+
+    .brand-footer {
+      border-top: 1px dashed var(--color-border);
+      gap: 0.35rem;
+    }
+
+    .brand-footer p:first-child {
+      border-style: dashed;
+      background: transparent;
+    }
+
+    .card,
+    .results-table,
+    .table-wrapper,
+    .figure img,
+    .image img,
+    .formula.block,
+    .algorithm,
+    .code-block,
+    .img-fallback {
+      border-radius: 10px;
+    }
+
+    .code-block {
+      box-shadow: none;
+    }
+
+    .code-block .code-title {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .lang-switcher {
+      border-radius: 9px;
+      padding: 1px;
+      gap: 1px;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .lang-switcher button {
+      border-radius: 7px;
+      min-width: 2.45rem;
+      font-size: 0.72rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      letter-spacing: 0.03em;
+      transform: none;
+    }
+
+    .lang-switcher button:hover {
+      transform: none;
+    }
+
+    .lang-switcher button.active {
+      background: var(--color-text);
+      color: var(--color-surface);
+    }
+
+    .callout .callout-title::before {
+      content: '';
+      display: none;
+    }
+
+    @media (max-width: 860px) {
+      body {
+        padding: 0.85rem;
+      }
+
+      .report {
+        border-radius: 10px;
+        padding: 1.05rem;
+      }
+
+      .lang-switcher {
+        position: sticky;
+        top: 0.52rem;
+        margin-bottom: 0.7rem;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .paper-header h1 {
+        max-width: none;
+      }
+
+      .section h2 {
+        letter-spacing: 0.12em;
+      }
+
+      .results-table table,
+      .table-wrapper table {
+        min-width: 500px;
+      }
+    }
+
+    /* 2026 v4 wireframe style */
+    :root {
+      --color-primary: #ff4020;
+      --color-primary-strong: #ff4020;
+      --color-success: #2db37a;
+      --color-warning: #d08b3a;
+      --color-danger: #d65b5b;
+      --color-text: #f2f3f5;
+      --color-text-muted: #9ea3ad;
+      --color-bg: #050608;
+      --color-bg-muted: #0a0d12;
+      --color-surface: #050608;
+      --color-surface-alt: #050608;
+      --color-border: rgba(255, 255, 255, 0.14);
+      --color-highlight: rgba(255, 208, 97, 0.28);
+      --color-shadow: transparent;
+      --color-shadow-soft: transparent;
+      --color-code-bg: #070b14;
+      --color-code-surface: #0d1220;
+      --color-code-text: #d8e2ff;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --color-primary: #e5371a;
+        --color-primary-strong: #e5371a;
+        --color-success: #1b8f5c;
+        --color-warning: #a96a24;
+        --color-danger: #bf4444;
+        --color-text: #151820;
+        --color-text-muted: #5f6572;
+        --color-bg: #f6f7f9;
+        --color-bg-muted: #eceef2;
+        --color-surface: #f6f7f9;
+        --color-surface-alt: #f6f7f9;
+        --color-border: rgba(21, 24, 32, 0.18);
+        --color-highlight: rgba(229, 55, 26, 0.16);
+        --color-code-bg: #101724;
+        --color-code-surface: #161f2f;
+        --color-code-text: #e1ebff;
+      }
+    }
+
+    body {
+      font-family: 'Space Grotesk', 'Avenir Next', 'Segoe UI', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      display: none;
+    }
+
+    .report {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .brand-header {
+      margin: 0;
+      min-height: 68px;
+      padding: 0.9rem clamp(1rem, 10vw, 180px);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      border-left: none;
+      border-right: none;
+      border-radius: 0;
+      background: transparent;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: nowrap;
+    }
+
+    .brand-header > span:first-child {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      background: transparent;
+    }
+
+    .brand-header > span:first-child::before {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: var(--color-primary);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .brand-header .powered-by {
+      font-size: 0.8rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      letter-spacing: 0.02em;
+      color: var(--color-text-muted);
+    }
+
+    .fallback-lang-row {
+      margin: 0;
+      padding: 0.9rem clamp(1rem, 10vw, 180px);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      background: transparent;
+    }
+
+    .fallback-lang-row .lang-switcher {
+      margin-left: 0;
+    }
+
+    .report-hero {
+      margin: 0;
+      padding: clamp(1.2rem, 3.8vw, 3rem) clamp(1rem, 10vw, 180px);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      background: transparent;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      padding: 0.32rem 0.74rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      background: transparent;
+    }
+
+    .hero-chip-primary {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #ffffff;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(2.2rem, 6.3vw, 5.4rem);
+      line-height: 0.97;
+      letter-spacing: -0.04em;
+      max-width: 16ch;
+    }
+
+    .hero-subtitle {
+      margin-top: 1rem;
+      max-width: 58ch;
+      color: var(--color-text-muted);
+      font-size: 1.02rem;
+      line-height: 1.58;
+    }
+
+    .section {
+      margin: 0;
+      padding: clamp(1.25rem, 4vw, 3.2rem) clamp(1rem, 10vw, 180px);
+      border-top: 1px solid var(--color-border);
+      border-radius: 0;
+    }
+
+    .section:last-of-type {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .section h2 {
+      margin-bottom: 1.25rem;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      gap: 0.6rem;
+    }
+
+    .section h2::after {
+      display: none;
+    }
+
+    .section h2 > span:first-child {
+      width: auto;
+      height: auto;
+      min-width: 1.8rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      padding: 0.13rem 0.35rem;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.66rem;
+      background: transparent;
+      text-transform: uppercase;
+    }
+
+    .paper-header,
+    .authors,
+    .highlight,
+    .callout,
+    .metric,
+    .card,
+    .table-wrapper,
+    .results-table,
+    .formula.block,
+    .algorithm,
+    .code-block,
+    .img-fallback,
+    .brand-footer p:first-child,
+    .paper-header .meta span,
+    .paper-header .category,
+    .categories .category,
+    .link-button,
+    .lang-switcher,
+    .lang-switcher button {
+      border-radius: 0;
+    }
+
+    .paper-header {
+      margin: 0;
+      padding: clamp(1.8rem, 5vw, 3.8rem) clamp(1rem, 10vw, 180px);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      background: transparent;
+    }
+
+    .paper-header h1 {
+      font-size: clamp(2.15rem, 5.8vw, 5.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      margin-bottom: 1rem;
+      max-width: 16ch;
+    }
+
+    .paper-header .meta span,
+    .paper-header .category,
+    .categories .category {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.03em;
+    }
+
+    .contribution-list li,
+    .method-step,
+    .metric,
+    .callout,
+    .highlight,
+    .authors,
+    .definition-list dd,
+    .theorem,
+    .algorithm,
+    .table-wrapper,
+    .results-table {
+      border-color: var(--color-border);
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .contribution-list li {
+      border-left: 1px solid var(--color-border);
+      padding-left: 2.2rem;
+    }
+
+    .metric .label,
+    .algorithm .algorithm-title,
+    .code-block .code-title {
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+    }
+
+    .link-button {
+      background: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      box-shadow: none;
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .link-button:hover {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #ffffff;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .brand-footer {
+      margin: 0;
+      padding: 1.4rem clamp(1rem, 10vw, 180px) 3.4rem;
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      font-size: 0.82rem;
+      gap: 0.45rem;
+    }
+
+    .brand-footer p:first-child {
+      border-style: solid;
+      background: transparent;
+      padding: 0.6rem 0.75rem;
+    }
+
+    .lang-switcher {
+      position: static;
+      top: auto;
+      right: auto;
+      z-index: auto;
+      margin-left: auto;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      padding: 0;
+      gap: 0.9rem;
+    }
+
+    .lang-switcher button {
+      border: none;
+      padding: 0;
+      min-width: 0;
+      background: transparent;
+      color: var(--color-text-muted);
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+    }
+
+    .lang-switcher button:hover {
+      transform: none;
+      background: transparent;
+      color: var(--color-text);
+    }
+
+    .lang-switcher button.active {
+      background: transparent;
+      color: var(--color-text);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+
+    .corner-powered {
+      position: fixed;
+      right: clamp(0.8rem, 2vw, 1.4rem);
+      bottom: clamp(0.8rem, 2vw, 1.35rem);
+      z-index: 1200;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.12rem;
+      min-width: 160px;
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      background: rgba(10, 13, 18, 0.72);
+      padding: 0.7rem 0.78rem;
+      color: var(--color-text-muted);
+      font-family: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+      font-size: 0.72rem;
+      text-decoration: none;
+    }
+
+    .corner-powered strong {
+      color: var(--color-text);
+      font-family: 'Space Grotesk', 'Avenir Next', 'Segoe UI', sans-serif;
+      font-size: 0.98rem;
+      line-height: 1.12;
+      letter-spacing: 0.01em;
+    }
+
+    .corner-powered:hover {
+      border-color: var(--color-primary);
+      color: var(--color-text);
+    }
+
+    @media (prefers-color-scheme: light) {
+      .corner-powered {
+        background: rgba(246, 247, 249, 0.9);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .brand-header,
+      .fallback-lang-row,
+      .section,
+      .paper-header,
+      .brand-footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .lang-switcher {
+        margin-left: auto;
+      }
+
+      .corner-powered {
+        right: 0.7rem;
+        bottom: 0.7rem;
+        min-width: 136px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .paper-header h1 {
+        font-size: clamp(1.85rem, 11vw, 2.8rem);
+        line-height: 1.02;
+      }
+
+      .hero-chip {
+        min-height: 30px;
+        padding: 0.26rem 0.56rem;
+        font-size: 0.66rem;
+      }
+
+      .hero-title {
+        font-size: clamp(1.85rem, 11vw, 2.8rem);
+        line-height: 1.02;
+      }
+
+      .section {
+        padding-top: 1rem;
+        padding-bottom: 1.35rem;
+      }
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        background: #ffffff;
+      }
+
+      .report {
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+        background: #ffffff;
+      }
+
+      .corner-powered {
+        display: none;
+      }
+
+      .fallback-lang-row {
+        display: none;
+      }
+    }
+  </style>
+  <!-- KaTeX for LaTeX rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Render LaTeX formulas with KaTeX
+      document.querySelectorAll('.formula[data-latex]').forEach(function(el) {
+        var latex = el.getAttribute('data-latex');
+        var isBlock = el.classList.contains('block');
+        var label = el.querySelector('.label');
+        try {
+          var rendered = katex.renderToString(latex, {
+            displayMode: isBlock,
+            throwOnError: false,
+            trust: true,
+          });
+          var container = el.querySelector('.formula-content');
+          if (container) container.innerHTML = rendered;
+        } catch(e) {
+          // Keep raw LaTeX on error
+        }
+      });
+
+      // i18n language switcher
+      (function() {
+        var saved = localStorage.getItem('json-ui-lang');
+        if (saved && (saved === 'en' || saved === 'zh')) {
+          document.documentElement.lang = saved;
+        }
+        var buttons = document.querySelectorAll('.lang-switcher button');
+        function updateActive() {
+          var lang = document.documentElement.lang || 'en';
+          buttons.forEach(function(btn) {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+          });
+        }
+        buttons.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var lang = btn.getAttribute('data-lang');
+            document.documentElement.lang = lang;
+            localStorage.setItem('json-ui-lang', lang);
+            updateActive();
+          });
+        });
+        updateActive();
+      })();
+
+      // Handle broken images
+      document.querySelectorAll('.image img, .figure img').forEach(function(img) {
+        img.addEventListener('error', function() {
+          img.setAttribute('data-failed', 'true');
+          var fallback = document.createElement('div');
+          fallback.className = 'img-fallback';
+          fallback.textContent = 'Image: ' + (img.alt || 'unavailable');
+          img.parentNode.insertBefore(fallback, img.nextSibling);
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <article class="report">
+    <div class="brand-header">
+        <span>ACTIVE_RESEARCH_REPORT.ARX</span>
+        <div class="lang-switcher">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="zh">中文</button>
+  </div>
+      </div>
+<section class="report-hero">
+    <div class="hero-meta"><span class="hero-chip hero-chip-primary">ACTIVE RESEARCH</span><span class="hero-chip">MAR 10, 2026</span></div>
+    <h1 class="hero-title"><span class="i18n-en">100+ arXiv papers</span><span class="i18n-zh">100+ 篇论文</span></h1>
+    
+  </section>
+<section class="section">
+        <h2><span>::</span><span class="i18n-en">MoE (Mixture of Experts) Research Landscape: 2026/02/10 – 2026/03/10</span><span class="i18n-zh">MoE（混合专家）研究全景：2026/02/10 – 2026/03/10</span></h2>
+        <div class="prose"><p><span class="i18n-en">This report surveys <strong>100+ arXiv papers</strong> related to Mixture of Experts (MoE) published or updated between February 10 and March 10, 2026. After deduplication, we identified <strong>~90 unique papers</strong> spanning CS subfields. The MoE landscape during this period shows explosive growth across multiple dimensions: <strong>architecture design</strong>, <strong>systems infrastructure</strong>, <strong>compression &amp; efficiency</strong>, <strong>LoRA/PEFT integration</strong>, <strong>theoretical analysis</strong>, and <strong>domain-specific applications</strong> (vision, robotics, NLP, healthcare, etc.).</p><p>Notable highlights include <strong>8 ICLR 2026 papers</strong> (1 Oral), <strong>4 CVPR 2026 papers</strong>, <strong>1 ASPLOS 2026 paper</strong>, and an 88-page NVIDIA technical report on Megatron Core MoE training. The field is clearly maturing from research exploration into production-ready infrastructure.</span><span class="i18n-zh">本报告调研了 2026 年 2 月 10 日至 3 月 10 日期间 arXiv 上与 Mixture of Experts（MoE）相关的 <strong>100+ 篇论文</strong>。去重后共计约 <strong>90 篇独立论文</strong>，覆盖 CS 多个子领域。这一时期的 MoE 研究呈现爆发式增长，涵盖<strong>架构设计</strong>、<strong>系统基础设施</strong>、<strong>压缩与加速</strong>、<strong>LoRA/PEFT 融合</strong>、<strong>理论分析</strong>以及<strong>垂直领域应用</strong>（视觉、机器人、NLP、医疗等）。</p><p>值得关注的亮点包括：<strong>8 篇 ICLR 2026 论文</strong>（含 1 篇 Oral）、<strong>4 篇 CVPR 2026 论文</strong>、<strong>1 篇 ASPLOS 2026 论文</strong>，以及 NVIDIA 发布的 88 页 Megatron Core MoE 训练技术报告。MoE 正从学术探索阶段加速迈向生产级基础设施。</span></p></div>
+<div class="metrics-grid" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="metric">
+          
+          <div class="value">
+            ~90
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">Total Papers</span><span class="i18n-zh">论文总数</span></div>
+        </div><div class="metric">
+          
+          <div class="value">
+            8<span class="suffix">papers</span>
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">ICLR 2026</span><span class="i18n-zh">ICLR 2026</span></div>
+        </div><div class="metric">
+          
+          <div class="value">
+            4<span class="suffix">papers</span>
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">CVPR 2026</span><span class="i18n-zh">CVPR 2026</span></div>
+        </div><div class="metric">
+          
+          <div class="value">
+            4<span class="suffix">papers</span>
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">ASPLOS/DAC/NSDI</span><span class="i18n-zh">系统顶会</span></div>
+        </div><div class="metric">
+          
+          <div class="value">
+            4<span class="suffix">papers</span>
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">ICML/NeurIPS</span><span class="i18n-zh">ICML/NeurIPS</span></div>
+        </div><div class="metric">
+          
+          <div class="value">
+            2
+            
+            
+          </div>
+          <div class="label"><span class="i18n-en">Industry Reports</span><span class="i18n-zh">产业报告</span></div>
+        </div>
+      </div>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">Research Themes Overview</span><span class="i18n-zh">研究主题总览</span></h2>
+        <ol class="contribution-list">
+        <li>
+          <span class="badge"><span class="i18n-en">Theme 1</span><span class="i18n-zh">主题 1</span></span>
+          <strong><span class="i18n-en">MoE Architecture &amp; Routing Innovation</span><span class="i18n-zh">MoE 架构与路由机制创新</span></strong>
+          <span class="description"> — <span class="i18n-en">~15 papers on expert specialization, routing strategies, scaling dimensions, and dense-to-MoE conversion.</span><span class="i18n-zh">约 15 篇论文，聚焦专家特化、路由策略、扩展维度及 Dense-to-MoE 转化。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Theme 2</span><span class="i18n-zh">主题 2</span></span>
+          <strong><span class="i18n-en">Systems &amp; Infrastructure for MoE Training/Serving</span><span class="i18n-zh">MoE 训练与推理系统基础设施</span></strong>
+          <span class="description"> — <span class="i18n-en">~18 papers covering distributed training, inference optimization, hardware co-design, fault tolerance, and scheduling.</span><span class="i18n-zh">约 18 篇论文，涵盖分布式训练、推理优化、软硬件协同设计、容错和调度。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Theme 3</span><span class="i18n-zh">主题 3</span></span>
+          <strong><span class="i18n-en">MoE Compression, Pruning &amp; Quantization</span><span class="i18n-zh">MoE 压缩、剪枝与量化</span></strong>
+          <span class="description"> — <span class="i18n-en">~12 papers on expert pruning, merging, quantization, speculative decoding, and KV cache management.</span><span class="i18n-zh">约 12 篇论文，涉及专家剪枝、合并、量化、投机解码和 KV 缓存管理。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Theme 4</span><span class="i18n-zh">主题 4</span></span>
+          <strong><span class="i18n-en">MoE + LoRA / Parameter-Efficient Fine-Tuning</span><span class="i18n-zh">MoE 与 LoRA / 参数高效微调</span></strong>
+          <span class="description"> — <span class="i18n-en">~8 papers integrating MoE with LoRA for efficient downstream adaptation.</span><span class="i18n-zh">约 8 篇论文，将 MoE 与 LoRA 结合实现高效下游任务适配。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Theme 5</span><span class="i18n-zh">主题 5</span></span>
+          <strong><span class="i18n-en">MoE Theory &amp; Interpretability</span><span class="i18n-zh">MoE 理论与可解释性</span></strong>
+          <span class="description"> — <span class="i18n-en">~10 papers on expressive power, geometric analysis, hyperparameter transfer, and mechanistic interpretability.</span><span class="i18n-zh">约 10 篇论文，涉及表达能力、几何分析、超参迁移和机制可解释性。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Theme 6</span><span class="i18n-zh">主题 6</span></span>
+          <strong><span class="i18n-en">Domain Applications (Vision, Robotics, Healthcare, etc.)</span><span class="i18n-zh">垂直领域应用（视觉、机器人、医疗等）</span></strong>
+          <span class="description"> — <span class="i18n-en">~25 papers applying MoE to autonomous driving, medical imaging, 3D vision, recommendation, speech, robotics, and more.</span><span class="i18n-zh">约 25 篇论文，将 MoE 应用于自动驾驶、医学影像、3D 视觉、推荐系统、语音、机器人等领域。</span></span>
+        </li>
+      </ol>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">Theme 1: Architecture &amp; Routing Innovation</span><span class="i18n-zh">主题一：架构与路由机制创新</span></h2>
+        <div class="prose"><p><span class="i18n-en">This period saw significant advances in MoE architecture design, with a strong focus on <strong>expert specialization</strong> and <strong>novel routing strategies</strong>.</span><span class="i18n-zh">这段时期 MoE 架构设计取得显著进展，重点方向集中在<strong>专家特化</strong>和<strong>新型路由策略</strong>。</span></p></div>
+<div class="table-wrapper striped compact">
+        
+        <table>
+          <thead>
+            <tr>
+              <th><span class="i18n-en">Paper</span><span class="i18n-zh">论文</span></th><th><span class="i18n-en">Venue</span><span class="i18n-zh">发表</span></th><th><span class="i18n-en">Key Idea</span><span class="i18n-zh">核心思路</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>ERC Loss (2512.23447)</td><td>ICLR 2026 Oral</td><td>Auxiliary loss coupling router decisions with expert capabilities / 辅助损失耦合路由决策与专家能力</td>
+              </tr>
+            
+              <tr>
+                <td>MoUE (2603.04971)</td><td>Preprint</td><td>Virtual Width: reuse universal expert pool across layers / 虚拟宽度：跨层复用通用专家池</td>
+              </tr>
+            
+              <tr>
+                <td>DynaMoE (2603.01697)</td><td>Preprint</td><td>Dynamic token-level K selection + layer-wise adaptive capacity / 动态 token 级 K 选择 + 逐层自适应容量</td>
+              </tr>
+            
+              <tr>
+                <td>Expert Divergence Learning (2603.00054)</td><td>ICLR 2026</td><td>Pre-training strategy for explicit expert functional specialization / 预训练阶段显式促进专家功能分化</td>
+              </tr>
+            
+              <tr>
+                <td>Grouter (2603.06626)</td><td>Preprint</td><td>Decouple routing from representation for faster convergence / 路由与表征解耦加速收敛</td>
+              </tr>
+            
+              <tr>
+                <td>GrMoE (2602.17798)</td><td>Preprint</td><td>Routing on Grassmannian manifold with Matrix Bingham distributions / 基于 Grassmann 流形的路由机制</td>
+              </tr>
+            
+              <tr>
+                <td>SD-MoE (2602.12556)</td><td>Preprint</td><td>Spectral decomposition for effective expert specialization / 谱分解促进专家特化</td>
+              </tr>
+            
+              <tr>
+                <td>Synergistic Losses (2602.14159)</td><td>Preprint</td><td>Intra- and cross-layer regularization for MoE specialization / 层内与跨层正则化促进专家分化</td>
+              </tr>
+            
+              <tr>
+                <td>ExpertWeaver (2602.15521)</td><td>Preprint</td><td>Convert dense LLMs to MoE via GLU activation patterns / 利用 GLU 激活模式将 Dense 模型转为 MoE</td>
+              </tr>
+            
+              <tr>
+                <td>Routing Matters for DiTs (2510.24711)</td><td>ICLR 2026</td><td>Explicit routing guidance for scaling Diffusion Transformers / 显式路由引导扩展扩散 Transformer</td>
+              </tr>
+            
+              <tr>
+                <td>Multilingual Routing (2510.04694)</td><td>ICLR 2026</td><td>Language-specific routing patterns in early/late layers / 早期和晚期层呈现语言特定路由模式</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+<div class="callout important">
+        <div class="callout-title"><span class="i18n-en">Spotlight: ERC Loss (ICLR 2026 Oral)</span><span class="i18n-zh">重点关注：ERC Loss（ICLR 2026 Oral）</span></div>
+        <div><span class="i18n-en">The Expert-Router Coupling (ERC) loss proposes a lightweight auxiliary loss that ensures router embeddings faithfully represent expert capabilities. Key innovation: operates on only n² activations (n = number of experts), making it independent of batch size. Demonstrated effectiveness on 3B–15B parameter MoE-LLMs trained on trillions of tokens. This represents a shift from architectural changes to training-objective-level solutions for expert specialization.</span><span class="i18n-zh">ERC Loss 提出了一种轻量辅助损失，确保路由嵌入忠实反映专家能力。核心创新：仅对 n² 个激活值操作（n 为专家数），计算量与 batch 大小无关。在 3B 到 15B 参数的 MoE-LLM 上验证了有效性。这标志着专家特化方案从架构层面改动转向训练目标层面优化。</span></div>
+      </div>
+      </section>
+<section class="section">
+        <h2><span>&lt;/&gt;</span><span class="i18n-en">Theme 2: Systems &amp; Infrastructure</span><span class="i18n-zh">主题二：系统与基础设施</span></h2>
+        <div class="prose"><p><span class="i18n-en">MoE systems research is booming, driven by the deployment needs of models like DeepSeek-V3 and Qwen3. This period produced an unprecedented volume of work on <strong>distributed training</strong>, <strong>inference serving</strong>, <strong>hardware co-design</strong>, and <strong>fault tolerance</strong>.</span><span class="i18n-zh">受 DeepSeek-V3、Qwen3 等模型的部署需求驱动，MoE 系统研究迎来爆发。这段时期在<strong>分布式训练</strong>、<strong>推理服务</strong>、<strong>软硬件协同设计</strong>和<strong>容错</strong>方向产出了大量高质量工作。</span></p></div>
+<div class="table-wrapper striped compact">
+        
+        <table>
+          <thead>
+            <tr>
+              <th><span class="i18n-en">Paper</span><span class="i18n-zh">论文</span></th><th><span class="i18n-en">Venue</span><span class="i18n-zh">发表</span></th><th><span class="i18n-en">Focus</span><span class="i18n-zh">方向</span></th><th><span class="i18n-en">Key Contribution</span><span class="i18n-zh">核心贡献</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>Megatron Core MoE (2603.07685)</td><td>NVIDIA Report</td><td>Training / 训练</td><td>88-page comprehensive guide; 1233 TFLOPS/GPU on GB300 for DeepSeek-V3 / 88页技术报告；GB300上DeepSeek-V3达1233 TFLOPS/GPU</td>
+              </tr>
+            
+              <tr>
+                <td>MoE Parallel Folding (2504.14960)</td><td>Preprint</td><td>Training / 训练</td><td>Heterogeneous parallelism mappings in Megatron Core / Megatron Core中异构并行映射</td>
+              </tr>
+            
+              <tr>
+                <td>LAER-MoE (2602.11686)</td><td>ASPLOS 2026</td><td>Training / 训练</td><td>Load-adaptive expert re-layout to fix training imbalance / 负载自适应专家重排解决训练不均衡</td>
+              </tr>
+            
+              <tr>
+                <td>Mozart (2603.07006)</td><td>NeurIPS 2025</td><td>Hardware / 硬件</td><td>3.5D wafer-scale chiplet architecture for MoE / 面向MoE的3.5D晶圆级chiplet架构</td>
+              </tr>
+            
+              <tr>
+                <td>Practical FP4 (2603.02731)</td><td>Preprint</td><td>Training / 训练</td><td>MXFP4 training recipe for MoE on Hopper GPUs / Hopper GPU上MoE的FP4训练方案</td>
+              </tr>
+            
+              <tr>
+                <td>Sparse Checkpointing (2412.15411)</td><td>NSDI 2026</td><td>Fault Tolerance / 容错</td><td>Exploit MoE sparsity for fast, low-overhead checkpointing / 利用MoE稀疏性实现快速低开销检查点</td>
+              </tr>
+            
+              <tr>
+                <td>ReviveMoE (2602.21140)</td><td>Preprint</td><td>Fault Tolerance / 容错</td><td>Fast recovery from hardware failures in MoE inference / MoE推理中硬件故障的快速恢复</td>
+              </tr>
+            
+              <tr>
+                <td>MoEless (2603.06350)</td><td>Preprint</td><td>Serving / 推理服务</td><td>Serverless computing for MoE LLM serving / 基于Serverless的MoE LLM推理服务</td>
+              </tr>
+            
+              <tr>
+                <td>Semantic Parallelism (2503.04398)</td><td>ICLR 2026</td><td>Serving / 推理服务</td><td>Model-data co-scheduling to avoid all-to-all comm / 模型-数据协同调度消除all-to-all通信</td>
+              </tr>
+            
+              <tr>
+                <td>TriMoE (2603.01058)</td><td>DAC 2026</td><td>Inference / 推理</td><td>GPU + AMX-CPU + DIMM-NDP heterogeneous offloading / GPU+AMX CPU+DIMM-NDP异构卸载</td>
+              </tr>
+            
+              <tr>
+                <td>Multi-Layer Scheduling (2602.21626)</td><td>Preprint</td><td>Serving / 推理服务</td><td>Multi-layer scheduling for MoE reasoning / 面向MoE推理的多层调度</td>
+              </tr>
+            
+              <tr>
+                <td>AFD Analysis (2602.09721)</td><td>Preprint</td><td>Serving / 推理服务</td><td>Analysis of Attention-FFN Disaggregation for MoE / 分析MoE中Attention-FFN解耦部署</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+<div class="callout important">
+        <div class="callout-title"><span class="i18n-en">Spotlight: Megatron Core MoE Training (NVIDIA)</span><span class="i18n-zh">重点关注：Megatron Core MoE 训练（NVIDIA）</span></div>
+        <div><span class="i18n-en">This 88-page technical report from NVIDIA is arguably the most comprehensive open-source MoE training guide to date. It covers memory optimization (fine-grained recomputation, offloading), communication (optimized dispatchers, overlapping), computation (Grouped GEMM, CUDA Graphs), Parallel Folding for flexible multi-dimensional parallelism, FP8/NVFP4 support, and long-context training. Achieving **1,233 TFLOPS/GPU on GB300** for DeepSeek-V3-685B demonstrates production readiness.</span><span class="i18n-zh">这篇来自 NVIDIA 的 88 页技术报告堪称目前最全面的开源 MoE 训练指南。涵盖内存优化（细粒度重计算、卸载）、通信优化（优化的 dispatcher、重叠计算通信）、计算优化（Grouped GEMM、CUDA Graphs）、Parallel Folding 灵活多维并行、FP8/NVFP4 支持、长上下文训练等。在 GB300 上 DeepSeek-V3-685B 达到 **1233 TFLOPS/GPU**，充分展示了生产级就绪度。</span></div>
+      </div>
+      </section>
+<section class="section">
+        <h2><span>||</span><span class="i18n-en">Theme 3: Compression, Pruning &amp; Efficiency</span><span class="i18n-zh">主题三：压缩、剪枝与效率优化</span></h2>
+        <div class="prose"><p><span class="i18n-en">MoE models' massive parameter count (often 100B+ total) makes compression a first-class concern. Recent work spans <strong>expert pruning</strong>, <strong>quantization</strong>, <strong>speculative decoding</strong>, <strong>KV cache management</strong>, and <strong>expert offloading</strong>.</span><span class="i18n-zh">MoE 模型动辄百亿甚至千亿总参数，压缩已成为核心挑战。近期工作涵盖<strong>专家剪枝</strong>、<strong>量化</strong>、<strong>投机解码</strong>、<strong>KV 缓存管理</strong>和<strong>专家卸载</strong>等方向。</span></p></div>
+<div class="table-wrapper striped compact">
+        
+        <table>
+          <thead>
+            <tr>
+              <th><span class="i18n-en">Paper</span><span class="i18n-zh">论文</span></th><th><span class="i18n-en">Venue</span><span class="i18n-zh">发表</span></th><th><span class="i18n-en">Approach</span><span class="i18n-zh">方法</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>MoNE (2507.00390)</td><td>ICLR 2026</td><td>Replace redundant experts with lightweight novices / 用轻量新手专家替换冗余专家</td>
+              </tr>
+            
+              <tr>
+                <td>KBVQ-MoE (2602.11184)</td><td>ICLR 2026</td><td>KLT-guided SVD + bias-corrected vector quantization / KLT引导的SVD+偏差校正矢量量化</td>
+              </tr>
+            
+              <tr>
+                <td>EvoESAP (2603.06003)</td><td>Preprint</td><td>Non-uniform layer-wise expert pruning / 非均匀逐层专家剪枝</td>
+              </tr>
+            
+              <tr>
+                <td>Router Calibration (2603.02217)</td><td>Preprint</td><td>Router recalibration after compression to fix mismatches / 压缩后路由器重校准修复失配</td>
+              </tr>
+            
+              <tr>
+                <td>Replicate-and-Quantize (2602.19938)</td><td>Preprint</td><td>Plug-and-play load balancing via expert replication + quantization / 专家复制+量化实现即插即用负载均衡</td>
+              </tr>
+            
+              <tr>
+                <td>Puzzle for MoE (2602.11937)</td><td>Preprint</td><td>Post-training NAS: gpt-oss-120B -&gt; 88B derivative / 后训练NAS：gpt-oss-120B缩减到88B</td>
+              </tr>
+            
+              <tr>
+                <td>MoE-Spec (2602.16052)</td><td>Preprint</td><td>Expert budgeting for speculative decoding / 投机解码的专家预算分配</td>
+              </tr>
+            
+              <tr>
+                <td>MoESD (2505.19645)</td><td>NeurIPS 2025</td><td>Speculative decoding tailored for sparse MoE / 面向稀疏MoE的投机解码</td>
+              </tr>
+            
+              <tr>
+                <td>PiKV (2508.06526)</td><td>Preprint</td><td>KV cache management system for MoE / 面向MoE的KV缓存管理系统</td>
+              </tr>
+            
+              <tr>
+                <td>SlimCaching (2507.06567)</td><td>IEEE TMC</td><td>Edge caching of experts for distributed inference / 分布式推理中的专家边缘缓存</td>
+              </tr>
+            
+              <tr>
+                <td>Lynx (2411.08982)</td><td>Preprint</td><td>Dynamic batch-aware expert selection / 动态批感知专家选择</td>
+              </tr>
+            
+              <tr>
+                <td>MoE LLM Compression (2602.09316)</td><td>Preprint</td><td>Heterogeneous inter-group SVD compression / 异构组间SVD压缩</td>
+              </tr>
+            
+              <tr>
+                <td>Expert Offloading (2505.16056)</td><td>Preprint</td><td>Analysis of local routing consistency for offloading / 分析专家卸载中的局部路由一致性</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">Theme 4: MoE + LoRA / PEFT</span><span class="i18n-zh">主题四：MoE 与 LoRA / 参数高效微调</span></h2>
+        <div class="prose"><p><span class="i18n-en">Combining MoE routing with LoRA adapters has become a hot paradigm for efficient fine-tuning. Papers explore <strong>dynamic routing</strong>, <strong>core space merging</strong>, <strong>non-Euclidean geometry</strong>, and <strong>layer-aware expert allocation</strong>.</span><span class="i18n-zh">将 MoE 路由与 LoRA 适配器结合已成为高效微调的热门范式。论文探索了<strong>动态路由</strong>、<strong>核心空间融合</strong>、<strong>非欧几何</strong>和<strong>层感知专家分配</strong>等方向。</span></p></div>
+<div class="table-wrapper striped compact">
+        
+        <table>
+          <thead>
+            <tr>
+              <th><span class="i18n-en">Paper</span><span class="i18n-zh">论文</span></th><th><span class="i18n-en">Venue</span><span class="i18n-zh">发表</span></th><th><span class="i18n-en">Innovation</span><span class="i18n-zh">创新点</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>LD-MoLE (2509.25684)</td><td>ICLR 2026</td><td>Learnable dynamic routing replacing fixed TopK / 可学习动态路由替代固定TopK</td>
+              </tr>
+            
+              <tr>
+                <td>CoMoL (2603.00573)</td><td>Preprint</td><td>Core space merging for efficient MoE-LoRA / 核心空间融合实现高效MoE-LoRA</td>
+              </tr>
+            
+              <tr>
+                <td>Space Experts (2602.14490)</td><td>Preprint</td><td>LoRA experts in hyperbolic/spherical/Euclidean spaces / 双曲/球面/欧式空间中的LoRA专家</td>
+              </tr>
+            
+              <tr>
+                <td>Make LoRA Great Again (2502.16894)</td><td>ICML 2025</td><td>Adaptive SVD + MoE optimization alignment / 自适应SVD+MoE优化对齐</td>
+              </tr>
+            
+              <tr>
+                <td>Lamer-SSL (2602.12746)</td><td>ICASSP 2026</td><td>Layer-aware LoRA experts for continual multilingual SSL / 层感知LoRA专家用于持续多语言自监督</td>
+              </tr>
+            
+              <tr>
+                <td>NeuronMoE (2603.05046)</td><td>Preprint</td><td>Neuron-guided expert allocation based on activation patterns / 基于神经元激活模式引导专家分配</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      </section>
+<section class="section">
+        <h2><span>i</span><span class="i18n-en">Theme 5: Theory &amp; Interpretability</span><span class="i18n-zh">主题五：理论与可解释性</span></h2>
+        <div class="prose"><p><span class="i18n-en">Theoretical understanding of MoE is catching up with empirical progress. Key directions include <strong>expressive power analysis</strong>, <strong>optimal sparsity</strong>, <strong>geometric interpretations</strong>, and <strong>mechanistic interpretability</strong>.</span><span class="i18n-zh">MoE 的理论研究正在追赶实验进展。重点方向包括<strong>表达能力分析</strong>、<strong>最优稀疏度</strong>、<strong>几何解释</strong>和<strong>机制可解释性</strong>。</span></p></div>
+<div class="table-wrapper striped compact">
+        
+        <table>
+          <thead>
+            <tr>
+              <th><span class="i18n-en">Paper</span><span class="i18n-zh">论文</span></th><th><span class="i18n-en">Venue</span><span class="i18n-zh">发表</span></th><th><span class="i18n-en">Contribution</span><span class="i18n-zh">贡献</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>Optimal Sparsity (2508.18672)</td><td>ICLR 2026 Oral</td><td>Scaling laws for MoE sparsity on reasoning vs. knowledge tasks / MoE稀疏度在推理与知识任务上的缩放定律</td>
+              </tr>
+            
+              <tr>
+                <td>Expressive Power (2505.24205)</td><td>NeurIPS 2025 Spotlight</td><td>Systematic study of MoE expressiveness for structured tasks / MoE在结构化任务上表达能力的系统研究</td>
+              </tr>
+            
+              <tr>
+                <td>MoE as Soft Clustering (2601.11616)</td><td>Preprint</td><td>Dual Jacobian-PCA spectral geometry perspective / 双Jacobian-PCA谱几何视角</td>
+              </tr>
+            
+              <tr>
+                <td>Geometry-Preserving (2602.14039)</td><td>Preprint</td><td>Hyperspherical aggregation for MoE embeddings / MoE嵌入的超球面聚合</td>
+              </tr>
+            
+              <tr>
+                <td>Finite-Rate Gating (2602.15091)</td><td>Preprint</td><td>Information-theoretic generalization bounds for MoE / MoE的信息论泛化界</td>
+              </tr>
+            
+              <tr>
+                <td>HP Transfer (2601.20205)</td><td>Preprint</td><td>Hyperparameter transfer methodology for MoE layers / MoE层的超参数迁移方法</td>
+              </tr>
+            
+              <tr>
+                <td>Super Experts (2507.23279)</td><td>ICLR 2026</td><td>Discovery of pivotal &quot;super experts&quot; (3 of 6144 matter) / 发现关键&quot;超级专家&quot;（6144中仅3个至关重要）</td>
+              </tr>
+            
+              <tr>
+                <td>MoE Lens (2603.05806)</td><td>Workshop</td><td>Expert specialization analysis via domain routing + early decoding / 通过领域路由+早期解码分析专家特化</td>
+              </tr>
+            
+              <tr>
+                <td>Sparse Crosscoders (2603.05805)</td><td>Preprint</td><td>Comparing MoE and dense model internals via crosscoders / 通过crosscoder比较MoE与Dense模型内部表征</td>
+              </tr>
+            
+              <tr>
+                <td>Attention as Forgetting (2602.12587)</td><td>Preprint</td><td>Multi-head attention identified as forgetting source in MoE / 多头注意力被识别为MoE中遗忘的根源</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+<div class="callout tip">
+        <div class="callout-title"><span class="i18n-en">Spotlight: Optimal Sparsity &amp; Super Experts</span><span class="i18n-zh">重点关注：最优稀疏度与超级专家</span></div>
+        <div><span class="i18n-en">Two fascinating theoretical findings: (1) **Optimal Sparsity** (ICLR 2026 Oral) reveals that MoE sparsity influences reasoning and knowledge tasks differently, providing the first empirical scaling law coefficients for MoE. (2) **Super Experts** (ICLR 2026) discovers that pruning just 3 out of 6,144 experts in Qwen3-30B causes substantial performance collapse, revealing hidden critical structure in MoE models.</span><span class="i18n-zh">两个引人注目的理论发现：(1) **最优稀疏度**（ICLR 2026 Oral）揭示 MoE 稀疏度对推理和知识任务的影响截然不同，首次给出 MoE 的经验缩放定律系数。(2) **超级专家**（ICLR 2026）发现在 Qwen3-30B 的 6144 个专家中仅剪掉 3 个就会导致性能大幅崩溃，揭示了 MoE 模型中隐藏的关键结构。</span></div>
+      </div>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">Theme 6: Domain Applications</span><span class="i18n-zh">主题六：垂直领域应用</span></h2>
+        <div class="prose"><p><span class="i18n-en">MoE is being adopted across virtually every AI application domain. Below are the key papers grouped by application area.</span><span class="i18n-zh">MoE 正在被几乎所有 AI 应用领域所采纳。以下按应用方向分组展示关键论文。</span></p></div>
+<ol class="contribution-list">
+        <li>
+          <span class="badge"><span class="i18n-en">Vision</span><span class="i18n-zh">视觉</span></span>
+          <strong><span class="i18n-en">Computer Vision &amp; Image Generation</span><span class="i18n-zh">计算机视觉与图像生成</span></strong>
+          <span class="description"> — <span class="i18n-en">**IMSE** (ICLR 2026): Spectral experts for test-time adaptation. **MoDES** (CVPR 2026): Dynamic expert skipping for multimodal LLMs. **MoE-GS** (ICLR 2026): Dynamic Gaussian splatting. **MiM-DiT**: Dual-level MoE for all-in-one image restoration. **WMoE-CLIP**: Zero-shot anomaly detection. **UniMMAD** (CVPR 2026): Multi-modal anomaly detection. **Point-MoE**: 3D semantic segmentation.</span><span class="i18n-zh">**IMSE**（ICLR 2026）：用于测试时自适应的频谱专家。**MoDES**（CVPR 2026）：多模态LLM的动态专家跳过。**MoE-GS**（ICLR 2026）：动态高斯泼溅。**MiM-DiT**：双层MoE用于全能图像修复。**WMoE-CLIP**：零样本异常检测。**UniMMAD**（CVPR 2026）：多模态异常检测。**Point-MoE**：3D语义分割。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Robotics</span><span class="i18n-zh">机器人</span></span>
+          <strong><span class="i18n-en">Robotics &amp; Embodied AI</span><span class="i18n-zh">机器人与具身智能</span></strong>
+          <span class="description"> — <span class="i18n-en">**LAR-MoE**: Latent-aligned routing for robotic imitation learning. **MoDE-VLA**: Mixture-of-Dexterous-Experts for bimanual manipulation. **SAMoE-VLA**: Scene-adaptive MoE for autonomous driving. **CMoE**: Contrastive MoE for humanoid locomotion. **Optimus-3**: Dual-router MoE agent for Minecraft. **Sim-to-Real MoE**: Quadrupedal locomotion with MoE.</span><span class="i18n-zh">**LAR-MoE**：机器人模仿学习中的潜在对齐路由。**MoDE-VLA**：双手灵巧操作的混合灵巧专家。**SAMoE-VLA**：自动驾驶的场景自适应MoE。**CMoE**：人形机器人运动的对比MoE。**Optimus-3**：Minecraft中的双路由MoE智能体。**Sim-to-Real MoE**：MoE四足运动。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Healthcare</span><span class="i18n-zh">医疗</span></span>
+          <strong><span class="i18n-en">Medical &amp; Healthcare AI</span><span class="i18n-zh">医疗与健康AI</span></strong>
+          <span class="description"> — <span class="i18n-en">**ECG-MoE**: Cardiac period-aware expert module for ECG analysis. **RANGER**: MoE for pathology report generation from WSIs. **Head CT MoE**: Low-rank experts for comprehensive CT finding detection. **SegMoTE**: Token-level MoE for medical image segmentation. **Protein Active Site**: Multimodal MoE with retrieval augmentation. **mpLLM**: 3D brain MRI VQA with hierarchical MoE.</span><span class="i18n-zh">**ECG-MoE**：心电图分析的心动周期感知专家模块。**RANGER**：从WSI生成病理报告的MoE。**Head CT MoE**：头部CT全面检测的低秩专家。**SegMoTE**：医学图像分割的token级MoE。**蛋白质活性位点**：带检索增强的多模态MoE。**mpLLM**：3D脑MRI VQA的分层MoE。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">NLP/Speech</span><span class="i18n-zh">NLP/语音</span></span>
+          <strong><span class="i18n-en">NLP, Speech &amp; Multilingual</span><span class="i18n-zh">NLP、语音与多语言</span></strong>
+          <span class="description"> — <span class="i18n-en">**Decoder-only Conformer** (ICASSP 2026): Modality-aware sparse MoE for ASR. **MiSTER-E**: MoE for multimodal emotion recognition. **Yuan3.0 Ultra**: 1T-parameter enterprise MoE LLM. **SteerMoE** (ICLR 2026): Expert (de)activation for behavior steering. **MoEEdit**: Knowledge editing for MoE LLMs. **GRIP**: Machine unlearning for MoE.</span><span class="i18n-zh">**Decoder-only Conformer**（ICASSP 2026）：ASR的模态感知稀疏MoE。**MiSTER-E**：多模态情感识别的MoE。**Yuan3.0 Ultra**：万亿参数企业级MoE LLM。**SteerMoE**（ICLR 2026）：通过专家（去）激活引导行为。**MoEEdit**：MoE LLM的知识编辑。**GRIP**：MoE的机器遗忘。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">FL/Edge</span><span class="i18n-zh">联邦/边缘</span></span>
+          <strong><span class="i18n-en">Federated Learning &amp; Edge Computing</span><span class="i18n-zh">联邦学习与边缘计算</span></strong>
+          <span class="description"> — <span class="i18n-en">**Fed-GAME**: Graph attention MoE for federated time-series forecasting. **EMS-FL**: Expert-driven model splitting in satellite-terrestrial networks. **DeepFusion**: Federated knowledge distillation for MoE. **Stable-MoE**: Lyapunov-based routing for edge MoE training. **Split-MoPE**: MoE for vertical federated learning.</span><span class="i18n-zh">**Fed-GAME**：图注意力MoE用于联邦时间序列预测。**EMS-FL**：卫星地面网络中的专家驱动模型分割。**DeepFusion**：面向MoE的联邦知识蒸馏。**Stable-MoE**：基于Lyapunov的边缘MoE路由。**Split-MoPE**：垂直联邦学习的MoE。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Others</span><span class="i18n-zh">其他</span></span>
+          <strong><span class="i18n-en">Recommendation, Security, Science &amp; More</span><span class="i18n-zh">推荐、安全、科学计算等</span></strong>
+          <span class="description"> — <span class="i18n-en">**CAMMSR** (ICDE 2026): Multimodal sequential recommendation. **Modality-Guided MoE**: Multimodal recommendation with entropy routing. **Malware Detection**: Routing-aware explanations for graph MoE. **Adversarial Defense**: Soft-gated fractional MoE. **MLIPs**: Scaling machine learning interatomic potentials. **NESTOR** (CVPR 2026): Nested MoE for PDE solving.</span><span class="i18n-zh">**CAMMSR**（ICDE 2026）：多模态序列推荐。**模态引导MoE**：带熵路由的多模态推荐。**恶意软件检测**：图MoE的路由感知解释。**对抗防御**：软门控分数MoE。**MLIPs**：机器学习原子间势能的规模化。**NESTOR**（CVPR 2026）：嵌套MoE求解PDE。</span></span>
+        </li>
+      </ol>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">Notable Venue Acceptances</span><span class="i18n-zh">重要会议录用汇总</span></h2>
+        <div class="table-wrapper striped">
+        
+        <table>
+          <thead>
+            <tr>
+              <th><span class="i18n-en">Venue</span><span class="i18n-zh">会议</span></th><th><span class="i18n-en">Papers</span><span class="i18n-zh">论文</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>ICLR 2026 Oral</td><td>ERC Loss, Optimal Sparsity of MoE</td>
+              </tr>
+            
+              <tr>
+                <td>ICLR 2026</td><td>IMSE, Expert Divergence Learning, Multilingual Routing, Routing Matters in DiTs, SteerMoE, MoE-GS, Super Experts, MoNE, KBVQ-MoE, LD-MoLE, Semantic Parallelism, One-Prompt Strikes Back, Massively Multimodal MoE, LIBMoE</td>
+              </tr>
+            
+              <tr>
+                <td>CVPR 2026</td><td>Quant Experts, MoDES, NESTOR, UniMMAD</td>
+              </tr>
+            
+              <tr>
+                <td>ASPLOS 2026</td><td>LAER-MoE</td>
+              </tr>
+            
+              <tr>
+                <td>DAC 2026</td><td>TriMoE</td>
+              </tr>
+            
+              <tr>
+                <td>NSDI 2026</td><td>Sparse Checkpointing</td>
+              </tr>
+            
+              <tr>
+                <td>ICDE 2026</td><td>CAMMSR</td>
+              </tr>
+            
+              <tr>
+                <td>ICML 2025</td><td>Make LoRA Great Again</td>
+              </tr>
+            
+              <tr>
+                <td>NeurIPS 2025</td><td>Mozart, Expressive Power, MoESD, MEGADance</td>
+              </tr>
+            
+              <tr>
+                <td>ICASSP 2026</td><td>Decoder-only Conformer, Lamer-SSL</td>
+              </tr>
+            
+              <tr>
+                <td>ISCAS 2026</td><td>Area-Efficient In-Memory Computing</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      </section>
+<section class="section">
+        <h2><span>*</span><span class="i18n-en">Key Trends &amp; Observations</span><span class="i18n-zh">关键趋势与观察</span></h2>
+        <ol class="contribution-list">
+        <li>
+          <span class="badge"><span class="i18n-en">Trend 1</span><span class="i18n-zh">趋势 1</span></span>
+          <strong><span class="i18n-en">Expert Specialization Is the New Frontier</span><span class="i18n-zh">专家特化成为新前沿</span></strong>
+          <span class="description"> — <span class="i18n-en">Multiple papers (ERC Loss, Expert Divergence, SD-MoE, Synergistic Losses) address the fundamental problem that MoE experts tend to become homogeneous. Solutions span auxiliary losses, spectral methods, and preemptive routing. The ERC Loss (ICLR 2026 Oral) is the standout.</span><span class="i18n-zh">多篇论文（ERC Loss、Expert Divergence、SD-MoE、Synergistic Losses）直面 MoE 专家倾向同质化的核心问题。解决方案涵盖辅助损失、谱方法和预先路由。ERC Loss（ICLR 2026 Oral）是最亮眼的工作。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Trend 2</span><span class="i18n-zh">趋势 2</span></span>
+          <strong><span class="i18n-en">Systems Work Reaches Production Maturity</span><span class="i18n-zh">系统工作进入生产级成熟期</span></strong>
+          <span class="description"> — <span class="i18n-en">NVIDIA's 88-page Megatron Core report, ASPLOS/DAC/NSDI acceptances, and multiple inference optimization papers show MoE systems are transitioning from research prototypes to production infrastructure. GB300-optimized training at 1233 TFLOPS/GPU is a milestone.</span><span class="i18n-zh">NVIDIA 的 88 页 Megatron Core 报告、ASPLOS/DAC/NSDI 论文的录用，以及大量推理优化论文表明 MoE 系统正从研究原型转向生产基础设施。GB300 上 1233 TFLOPS/GPU 的训练效率是一个里程碑。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Trend 3</span><span class="i18n-zh">趋势 3</span></span>
+          <strong><span class="i18n-en">MoE + LoRA Becomes Standard PEFT</span><span class="i18n-zh">MoE+LoRA 成为标准的参数高效微调范式</span></strong>
+          <span class="description"> — <span class="i18n-en">The convergence of MoE routing with LoRA adapters is rapidly maturing, with ICLR 2026 and ICML 2025 acceptances. Key innovations include dynamic routing (LD-MoLE), non-Euclidean spaces (Space Experts), and layer-aware allocation (NeuronMoE).</span><span class="i18n-zh">MoE 路由与 LoRA 适配器的结合正在快速成熟，已获 ICLR 2026 和 ICML 2025 录用。关键创新包括动态路由（LD-MoLE）、非欧空间（Space Experts）和层感知分配（NeuronMoE）。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Trend 4</span><span class="i18n-zh">趋势 4</span></span>
+          <strong><span class="i18n-en">MoE for Embodied AI / Robotics Is Emerging</span><span class="i18n-zh">MoE 在具身智能/机器人领域崭露头角</span></strong>
+          <span class="description"> — <span class="i18n-en">6 papers apply MoE to robotics: imitation learning, dexterous manipulation, autonomous driving, humanoid locomotion, and game agents. MoE naturally fits multi-task robotic policies where different skills require different parameter subsets.</span><span class="i18n-zh">6 篇论文将 MoE 应用于机器人：模仿学习、灵巧操作、自动驾驶、人形运动和游戏智能体。MoE 天然适合多任务机器人策略——不同技能需要不同参数子集。</span></span>
+        </li><li>
+          <span class="badge"><span class="i18n-en">Trend 5</span><span class="i18n-zh">趋势 5</span></span>
+          <strong><span class="i18n-en">Theoretical Understanding Catching Up</span><span class="i18n-zh">理论理解正在追赶实践</span></strong>
+          <span class="description"> — <span class="i18n-en">Two ICLR 2026 Oral/paper-level contributions (Optimal Sparsity, Super Experts) and the NeurIPS 2025 Spotlight on expressiveness show the theory community is producing foundational results. The discovery that 3/6144 experts are critical is particularly striking.</span><span class="i18n-zh">两篇 ICLR 2026 Oral/论文级贡献（最优稀疏度、超级专家）以及 NeurIPS 2025 Spotlight 的表达能力研究表明理论界正在产出基础性成果。发现 6144 个专家中仅 3 个至关重要的结论尤其令人震撼。</span></span>
+        </li>
+      </ol>
+      </section>
+<section class="section">
+        <h2><span>-></span><span class="i18n-en">Sources</span><span class="i18n-zh">信息来源</span></h2>
+        <div class="link-group">
+        <a href="https://arxiv.org/search/advanced" class="link-button" target="_blank" rel="noopener">
+          <span>::</span>arXiv Advanced Search (Primary Source)
+        </a><a href="https://arxiv.org/abs/2603.07685" class="link-button" target="_blank" rel="noopener">
+          <span>::</span>Megatron Core MoE Training (NVIDIA)
+        </a><a href="https://arxiv.org/abs/2512.23447" class="link-button" target="_blank" rel="noopener">
+          <span>::</span>ERC Loss - ICLR 2026 Oral
+        </a><a href="https://arxiv.org/abs/2508.18672" class="link-button" target="_blank" rel="noopener">
+          <span>::</span>Optimal Sparsity of MoE - ICLR 2026 Oral
+        </a><a href="https://arxiv.org/abs/2507.23279" class="link-button" target="_blank" rel="noopener">
+          <span>::</span>Super Experts - ICLR 2026
+        </a><a href="https://arxiv.org/abs/2603.04971" class="link-button" target="_blank" rel="noopener">
+          <span>::</span>MoUE: Virtual Width Scaling
+        </a><a href="https://arxiv.org/abs/2602.11686" class="link-button" target="_blank" rel="noopener">
+          <span>::</span>LAER-MoE - ASPLOS 2026
+        </a><a href="https://arxiv.org/abs/2505.24205" class="link-button" target="_blank" rel="noopener">
+          <span>::</span>Expressive Power of MoE - NeurIPS 2025 Spotlight
+        </a>
+      </div>
+      </section>
+<footer class="brand-footer">
+        <p><span class="i18n-en">This report was generated by AI using arXiv Advanced Search results. Paper counts are approximate due to overlap between search queries. Verify critical information independently.</span><span class="i18n-zh">本报告由 AI 基于 arXiv 高级搜索结果生成。论文计数因搜索查询重叠可能存在近似。请独立验证关键信息。</span></p>
+        <p><strong>Powered by Actionbook</strong> | Generated: 2026-03-10T14:30:00Z</p>
+      </footer>
+  </article>
+  <a class="corner-powered" href="https://actionbook.dev" target="_blank" rel="noopener noreferrer">
+    <span>Powered by</span>
+    <strong>Actionbook</strong>
+  </a>
+
+  <!-- Prism.js core and language support -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" integrity="sha384-ZM8fDxYm+GXOWeJcxDetoRImNnEAS7XwVFH5kv0pT6RXNy92Nemw/Sj7NfciXpqg" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-rust.min.js" integrity="sha384-JyDgFjMbyrE/TGiEUSXW3CLjQOySrsoiUNAlXTFdIsr/XUfaB7E+eYlR+tGQ9bCO" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js" integrity="sha384-D44bgYYKvaiDh4cOGlj1dbSDpSctn2FSUj118HZGmZEShZcO2v//Q5vvhNy206pp" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js" integrity="sha384-PeOqKNW/piETaCg8rqKFy+Pm6KEk7e36/5YZE5XO/OaFdO+/Aw3O8qZ9qDPKVUgx" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" integrity="sha384-WJdEkJKrbsqw0evQ4GB6mlsKe5cGTxBOw4KAEIa52ZLB7DDpliGkwdme/HMa5n1m" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" integrity="sha384-9WmlN8ABpoFSSHvBGGjhvB3E/D8UkNB9HpLJjBQFC2VSQsM1odiQDv4NbEo+7l15" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" integrity="sha384-RhrmFFMb0ZCHImjFMpR/UE3VEtIVTCtNrtKQqXCzqXZNJala02N3UbVhi+qzw3CY" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js" integrity="sha384-AKAiycghK0jDCjD+aavMHzDkLzRR7Yzcwh3+xL/295cvyVMe+cxQfyQC8xxGGcI8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-toml.min.js" integrity="sha384-Uh6n44GRSQeQSMIIfAjlbqojWR7F5KALTHNsspuLDrNCsXpDPRdZbJ5A42AP/cA4" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js" integrity="sha384-s888ApkYHxfPsp8n81g77Unl/0XYnYltLvWbwqKHcheRE8/dZPlT4IjW3mRGv/Hd" crossorigin="anonymous"></script>
+  <script>
+    // Apply syntax highlighting
+    Prism.highlightAll();
+
+    // Toggle Prism theme based on color scheme
+    function updatePrismTheme() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark' ||
+                     (document.documentElement.getAttribute('data-theme') === 'auto' &&
+                      window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+      document.getElementById('prism-light').disabled = isDark;
+      document.getElementById('prism-dark').disabled = !isDark;
+    }
+
+    // Update on load
+    updatePrismTheme();
+
+    // Update on theme change
+    const observer = new MutationObserver(updatePrismTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    // Update on system theme change
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updatePrismTheme);
+  </script>
+</body>
+</html>

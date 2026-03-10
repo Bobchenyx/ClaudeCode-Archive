@@ -1,0 +1,468 @@
+{
+  "type": "Report",
+  "props": { "theme": "auto" },
+  "children": [
+    {
+      "type": "BrandHeader",
+      "props": {
+        "badge": { "en": "Deep Research Report", "zh": "深度研究报告" },
+        "poweredBy": "Actionbook"
+      }
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "MoE (Mixture of Experts) Research Landscape: 2026/02/10 – 2026/03/10", "zh": "MoE（混合专家）研究全景：2026/02/10 – 2026/03/10" }, "icon": "paper" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "This report surveys **100+ arXiv papers** related to Mixture of Experts (MoE) published or updated between February 10 and March 10, 2026. After deduplication, we identified **~90 unique papers** spanning CS subfields. The MoE landscape during this period shows explosive growth across multiple dimensions: **architecture design**, **systems infrastructure**, **compression & efficiency**, **LoRA/PEFT integration**, **theoretical analysis**, and **domain-specific applications** (vision, robotics, NLP, healthcare, etc.).\n\nNotable highlights include **8 ICLR 2026 papers** (1 Oral), **4 CVPR 2026 papers**, **1 ASPLOS 2026 paper**, and an 88-page NVIDIA technical report on Megatron Core MoE training. The field is clearly maturing from research exploration into production-ready infrastructure.",
+              "zh": "本报告调研了 2026 年 2 月 10 日至 3 月 10 日期间 arXiv 上与 Mixture of Experts（MoE）相关的 **100+ 篇论文**。去重后共计约 **90 篇独立论文**，覆盖 CS 多个子领域。这一时期的 MoE 研究呈现爆发式增长，涵盖**架构设计**、**系统基础设施**、**压缩与加速**、**LoRA/PEFT 融合**、**理论分析**以及**垂直领域应用**（视觉、机器人、NLP、医疗等）。\n\n值得关注的亮点包括：**8 篇 ICLR 2026 论文**（含 1 篇 Oral）、**4 篇 CVPR 2026 论文**、**1 篇 ASPLOS 2026 论文**，以及 NVIDIA 发布的 88 页 Megatron Core MoE 训练技术报告。MoE 正从学术探索阶段加速迈向生产级基础设施。"
+            }
+          }
+        },
+        {
+          "type": "MetricsGrid",
+          "props": {
+            "metrics": [
+              { "label": { "en": "Total Papers", "zh": "论文总数" }, "value": "~90", "suffix": "" },
+              { "label": { "en": "ICLR 2026", "zh": "ICLR 2026" }, "value": "8", "suffix": "papers" },
+              { "label": { "en": "CVPR 2026", "zh": "CVPR 2026" }, "value": "4", "suffix": "papers" },
+              { "label": { "en": "ASPLOS/DAC/NSDI", "zh": "系统顶会" }, "value": "4", "suffix": "papers" },
+              { "label": { "en": "ICML/NeurIPS", "zh": "ICML/NeurIPS" }, "value": "4", "suffix": "papers" },
+              { "label": { "en": "Industry Reports", "zh": "产业报告" }, "value": "2", "suffix": "" }
+            ],
+            "cols": 3
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Research Themes Overview", "zh": "研究主题总览" }, "icon": "star" },
+      "children": [
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Theme 1", "zh": "主题 1" },
+                "title": { "en": "MoE Architecture & Routing Innovation", "zh": "MoE 架构与路由机制创新" },
+                "description": { "en": "~15 papers on expert specialization, routing strategies, scaling dimensions, and dense-to-MoE conversion.", "zh": "约 15 篇论文，聚焦专家特化、路由策略、扩展维度及 Dense-to-MoE 转化。" }
+              },
+              {
+                "badge": { "en": "Theme 2", "zh": "主题 2" },
+                "title": { "en": "Systems & Infrastructure for MoE Training/Serving", "zh": "MoE 训练与推理系统基础设施" },
+                "description": { "en": "~18 papers covering distributed training, inference optimization, hardware co-design, fault tolerance, and scheduling.", "zh": "约 18 篇论文，涵盖分布式训练、推理优化、软硬件协同设计、容错和调度。" }
+              },
+              {
+                "badge": { "en": "Theme 3", "zh": "主题 3" },
+                "title": { "en": "MoE Compression, Pruning & Quantization", "zh": "MoE 压缩、剪枝与量化" },
+                "description": { "en": "~12 papers on expert pruning, merging, quantization, speculative decoding, and KV cache management.", "zh": "约 12 篇论文，涉及专家剪枝、合并、量化、投机解码和 KV 缓存管理。" }
+              },
+              {
+                "badge": { "en": "Theme 4", "zh": "主题 4" },
+                "title": { "en": "MoE + LoRA / Parameter-Efficient Fine-Tuning", "zh": "MoE 与 LoRA / 参数高效微调" },
+                "description": { "en": "~8 papers integrating MoE with LoRA for efficient downstream adaptation.", "zh": "约 8 篇论文，将 MoE 与 LoRA 结合实现高效下游任务适配。" }
+              },
+              {
+                "badge": { "en": "Theme 5", "zh": "主题 5" },
+                "title": { "en": "MoE Theory & Interpretability", "zh": "MoE 理论与可解释性" },
+                "description": { "en": "~10 papers on expressive power, geometric analysis, hyperparameter transfer, and mechanistic interpretability.", "zh": "约 10 篇论文，涉及表达能力、几何分析、超参迁移和机制可解释性。" }
+              },
+              {
+                "badge": { "en": "Theme 6", "zh": "主题 6" },
+                "title": { "en": "Domain Applications (Vision, Robotics, Healthcare, etc.)", "zh": "垂直领域应用（视觉、机器人、医疗等）" },
+                "description": { "en": "~25 papers applying MoE to autonomous driving, medical imaging, 3D vision, recommendation, speech, robotics, and more.", "zh": "约 25 篇论文，将 MoE 应用于自动驾驶、医学影像、3D 视觉、推荐系统、语音、机器人等领域。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 1: Architecture & Routing Innovation", "zh": "主题一：架构与路由机制创新" }, "icon": "bulb" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "This period saw significant advances in MoE architecture design, with a strong focus on **expert specialization** and **novel routing strategies**.",
+              "zh": "这段时期 MoE 架构设计取得显著进展，重点方向集中在**专家特化**和**新型路由策略**。"
+            }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "key_idea", "label": { "en": "Key Idea", "zh": "核心思路" } }
+            ],
+            "rows": [
+              { "paper": "ERC Loss (2512.23447)", "venue": "ICLR 2026 Oral", "key_idea": "Auxiliary loss coupling router decisions with expert capabilities / 辅助损失耦合路由决策与专家能力" },
+              { "paper": "MoUE (2603.04971)", "venue": "Preprint", "key_idea": "Virtual Width: reuse universal expert pool across layers / 虚拟宽度：跨层复用通用专家池" },
+              { "paper": "DynaMoE (2603.01697)", "venue": "Preprint", "key_idea": "Dynamic token-level K selection + layer-wise adaptive capacity / 动态 token 级 K 选择 + 逐层自适应容量" },
+              { "paper": "Expert Divergence Learning (2603.00054)", "venue": "ICLR 2026", "key_idea": "Pre-training strategy for explicit expert functional specialization / 预训练阶段显式促进专家功能分化" },
+              { "paper": "Grouter (2603.06626)", "venue": "Preprint", "key_idea": "Decouple routing from representation for faster convergence / 路由与表征解耦加速收敛" },
+              { "paper": "GrMoE (2602.17798)", "venue": "Preprint", "key_idea": "Routing on Grassmannian manifold with Matrix Bingham distributions / 基于 Grassmann 流形的路由机制" },
+              { "paper": "SD-MoE (2602.12556)", "venue": "Preprint", "key_idea": "Spectral decomposition for effective expert specialization / 谱分解促进专家特化" },
+              { "paper": "Synergistic Losses (2602.14159)", "venue": "Preprint", "key_idea": "Intra- and cross-layer regularization for MoE specialization / 层内与跨层正则化促进专家分化" },
+              { "paper": "ExpertWeaver (2602.15521)", "venue": "Preprint", "key_idea": "Convert dense LLMs to MoE via GLU activation patterns / 利用 GLU 激活模式将 Dense 模型转为 MoE" },
+              { "paper": "Routing Matters for DiTs (2510.24711)", "venue": "ICLR 2026", "key_idea": "Explicit routing guidance for scaling Diffusion Transformers / 显式路由引导扩展扩散 Transformer" },
+              { "paper": "Multilingual Routing (2510.04694)", "venue": "ICLR 2026", "key_idea": "Language-specific routing patterns in early/late layers / 早期和晚期层呈现语言特定路由模式" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "important",
+            "title": { "en": "Spotlight: ERC Loss (ICLR 2026 Oral)", "zh": "重点关注：ERC Loss（ICLR 2026 Oral）" },
+            "content": {
+              "en": "The Expert-Router Coupling (ERC) loss proposes a lightweight auxiliary loss that ensures router embeddings faithfully represent expert capabilities. Key innovation: operates on only n² activations (n = number of experts), making it independent of batch size. Demonstrated effectiveness on 3B–15B parameter MoE-LLMs trained on trillions of tokens. This represents a shift from architectural changes to training-objective-level solutions for expert specialization.",
+              "zh": "ERC Loss 提出了一种轻量辅助损失，确保路由嵌入忠实反映专家能力。核心创新：仅对 n² 个激活值操作（n 为专家数），计算量与 batch 大小无关。在 3B 到 15B 参数的 MoE-LLM 上验证了有效性。这标志着专家特化方案从架构层面改动转向训练目标层面优化。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 2: Systems & Infrastructure", "zh": "主题二：系统与基础设施" }, "icon": "code" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "MoE systems research is booming, driven by the deployment needs of models like DeepSeek-V3 and Qwen3. This period produced an unprecedented volume of work on **distributed training**, **inference serving**, **hardware co-design**, and **fault tolerance**.",
+              "zh": "受 DeepSeek-V3、Qwen3 等模型的部署需求驱动，MoE 系统研究迎来爆发。这段时期在**分布式训练**、**推理服务**、**软硬件协同设计**和**容错**方向产出了大量高质量工作。"
+            }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "focus", "label": { "en": "Focus", "zh": "方向" } },
+              { "key": "key_idea", "label": { "en": "Key Contribution", "zh": "核心贡献" } }
+            ],
+            "rows": [
+              { "paper": "Megatron Core MoE (2603.07685)", "venue": "NVIDIA Report", "focus": "Training / 训练", "key_idea": "88-page comprehensive guide; 1233 TFLOPS/GPU on GB300 for DeepSeek-V3 / 88页技术报告；GB300上DeepSeek-V3达1233 TFLOPS/GPU" },
+              { "paper": "MoE Parallel Folding (2504.14960)", "venue": "Preprint", "focus": "Training / 训练", "key_idea": "Heterogeneous parallelism mappings in Megatron Core / Megatron Core中异构并行映射" },
+              { "paper": "LAER-MoE (2602.11686)", "venue": "ASPLOS 2026", "focus": "Training / 训练", "key_idea": "Load-adaptive expert re-layout to fix training imbalance / 负载自适应专家重排解决训练不均衡" },
+              { "paper": "Mozart (2603.07006)", "venue": "NeurIPS 2025", "focus": "Hardware / 硬件", "key_idea": "3.5D wafer-scale chiplet architecture for MoE / 面向MoE的3.5D晶圆级chiplet架构" },
+              { "paper": "Practical FP4 (2603.02731)", "venue": "Preprint", "focus": "Training / 训练", "key_idea": "MXFP4 training recipe for MoE on Hopper GPUs / Hopper GPU上MoE的FP4训练方案" },
+              { "paper": "Sparse Checkpointing (2412.15411)", "venue": "NSDI 2026", "focus": "Fault Tolerance / 容错", "key_idea": "Exploit MoE sparsity for fast, low-overhead checkpointing / 利用MoE稀疏性实现快速低开销检查点" },
+              { "paper": "ReviveMoE (2602.21140)", "venue": "Preprint", "focus": "Fault Tolerance / 容错", "key_idea": "Fast recovery from hardware failures in MoE inference / MoE推理中硬件故障的快速恢复" },
+              { "paper": "MoEless (2603.06350)", "venue": "Preprint", "focus": "Serving / 推理服务", "key_idea": "Serverless computing for MoE LLM serving / 基于Serverless的MoE LLM推理服务" },
+              { "paper": "Semantic Parallelism (2503.04398)", "venue": "ICLR 2026", "focus": "Serving / 推理服务", "key_idea": "Model-data co-scheduling to avoid all-to-all comm / 模型-数据协同调度消除all-to-all通信" },
+              { "paper": "TriMoE (2603.01058)", "venue": "DAC 2026", "focus": "Inference / 推理", "key_idea": "GPU + AMX-CPU + DIMM-NDP heterogeneous offloading / GPU+AMX CPU+DIMM-NDP异构卸载" },
+              { "paper": "Multi-Layer Scheduling (2602.21626)", "venue": "Preprint", "focus": "Serving / 推理服务", "key_idea": "Multi-layer scheduling for MoE reasoning / 面向MoE推理的多层调度" },
+              { "paper": "AFD Analysis (2602.09721)", "venue": "Preprint", "focus": "Serving / 推理服务", "key_idea": "Analysis of Attention-FFN Disaggregation for MoE / 分析MoE中Attention-FFN解耦部署" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "important",
+            "title": { "en": "Spotlight: Megatron Core MoE Training (NVIDIA)", "zh": "重点关注：Megatron Core MoE 训练（NVIDIA）" },
+            "content": {
+              "en": "This 88-page technical report from NVIDIA is arguably the most comprehensive open-source MoE training guide to date. It covers memory optimization (fine-grained recomputation, offloading), communication (optimized dispatchers, overlapping), computation (Grouped GEMM, CUDA Graphs), Parallel Folding for flexible multi-dimensional parallelism, FP8/NVFP4 support, and long-context training. Achieving **1,233 TFLOPS/GPU on GB300** for DeepSeek-V3-685B demonstrates production readiness.",
+              "zh": "这篇来自 NVIDIA 的 88 页技术报告堪称目前最全面的开源 MoE 训练指南。涵盖内存优化（细粒度重计算、卸载）、通信优化（优化的 dispatcher、重叠计算通信）、计算优化（Grouped GEMM、CUDA Graphs）、Parallel Folding 灵活多维并行、FP8/NVFP4 支持、长上下文训练等。在 GB300 上 DeepSeek-V3-685B 达到 **1233 TFLOPS/GPU**，充分展示了生产级就绪度。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 3: Compression, Pruning & Efficiency", "zh": "主题三：压缩、剪枝与效率优化" }, "icon": "chart" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "MoE models' massive parameter count (often 100B+ total) makes compression a first-class concern. Recent work spans **expert pruning**, **quantization**, **speculative decoding**, **KV cache management**, and **expert offloading**.",
+              "zh": "MoE 模型动辄百亿甚至千亿总参数，压缩已成为核心挑战。近期工作涵盖**专家剪枝**、**量化**、**投机解码**、**KV 缓存管理**和**专家卸载**等方向。"
+            }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "approach", "label": { "en": "Approach", "zh": "方法" } }
+            ],
+            "rows": [
+              { "paper": "MoNE (2507.00390)", "venue": "ICLR 2026", "approach": "Replace redundant experts with lightweight novices / 用轻量新手专家替换冗余专家" },
+              { "paper": "KBVQ-MoE (2602.11184)", "venue": "ICLR 2026", "approach": "KLT-guided SVD + bias-corrected vector quantization / KLT引导的SVD+偏差校正矢量量化" },
+              { "paper": "EvoESAP (2603.06003)", "venue": "Preprint", "approach": "Non-uniform layer-wise expert pruning / 非均匀逐层专家剪枝" },
+              { "paper": "Router Calibration (2603.02217)", "venue": "Preprint", "approach": "Router recalibration after compression to fix mismatches / 压缩后路由器重校准修复失配" },
+              { "paper": "Replicate-and-Quantize (2602.19938)", "venue": "Preprint", "approach": "Plug-and-play load balancing via expert replication + quantization / 专家复制+量化实现即插即用负载均衡" },
+              { "paper": "Puzzle for MoE (2602.11937)", "venue": "Preprint", "approach": "Post-training NAS: gpt-oss-120B -> 88B derivative / 后训练NAS：gpt-oss-120B缩减到88B" },
+              { "paper": "MoE-Spec (2602.16052)", "venue": "Preprint", "approach": "Expert budgeting for speculative decoding / 投机解码的专家预算分配" },
+              { "paper": "MoESD (2505.19645)", "venue": "NeurIPS 2025", "approach": "Speculative decoding tailored for sparse MoE / 面向稀疏MoE的投机解码" },
+              { "paper": "PiKV (2508.06526)", "venue": "Preprint", "approach": "KV cache management system for MoE / 面向MoE的KV缓存管理系统" },
+              { "paper": "SlimCaching (2507.06567)", "venue": "IEEE TMC", "approach": "Edge caching of experts for distributed inference / 分布式推理中的专家边缘缓存" },
+              { "paper": "Lynx (2411.08982)", "venue": "Preprint", "approach": "Dynamic batch-aware expert selection / 动态批感知专家选择" },
+              { "paper": "MoE LLM Compression (2602.09316)", "venue": "Preprint", "approach": "Heterogeneous inter-group SVD compression / 异构组间SVD压缩" },
+              { "paper": "Expert Offloading (2505.16056)", "venue": "Preprint", "approach": "Analysis of local routing consistency for offloading / 分析专家卸载中的局部路由一致性" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 4: MoE + LoRA / PEFT", "zh": "主题四：MoE 与 LoRA / 参数高效微调" }, "icon": "bulb" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "Combining MoE routing with LoRA adapters has become a hot paradigm for efficient fine-tuning. Papers explore **dynamic routing**, **core space merging**, **non-Euclidean geometry**, and **layer-aware expert allocation**.",
+              "zh": "将 MoE 路由与 LoRA 适配器结合已成为高效微调的热门范式。论文探索了**动态路由**、**核心空间融合**、**非欧几何**和**层感知专家分配**等方向。"
+            }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "innovation", "label": { "en": "Innovation", "zh": "创新点" } }
+            ],
+            "rows": [
+              { "paper": "LD-MoLE (2509.25684)", "venue": "ICLR 2026", "innovation": "Learnable dynamic routing replacing fixed TopK / 可学习动态路由替代固定TopK" },
+              { "paper": "CoMoL (2603.00573)", "venue": "Preprint", "innovation": "Core space merging for efficient MoE-LoRA / 核心空间融合实现高效MoE-LoRA" },
+              { "paper": "Space Experts (2602.14490)", "venue": "Preprint", "innovation": "LoRA experts in hyperbolic/spherical/Euclidean spaces / 双曲/球面/欧式空间中的LoRA专家" },
+              { "paper": "Make LoRA Great Again (2502.16894)", "venue": "ICML 2025", "innovation": "Adaptive SVD + MoE optimization alignment / 自适应SVD+MoE优化对齐" },
+              { "paper": "Lamer-SSL (2602.12746)", "venue": "ICASSP 2026", "innovation": "Layer-aware LoRA experts for continual multilingual SSL / 层感知LoRA专家用于持续多语言自监督" },
+              { "paper": "NeuronMoE (2603.05046)", "venue": "Preprint", "innovation": "Neuron-guided expert allocation based on activation patterns / 基于神经元激活模式引导专家分配" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 5: Theory & Interpretability", "zh": "主题五：理论与可解释性" }, "icon": "info" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "Theoretical understanding of MoE is catching up with empirical progress. Key directions include **expressive power analysis**, **optimal sparsity**, **geometric interpretations**, and **mechanistic interpretability**.",
+              "zh": "MoE 的理论研究正在追赶实验进展。重点方向包括**表达能力分析**、**最优稀疏度**、**几何解释**和**机制可解释性**。"
+            }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "contribution", "label": { "en": "Contribution", "zh": "贡献" } }
+            ],
+            "rows": [
+              { "paper": "Optimal Sparsity (2508.18672)", "venue": "ICLR 2026 Oral", "contribution": "Scaling laws for MoE sparsity on reasoning vs. knowledge tasks / MoE稀疏度在推理与知识任务上的缩放定律" },
+              { "paper": "Expressive Power (2505.24205)", "venue": "NeurIPS 2025 Spotlight", "contribution": "Systematic study of MoE expressiveness for structured tasks / MoE在结构化任务上表达能力的系统研究" },
+              { "paper": "MoE as Soft Clustering (2601.11616)", "venue": "Preprint", "contribution": "Dual Jacobian-PCA spectral geometry perspective / 双Jacobian-PCA谱几何视角" },
+              { "paper": "Geometry-Preserving (2602.14039)", "venue": "Preprint", "contribution": "Hyperspherical aggregation for MoE embeddings / MoE嵌入的超球面聚合" },
+              { "paper": "Finite-Rate Gating (2602.15091)", "venue": "Preprint", "contribution": "Information-theoretic generalization bounds for MoE / MoE的信息论泛化界" },
+              { "paper": "HP Transfer (2601.20205)", "venue": "Preprint", "contribution": "Hyperparameter transfer methodology for MoE layers / MoE层的超参数迁移方法" },
+              { "paper": "Super Experts (2507.23279)", "venue": "ICLR 2026", "contribution": "Discovery of pivotal \"super experts\" (3 of 6144 matter) / 发现关键\"超级专家\"（6144中仅3个至关重要）" },
+              { "paper": "MoE Lens (2603.05806)", "venue": "Workshop", "contribution": "Expert specialization analysis via domain routing + early decoding / 通过领域路由+早期解码分析专家特化" },
+              { "paper": "Sparse Crosscoders (2603.05805)", "venue": "Preprint", "contribution": "Comparing MoE and dense model internals via crosscoders / 通过crosscoder比较MoE与Dense模型内部表征" },
+              { "paper": "Attention as Forgetting (2602.12587)", "venue": "Preprint", "contribution": "Multi-head attention identified as forgetting source in MoE / 多头注意力被识别为MoE中遗忘的根源" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "tip",
+            "title": { "en": "Spotlight: Optimal Sparsity & Super Experts", "zh": "重点关注：最优稀疏度与超级专家" },
+            "content": {
+              "en": "Two fascinating theoretical findings: (1) **Optimal Sparsity** (ICLR 2026 Oral) reveals that MoE sparsity influences reasoning and knowledge tasks differently, providing the first empirical scaling law coefficients for MoE. (2) **Super Experts** (ICLR 2026) discovers that pruning just 3 out of 6,144 experts in Qwen3-30B causes substantial performance collapse, revealing hidden critical structure in MoE models.",
+              "zh": "两个引人注目的理论发现：(1) **最优稀疏度**（ICLR 2026 Oral）揭示 MoE 稀疏度对推理和知识任务的影响截然不同，首次给出 MoE 的经验缩放定律系数。(2) **超级专家**（ICLR 2026）发现在 Qwen3-30B 的 6144 个专家中仅剪掉 3 个就会导致性能大幅崩溃，揭示了 MoE 模型中隐藏的关键结构。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 6: Domain Applications", "zh": "主题六：垂直领域应用" }, "icon": "star" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "MoE is being adopted across virtually every AI application domain. Below are the key papers grouped by application area.",
+              "zh": "MoE 正在被几乎所有 AI 应用领域所采纳。以下按应用方向分组展示关键论文。"
+            }
+          }
+        },
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Vision", "zh": "视觉" },
+                "title": { "en": "Computer Vision & Image Generation", "zh": "计算机视觉与图像生成" },
+                "description": { "en": "**IMSE** (ICLR 2026): Spectral experts for test-time adaptation. **MoDES** (CVPR 2026): Dynamic expert skipping for multimodal LLMs. **MoE-GS** (ICLR 2026): Dynamic Gaussian splatting. **MiM-DiT**: Dual-level MoE for all-in-one image restoration. **WMoE-CLIP**: Zero-shot anomaly detection. **UniMMAD** (CVPR 2026): Multi-modal anomaly detection. **Point-MoE**: 3D semantic segmentation.", "zh": "**IMSE**（ICLR 2026）：用于测试时自适应的频谱专家。**MoDES**（CVPR 2026）：多模态LLM的动态专家跳过。**MoE-GS**（ICLR 2026）：动态高斯泼溅。**MiM-DiT**：双层MoE用于全能图像修复。**WMoE-CLIP**：零样本异常检测。**UniMMAD**（CVPR 2026）：多模态异常检测。**Point-MoE**：3D语义分割。" }
+              },
+              {
+                "badge": { "en": "Robotics", "zh": "机器人" },
+                "title": { "en": "Robotics & Embodied AI", "zh": "机器人与具身智能" },
+                "description": { "en": "**LAR-MoE**: Latent-aligned routing for robotic imitation learning. **MoDE-VLA**: Mixture-of-Dexterous-Experts for bimanual manipulation. **SAMoE-VLA**: Scene-adaptive MoE for autonomous driving. **CMoE**: Contrastive MoE for humanoid locomotion. **Optimus-3**: Dual-router MoE agent for Minecraft. **Sim-to-Real MoE**: Quadrupedal locomotion with MoE.", "zh": "**LAR-MoE**：机器人模仿学习中的潜在对齐路由。**MoDE-VLA**：双手灵巧操作的混合灵巧专家。**SAMoE-VLA**：自动驾驶的场景自适应MoE。**CMoE**：人形机器人运动的对比MoE。**Optimus-3**：Minecraft中的双路由MoE智能体。**Sim-to-Real MoE**：MoE四足运动。" }
+              },
+              {
+                "badge": { "en": "Healthcare", "zh": "医疗" },
+                "title": { "en": "Medical & Healthcare AI", "zh": "医疗与健康AI" },
+                "description": { "en": "**ECG-MoE**: Cardiac period-aware expert module for ECG analysis. **RANGER**: MoE for pathology report generation from WSIs. **Head CT MoE**: Low-rank experts for comprehensive CT finding detection. **SegMoTE**: Token-level MoE for medical image segmentation. **Protein Active Site**: Multimodal MoE with retrieval augmentation. **mpLLM**: 3D brain MRI VQA with hierarchical MoE.", "zh": "**ECG-MoE**：心电图分析的心动周期感知专家模块。**RANGER**：从WSI生成病理报告的MoE。**Head CT MoE**：头部CT全面检测的低秩专家。**SegMoTE**：医学图像分割的token级MoE。**蛋白质活性位点**：带检索增强的多模态MoE。**mpLLM**：3D脑MRI VQA的分层MoE。" }
+              },
+              {
+                "badge": { "en": "NLP/Speech", "zh": "NLP/语音" },
+                "title": { "en": "NLP, Speech & Multilingual", "zh": "NLP、语音与多语言" },
+                "description": { "en": "**Decoder-only Conformer** (ICASSP 2026): Modality-aware sparse MoE for ASR. **MiSTER-E**: MoE for multimodal emotion recognition. **Yuan3.0 Ultra**: 1T-parameter enterprise MoE LLM. **SteerMoE** (ICLR 2026): Expert (de)activation for behavior steering. **MoEEdit**: Knowledge editing for MoE LLMs. **GRIP**: Machine unlearning for MoE.", "zh": "**Decoder-only Conformer**（ICASSP 2026）：ASR的模态感知稀疏MoE。**MiSTER-E**：多模态情感识别的MoE。**Yuan3.0 Ultra**：万亿参数企业级MoE LLM。**SteerMoE**（ICLR 2026）：通过专家（去）激活引导行为。**MoEEdit**：MoE LLM的知识编辑。**GRIP**：MoE的机器遗忘。" }
+              },
+              {
+                "badge": { "en": "FL/Edge", "zh": "联邦/边缘" },
+                "title": { "en": "Federated Learning & Edge Computing", "zh": "联邦学习与边缘计算" },
+                "description": { "en": "**Fed-GAME**: Graph attention MoE for federated time-series forecasting. **EMS-FL**: Expert-driven model splitting in satellite-terrestrial networks. **DeepFusion**: Federated knowledge distillation for MoE. **Stable-MoE**: Lyapunov-based routing for edge MoE training. **Split-MoPE**: MoE for vertical federated learning.", "zh": "**Fed-GAME**：图注意力MoE用于联邦时间序列预测。**EMS-FL**：卫星地面网络中的专家驱动模型分割。**DeepFusion**：面向MoE的联邦知识蒸馏。**Stable-MoE**：基于Lyapunov的边缘MoE路由。**Split-MoPE**：垂直联邦学习的MoE。" }
+              },
+              {
+                "badge": { "en": "Others", "zh": "其他" },
+                "title": { "en": "Recommendation, Security, Science & More", "zh": "推荐、安全、科学计算等" },
+                "description": { "en": "**CAMMSR** (ICDE 2026): Multimodal sequential recommendation. **Modality-Guided MoE**: Multimodal recommendation with entropy routing. **Malware Detection**: Routing-aware explanations for graph MoE. **Adversarial Defense**: Soft-gated fractional MoE. **MLIPs**: Scaling machine learning interatomic potentials. **NESTOR** (CVPR 2026): Nested MoE for PDE solving.", "zh": "**CAMMSR**（ICDE 2026）：多模态序列推荐。**模态引导MoE**：带熵路由的多模态推荐。**恶意软件检测**：图MoE的路由感知解释。**对抗防御**：软门控分数MoE。**MLIPs**：机器学习原子间势能的规模化。**NESTOR**（CVPR 2026）：嵌套MoE求解PDE。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Notable Venue Acceptances", "zh": "重要会议录用汇总" }, "icon": "star" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "venue", "label": { "en": "Venue", "zh": "会议" } },
+              { "key": "papers", "label": { "en": "Papers", "zh": "论文" } }
+            ],
+            "rows": [
+              { "venue": "ICLR 2026 Oral", "papers": "ERC Loss, Optimal Sparsity of MoE" },
+              { "venue": "ICLR 2026", "papers": "IMSE, Expert Divergence Learning, Multilingual Routing, Routing Matters in DiTs, SteerMoE, MoE-GS, Super Experts, MoNE, KBVQ-MoE, LD-MoLE, Semantic Parallelism, One-Prompt Strikes Back, Massively Multimodal MoE, LIBMoE" },
+              { "venue": "CVPR 2026", "papers": "Quant Experts, MoDES, NESTOR, UniMMAD" },
+              { "venue": "ASPLOS 2026", "papers": "LAER-MoE" },
+              { "venue": "DAC 2026", "papers": "TriMoE" },
+              { "venue": "NSDI 2026", "papers": "Sparse Checkpointing" },
+              { "venue": "ICDE 2026", "papers": "CAMMSR" },
+              { "venue": "ICML 2025", "papers": "Make LoRA Great Again" },
+              { "venue": "NeurIPS 2025", "papers": "Mozart, Expressive Power, MoESD, MEGADance" },
+              { "venue": "ICASSP 2026", "papers": "Decoder-only Conformer, Lamer-SSL" },
+              { "venue": "ISCAS 2026", "papers": "Area-Efficient In-Memory Computing" }
+            ],
+            "striped": true,
+            "compact": false
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Key Trends & Observations", "zh": "关键趋势与观察" }, "icon": "bulb" },
+      "children": [
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Trend 1", "zh": "趋势 1" },
+                "title": { "en": "Expert Specialization Is the New Frontier", "zh": "专家特化成为新前沿" },
+                "description": { "en": "Multiple papers (ERC Loss, Expert Divergence, SD-MoE, Synergistic Losses) address the fundamental problem that MoE experts tend to become homogeneous. Solutions span auxiliary losses, spectral methods, and preemptive routing. The ERC Loss (ICLR 2026 Oral) is the standout.", "zh": "多篇论文（ERC Loss、Expert Divergence、SD-MoE、Synergistic Losses）直面 MoE 专家倾向同质化的核心问题。解决方案涵盖辅助损失、谱方法和预先路由。ERC Loss（ICLR 2026 Oral）是最亮眼的工作。" }
+              },
+              {
+                "badge": { "en": "Trend 2", "zh": "趋势 2" },
+                "title": { "en": "Systems Work Reaches Production Maturity", "zh": "系统工作进入生产级成熟期" },
+                "description": { "en": "NVIDIA's 88-page Megatron Core report, ASPLOS/DAC/NSDI acceptances, and multiple inference optimization papers show MoE systems are transitioning from research prototypes to production infrastructure. GB300-optimized training at 1233 TFLOPS/GPU is a milestone.", "zh": "NVIDIA 的 88 页 Megatron Core 报告、ASPLOS/DAC/NSDI 论文的录用，以及大量推理优化论文表明 MoE 系统正从研究原型转向生产基础设施。GB300 上 1233 TFLOPS/GPU 的训练效率是一个里程碑。" }
+              },
+              {
+                "badge": { "en": "Trend 3", "zh": "趋势 3" },
+                "title": { "en": "MoE + LoRA Becomes Standard PEFT", "zh": "MoE+LoRA 成为标准的参数高效微调范式" },
+                "description": { "en": "The convergence of MoE routing with LoRA adapters is rapidly maturing, with ICLR 2026 and ICML 2025 acceptances. Key innovations include dynamic routing (LD-MoLE), non-Euclidean spaces (Space Experts), and layer-aware allocation (NeuronMoE).", "zh": "MoE 路由与 LoRA 适配器的结合正在快速成熟，已获 ICLR 2026 和 ICML 2025 录用。关键创新包括动态路由（LD-MoLE）、非欧空间（Space Experts）和层感知分配（NeuronMoE）。" }
+              },
+              {
+                "badge": { "en": "Trend 4", "zh": "趋势 4" },
+                "title": { "en": "MoE for Embodied AI / Robotics Is Emerging", "zh": "MoE 在具身智能/机器人领域崭露头角" },
+                "description": { "en": "6 papers apply MoE to robotics: imitation learning, dexterous manipulation, autonomous driving, humanoid locomotion, and game agents. MoE naturally fits multi-task robotic policies where different skills require different parameter subsets.", "zh": "6 篇论文将 MoE 应用于机器人：模仿学习、灵巧操作、自动驾驶、人形运动和游戏智能体。MoE 天然适合多任务机器人策略——不同技能需要不同参数子集。" }
+              },
+              {
+                "badge": { "en": "Trend 5", "zh": "趋势 5" },
+                "title": { "en": "Theoretical Understanding Catching Up", "zh": "理论理解正在追赶实践" },
+                "description": { "en": "Two ICLR 2026 Oral/paper-level contributions (Optimal Sparsity, Super Experts) and the NeurIPS 2025 Spotlight on expressiveness show the theory community is producing foundational results. The discovery that 3/6144 experts are critical is particularly striking.", "zh": "两篇 ICLR 2026 Oral/论文级贡献（最优稀疏度、超级专家）以及 NeurIPS 2025 Spotlight 的表达能力研究表明理论界正在产出基础性成果。发现 6144 个专家中仅 3 个至关重要的结论尤其令人震撼。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Sources", "zh": "信息来源" }, "icon": "link" },
+      "children": [
+        {
+          "type": "LinkGroup",
+          "props": {
+            "links": [
+              { "href": "https://arxiv.org/search/advanced", "label": "arXiv Advanced Search (Primary Source)", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2603.07685", "label": "Megatron Core MoE Training (NVIDIA)", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2512.23447", "label": "ERC Loss - ICLR 2026 Oral", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2508.18672", "label": "Optimal Sparsity of MoE - ICLR 2026 Oral", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2507.23279", "label": "Super Experts - ICLR 2026", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2603.04971", "label": "MoUE: Virtual Width Scaling", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2602.11686", "label": "LAER-MoE - ASPLOS 2026", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2505.24205", "label": "Expressive Power of MoE - NeurIPS 2025 Spotlight", "icon": "paper" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "BrandFooter",
+      "props": {
+        "timestamp": "2026-03-10T14:30:00Z",
+        "attribution": "Powered by Actionbook",
+        "disclaimer": {
+          "en": "This report was generated by AI using arXiv Advanced Search results. Paper counts are approximate due to overlap between search queries. Verify critical information independently.",
+          "zh": "本报告由 AI 基于 arXiv 高级搜索结果生成。论文计数因搜索查询重叠可能存在近似。请独立验证关键信息。"
+        }
+      }
+    }
+  ]
+}

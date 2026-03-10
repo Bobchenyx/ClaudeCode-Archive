@@ -1,0 +1,557 @@
+{
+  "type": "Report",
+  "props": { "theme": "auto" },
+  "children": [
+    {
+      "type": "BrandHeader",
+      "props": {
+        "badge": { "en": "Deep Research Report", "zh": "深度研究报告" },
+        "poweredBy": "Actionbook"
+      }
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "MoE Research Landscape: 2026/02/10 – 2026/03/10 (with Affiliations)", "zh": "MoE 研究全景：2026/02/10 – 2026/03/10（含作者单位）" }, "icon": "paper" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "This report surveys **~90 unique arXiv papers** related to Mixture of Experts (MoE) published or updated between February 10 and March 10, 2026. Each paper is annotated with **author affiliations** to reveal the institutional landscape of MoE research.\n\nNotable highlights: **8 ICLR 2026 papers** (including 2 Orals), **4 CVPR 2026**, **1 ASPLOS 2026**, and NVIDIA's 88-page Megatron Core MoE training report.",
+              "zh": "本报告调研了 2026 年 2 月 10 日至 3 月 10 日期间 arXiv 上约 **90 篇独立 MoE 论文**，每篇均标注了**作者单位**，揭示 MoE 研究的机构版图。\n\n亮点：**8 篇 ICLR 2026 论文**（含 2 篇 Oral）、**4 篇 CVPR 2026**、**1 篇 ASPLOS 2026**，以及 NVIDIA 的 88 页 Megatron Core MoE 训练技术报告。"
+            }
+          }
+        },
+        {
+          "type": "MetricsGrid",
+          "props": {
+            "metrics": [
+              { "label": { "en": "Total Papers", "zh": "论文总数" }, "value": "~90", "suffix": "" },
+              { "label": { "en": "ICLR 2026", "zh": "ICLR 2026" }, "value": "8", "suffix": "papers" },
+              { "label": { "en": "CVPR 2026", "zh": "CVPR 2026" }, "value": "4", "suffix": "papers" },
+              { "label": { "en": "Systems Venues", "zh": "系统顶会" }, "value": "4", "suffix": "papers" },
+              { "label": { "en": "ICML/NeurIPS", "zh": "ICML/NeurIPS" }, "value": "4", "suffix": "papers" },
+              { "label": { "en": "Industry Reports", "zh": "产业报告" }, "value": "2", "suffix": "" }
+            ],
+            "cols": 3
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 1: Architecture & Routing Innovation", "zh": "主题一：架构与路由机制创新" }, "icon": "bulb" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "Key advances in MoE architecture design, with a strong focus on **expert specialization** and **novel routing strategies**.",
+              "zh": "MoE 架构设计的关键进展，重点方向集中在**专家特化**和**新型路由策略**。"
+            }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "affiliation", "label": { "en": "Affiliation", "zh": "单位" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "key_idea", "label": { "en": "Key Idea", "zh": "核心思路" } }
+            ],
+            "rows": [
+              { "paper": "ERC Loss (2512.23447)", "affiliation": "Renmin University of China / 中国人民大学", "venue": "ICLR 2026 Oral", "key_idea": "Auxiliary loss coupling router decisions with expert capabilities / 辅助损失耦合路由决策与专家能力" },
+              { "paper": "MoUE (2603.04971)", "affiliation": "Baidu / 百度", "venue": "Preprint", "key_idea": "Virtual Width: reuse universal expert pool across layers / 虚拟宽度：跨层复用通用专家池" },
+              { "paper": "DynaMoE (2603.01697)", "affiliation": "Independent / 独立研究者", "venue": "Preprint", "key_idea": "Dynamic token-level K selection + layer-wise adaptive capacity / 动态 token 级 K 选择 + 逐层自适应容量" },
+              { "paper": "Expert Divergence (2603.00054)", "affiliation": "Alibaba / 阿里巴巴", "venue": "ICLR 2026", "key_idea": "Pre-training strategy for explicit expert functional specialization / 预训练阶段显式促进专家功能分化" },
+              { "paper": "Grouter (2603.06626)", "affiliation": "ByteDance & Peking Univ / 字节跳动 & 北京大学", "venue": "Preprint", "key_idea": "Decouple routing from representation for faster convergence / 路由与表征解耦加速收敛" },
+              { "paper": "GrMoE (2602.17798)", "affiliation": "Iowa State University", "venue": "Preprint", "key_idea": "Routing on Grassmannian manifold with Matrix Bingham distributions / 基于 Grassmann 流形的路由机制" },
+              { "paper": "SD-MoE (2602.12556)", "affiliation": "Fudan University / 复旦大学", "venue": "Preprint", "key_idea": "Spectral decomposition for effective expert specialization / 谱分解促进专家特化" },
+              { "paper": "Synergistic Losses (2602.14159)", "affiliation": "ByteDance & Peking Univ / 字节跳动 & 北京大学", "venue": "Preprint", "key_idea": "Intra- and cross-layer regularization for MoE specialization / 层内与跨层正则化促进专家分化" },
+              { "paper": "ExpertWeaver (2602.15521)", "affiliation": "Zhejiang Univ & CUHK / 浙江大学 & 香港中文大学", "venue": "Preprint", "key_idea": "Convert dense LLMs to MoE via GLU activation patterns / 利用 GLU 激活模式将 Dense 模型转为 MoE" },
+              { "paper": "Routing Matters DiTs (2510.24711)", "affiliation": "Alibaba & HKU / 阿里巴巴 & 香港大学", "venue": "ICLR 2026", "key_idea": "Explicit routing guidance for scaling Diffusion Transformers / 显式路由引导扩展扩散 Transformer" },
+              { "paper": "Multilingual Routing (2510.04694)", "affiliation": "UCLA & LMU Munich", "venue": "ICLR 2026", "key_idea": "Language-specific routing patterns in early/late layers / 早期和晚期层呈现语言特定路由模式" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "important",
+            "title": { "en": "Spotlight: ERC Loss (ICLR 2026 Oral) — Renmin University of China", "zh": "重点关注：ERC Loss（ICLR 2026 Oral）— 中国人民大学" },
+            "content": {
+              "en": "The Expert-Router Coupling (ERC) loss proposes a lightweight auxiliary loss that ensures router embeddings faithfully represent expert capabilities. Key innovation: operates on only n² activations (n = number of experts), making it independent of batch size. Demonstrated effectiveness on 3B–15B parameter MoE-LLMs trained on trillions of tokens.",
+              "zh": "ERC Loss 提出了一种轻量辅助损失，确保路由嵌入忠实反映专家能力。核心创新：仅对 n² 个激活值操作（n 为专家数），计算量与 batch 大小无关。在 3B 到 15B 参数的 MoE-LLM 上验证了有效性。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 2: Systems & Infrastructure", "zh": "主题二：系统与基础设施" }, "icon": "code" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "MoE systems research is booming, driven by the deployment needs of DeepSeek-V3 and Qwen3. This period produced unprecedented volume on **distributed training**, **inference serving**, **hardware co-design**, and **fault tolerance**.",
+              "zh": "受 DeepSeek-V3、Qwen3 等模型部署需求驱动，MoE 系统研究迎来爆发，涵盖**分布式训练**、**推理服务**、**软硬件协同**和**容错**。"
+            }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "affiliation", "label": { "en": "Affiliation", "zh": "单位" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "focus", "label": { "en": "Focus", "zh": "方向" } }
+            ],
+            "rows": [
+              { "paper": "Megatron Core MoE (2603.07685)", "affiliation": "NVIDIA", "venue": "Tech Report", "focus": "Training: 1233 TFLOPS/GPU on GB300 / 训练：GB300上1233 TFLOPS/GPU" },
+              { "paper": "MoE Parallel Folding (2504.14960)", "affiliation": "NVIDIA", "venue": "Preprint", "focus": "Heterogeneous parallelism in Megatron Core / Megatron Core异构并行" },
+              { "paper": "LAER-MoE (2602.11686)", "affiliation": "Peking University / 北京大学", "venue": "ASPLOS 2026", "focus": "Load-adaptive expert re-layout / 负载自适应专家重排" },
+              { "paper": "Mozart (2603.07006)", "affiliation": "UNC Chapel Hill & NVIDIA", "venue": "NeurIPS 2025", "focus": "3.5D wafer-scale chiplet for MoE / MoE晶圆级chiplet架构" },
+              { "paper": "Practical FP4 (2603.02731)", "affiliation": "ByteDance / 字节跳动", "venue": "Preprint", "focus": "MXFP4 training on Hopper GPUs / Hopper GPU上FP4训练" },
+              { "paper": "Sparse Checkpointing (2412.15411)", "affiliation": "Stanford University", "venue": "NSDI 2026", "focus": "Exploit sparsity for fast checkpointing / 利用稀疏性加速检查点" },
+              { "paper": "ReviveMoE (2602.21140)", "affiliation": "ByteDance / 字节跳动", "venue": "Preprint", "focus": "Fast recovery from hardware failures / 硬件故障快速恢复" },
+              { "paper": "MoEless (2603.06350)", "affiliation": "Louisiana State University", "venue": "Preprint", "focus": "Serverless computing for MoE serving / Serverless MoE推理" },
+              { "paper": "Semantic Parallelism (2503.04398)", "affiliation": "Huawei / 华为", "venue": "ICLR 2026", "focus": "Model-data co-scheduling / 模型-数据协同调度" },
+              { "paper": "TriMoE (2603.01058)", "affiliation": "CAS ICT / 中科院计算所", "venue": "DAC 2026", "focus": "GPU+AMX CPU+NDP offloading / 异构卸载" },
+              { "paper": "Multi-Layer Scheduling (2602.21626)", "affiliation": "Monash & Melbourne Univ", "venue": "Preprint", "focus": "Multi-layer scheduling for MoE reasoning / MoE推理多层调度" },
+              { "paper": "AFD Analysis (2602.09721)", "affiliation": "ByteDance / 字节跳动", "venue": "Preprint", "focus": "Attention-FFN Disaggregation analysis / Attention-FFN解耦分析" },
+              { "paper": "Puzzle for MoE (2602.11937)", "affiliation": "NVIDIA & Technion", "venue": "Preprint", "focus": "Post-training NAS: gpt-oss-120B->88B / 后训练NAS压缩" },
+              { "paper": "Stable-MoE (2512.06784)", "affiliation": "Univ of Newcastle / 纽卡斯尔大学", "venue": "Preprint", "focus": "Lyapunov-based token routing for edge / 基于Lyapunov的边缘路由" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "important",
+            "title": { "en": "Spotlight: Megatron Core MoE (NVIDIA) — 88-page Technical Report", "zh": "重点关注：Megatron Core MoE（NVIDIA）— 88 页技术报告" },
+            "content": {
+              "en": "The most comprehensive open-source MoE training guide to date. Covers memory (fine-grained recomputation, offloading), communication (optimized dispatchers), computation (Grouped GEMM, CUDA Graphs), FP8/NVFP4, and long-context training. **1,233 TFLOPS/GPU on GB300** for DeepSeek-V3-685B.",
+              "zh": "目前最全面的开源 MoE 训练指南。涵盖内存、通信、计算优化，以及 FP8/NVFP4 和长上下文训练。在 GB300 上 DeepSeek-V3-685B 达到 **1233 TFLOPS/GPU**。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 3: Compression, Pruning & Efficiency", "zh": "主题三：压缩、剪枝与效率优化" }, "icon": "chart" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "affiliation", "label": { "en": "Affiliation", "zh": "单位" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "approach", "label": { "en": "Approach", "zh": "方法" } }
+            ],
+            "rows": [
+              { "paper": "MoNE (2507.00390)", "affiliation": "NUS / 新加坡国立大学", "venue": "ICLR 2026", "approach": "Replace redundant experts with lightweight novices / 轻量新手替换冗余专家" },
+              { "paper": "KBVQ-MoE (2602.11184)", "affiliation": "CAS & Alibaba / 中科院 & 阿里", "venue": "ICLR 2026", "approach": "KLT-guided SVD + vector quantization / KLT引导SVD+矢量量化" },
+              { "paper": "EvoESAP (2603.06003)", "affiliation": "MBZUAI & CMU", "venue": "Preprint", "approach": "Non-uniform layer-wise expert pruning / 非均匀逐层专家剪枝" },
+              { "paper": "Router Calibration (2603.02217)", "affiliation": "Samsung SDS / 三星SDS", "venue": "Preprint", "approach": "Router recalibration after compression / 压缩后路由器重校准" },
+              { "paper": "Replicate-and-Quantize (2602.19938)", "affiliation": "UNC Chapel Hill & UT Austin", "venue": "Preprint", "approach": "Expert replication + quantization / 专家复制+量化负载均衡" },
+              { "paper": "MoE-Spec (2602.16052)", "affiliation": "Franklin & Marshall College", "venue": "Preprint", "approach": "Expert budgeting for speculative decoding / 投机解码专家预算" },
+              { "paper": "MoESD (2505.19645)", "affiliation": "Tsinghua University / 清华大学", "venue": "NeurIPS 2025", "approach": "Speculative decoding for sparse MoE / 稀疏MoE投机解码" },
+              { "paper": "PiKV (2508.06526)", "affiliation": "UCLA", "venue": "Preprint", "approach": "KV cache management for MoE / MoE KV缓存管理" },
+              { "paper": "SlimCaching (2507.06567)", "affiliation": "HKU / 香港大学", "venue": "IEEE TMC", "approach": "Edge caching for distributed inference / 边缘缓存分布式推理" },
+              { "paper": "Lynx (2411.08982)", "affiliation": "Georgia Tech", "venue": "Preprint", "approach": "Dynamic batch-aware expert selection / 动态批感知专家选择" },
+              { "paper": "MoE Compression (2602.09316)", "affiliation": "Northeastern University", "venue": "Preprint", "approach": "Heterogeneous inter-group SVD / 异构组间SVD压缩" },
+              { "paper": "Expert Offloading (2505.16056)", "affiliation": "Microsoft & Fudan / 微软 & 复旦", "venue": "Preprint", "approach": "Local routing consistency analysis / 局部路由一致性分析" },
+              { "paper": "Quant Experts (2602.24059)", "affiliation": "Xi'an Jiaotong Univ / 西安交通大学", "venue": "CVPR 2026", "approach": "Token-aware adaptive error reconstruction / Token感知自适应误差重建" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 4: MoE + LoRA / PEFT", "zh": "主题四：MoE 与 LoRA / 参数高效微调" }, "icon": "bulb" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "affiliation", "label": { "en": "Affiliation", "zh": "单位" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "innovation", "label": { "en": "Innovation", "zh": "创新点" } }
+            ],
+            "rows": [
+              { "paper": "LD-MoLE (2509.25684)", "affiliation": "Univ of Connecticut", "venue": "ICLR 2026", "innovation": "Learnable dynamic routing replacing fixed TopK / 可学习动态路由替代固定TopK" },
+              { "paper": "CoMoL (2603.00573)", "affiliation": "Zhejiang University / 浙江大学", "venue": "Preprint", "innovation": "Core space merging for MoE-LoRA / 核心空间融合MoE-LoRA" },
+              { "paper": "Space Experts (2602.14490)", "affiliation": "Yale University", "venue": "Preprint", "innovation": "LoRA in hyperbolic/spherical spaces / 双曲/球面空间LoRA" },
+              { "paper": "Make LoRA Great Again (2502.16894)", "affiliation": "CUHK & PKU / 港中文 & 北大", "venue": "ICML 2025", "innovation": "Adaptive SVD + MoE optimization alignment / 自适应SVD+MoE优化对齐" },
+              { "paper": "Lamer-SSL (2602.12746)", "affiliation": "CUHK / 香港中文大学", "venue": "ICASSP 2026", "innovation": "Layer-aware LoRA for multilingual SSL / 层感知LoRA多语言自监督" },
+              { "paper": "NeuronMoE (2603.05046)", "affiliation": "Univ of Tokyo / 东京大学", "venue": "Preprint", "innovation": "Neuron-guided expert allocation / 神经元引导专家分配" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 5: Theory & Interpretability", "zh": "主题五：理论与可解释性" }, "icon": "info" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "affiliation", "label": { "en": "Affiliation", "zh": "单位" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "contribution", "label": { "en": "Contribution", "zh": "贡献" } }
+            ],
+            "rows": [
+              { "paper": "Optimal Sparsity (2508.18672)", "affiliation": "Tokyo Tech & Tohoku Univ / 东工大 & 东北大学", "venue": "ICLR 2026 Oral", "contribution": "Scaling laws for MoE sparsity on reasoning vs knowledge / MoE稀疏度缩放定律" },
+              { "paper": "Expressive Power (2505.24205)", "affiliation": "PKU & Princeton / 北大 & 普林斯顿", "venue": "NeurIPS 2025 Spotlight", "contribution": "Systematic study of MoE expressiveness / MoE表达能力系统研究" },
+              { "paper": "Super Experts (2507.23279)", "affiliation": "HKU / 香港大学", "venue": "ICLR 2026", "contribution": "3 of 6144 experts are critical in Qwen3-30B / 6144专家中3个至关重要" },
+              { "paper": "MoE as Soft Clustering (2601.11616)", "affiliation": "Independent", "venue": "Preprint", "contribution": "Dual Jacobian-PCA spectral geometry / 双Jacobian-PCA谱几何" },
+              { "paper": "Geometry-Preserving (2602.14039)", "affiliation": "Sharif University of Technology", "venue": "Preprint", "contribution": "Hyperspherical aggregation for MoE embeddings / 超球面聚合" },
+              { "paper": "Finite-Rate Gating (2602.15091)", "affiliation": "Sharif University of Technology", "venue": "Preprint", "contribution": "Information-theoretic generalization bounds / 信息论泛化界" },
+              { "paper": "HP Transfer (2601.20205)", "affiliation": "Harvard & Princeton", "venue": "Preprint", "contribution": "Hyperparameter transfer for MoE layers / MoE超参数迁移" },
+              { "paper": "MoE Lens (2603.05806)", "affiliation": "Georgia Tech", "venue": "Workshop", "contribution": "Expert specialization via domain routing / 领域路由分析专家特化" },
+              { "paper": "Sparse Crosscoders (2603.05805)", "affiliation": "Georgia Tech", "venue": "Preprint", "contribution": "Diffing MoE vs dense internals / 对比MoE与Dense内部表征" },
+              { "paper": "MHA Forgetting (2602.12587)", "affiliation": "Fudan University / 复旦大学", "venue": "Preprint", "contribution": "Multi-head attention as forgetting source / 多头注意力是遗忘根源" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "tip",
+            "title": { "en": "Spotlight: Optimal Sparsity (Tokyo Tech + Tohoku, ICLR 2026 Oral) & Super Experts (HKU, ICLR 2026)", "zh": "重点关注：最优稀疏度（东工大+东北大学，ICLR 2026 Oral）& 超级专家（港大，ICLR 2026）" },
+            "content": {
+              "en": "(1) **Optimal Sparsity** reveals that MoE sparsity influences reasoning and knowledge tasks differently, providing the first empirical scaling law coefficients for MoE. (2) **Super Experts** discovers that pruning just 3 out of 6,144 experts in Qwen3-30B causes substantial performance collapse — revealing hidden critical structure.",
+              "zh": "(1) **最优稀疏度**揭示 MoE 稀疏度对推理和知识任务的影响截然不同，首次给出 MoE 经验缩放定律系数。(2) **超级专家**发现 Qwen3-30B 的 6144 个专家中仅剪掉 3 个就会导致性能崩溃，揭示了隐藏的关键结构。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 6: Vision & Multimodal Applications", "zh": "主题六：视觉与多模态应用" }, "icon": "star" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "affiliation", "label": { "en": "Affiliation", "zh": "单位" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "task", "label": { "en": "Task", "zh": "任务" } }
+            ],
+            "rows": [
+              { "paper": "IMSE (2603.07926)", "affiliation": "KAIST & LG Energy Solution", "venue": "ICLR 2026", "task": "Spectral experts for test-time adaptation / 频谱专家测试时自适应" },
+              { "paper": "MoDES (2511.15690)", "affiliation": "Beihang University / 北航", "venue": "CVPR 2026", "task": "Dynamic expert skipping for MLLMs / 多模态LLM动态专家跳过" },
+              { "paper": "MoE-GS (2510.19210)", "affiliation": "KT (Korea Telecom)", "venue": "ICLR 2026", "task": "Dynamic Gaussian splatting / 动态高斯泼溅" },
+              { "paper": "MiM-DiT (2603.02710)", "affiliation": "NJUST / 南京理工大学", "venue": "Preprint", "task": "Dual-level MoE for image restoration / 双层MoE全能图像修复" },
+              { "paper": "WMoE-CLIP (2603.06313)", "affiliation": "South China Normal Univ / 华南师范大学", "venue": "Preprint", "task": "Zero-shot anomaly detection / 零样本异常检测" },
+              { "paper": "UniMMAD (2509.25934)", "affiliation": "DUT / 大连理工大学", "venue": "CVPR 2026", "task": "Multi-modal anomaly detection / 多模态异常检测" },
+              { "paper": "Point-MoE (2505.23926)", "affiliation": "Univ of Virginia", "venue": "Preprint", "task": "3D semantic segmentation / 3D语义分割" },
+              { "paper": "NESTOR (2602.22059)", "affiliation": "Anhui University / 安徽大学", "venue": "CVPR 2026", "task": "Nested MoE for PDE solving / 嵌套MoE求解PDE" },
+              { "paper": "GazeMoE (2603.06256)", "affiliation": "Univ of West London", "venue": "ICRA 2026", "task": "Gaze target perception / 注视目标感知" },
+              { "paper": "Quant Experts (2602.24059)", "affiliation": "Xi'an Jiaotong Univ / 西交", "venue": "CVPR 2026", "task": "VLM quantization / 视觉语言模型量化" },
+              { "paper": "MEGADance (2505.17543)", "affiliation": "Tsinghua University / 清华", "venue": "NeurIPS 2025", "task": "Genre-aware 3D dance generation / 风格感知3D舞蹈生成" },
+              { "paper": "TenExp (2603.02720)", "affiliation": "UESTC / 电子科技大学", "venue": "Preprint", "task": "MoE-based tensor decomposition search / MoE张量分解搜索" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 7: Robotics & Embodied AI", "zh": "主题七：机器人与具身智能" }, "icon": "star" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "affiliation", "label": { "en": "Affiliation", "zh": "单位" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "task", "label": { "en": "Task", "zh": "任务" } }
+            ],
+            "rows": [
+              { "paper": "LAR-MoE (2603.08476)", "affiliation": "NCT/TU Dresden", "venue": "IROS 2026", "task": "Robotic imitation learning / 机器人模仿学习" },
+              { "paper": "MoDE-VLA (2603.08122)", "affiliation": "SJTU & Shanghai AI Lab / 上交 & 上海AI实验室", "venue": "Preprint", "task": "Bimanual dexterous manipulation / 双手灵巧操作" },
+              { "paper": "SAMoE-VLA (2603.08113)", "affiliation": "BIT / 北京理工大学", "venue": "Preprint", "task": "Autonomous driving / 自动驾驶" },
+              { "paper": "CMoE (2603.03067)", "affiliation": "PKU Shenzhen / 北大深圳", "venue": "Preprint", "task": "Humanoid locomotion / 人形运动" },
+              { "paper": "Optimus-3 (2506.10357)", "affiliation": "HIT / 哈尔滨工业大学", "venue": "Preprint", "task": "Minecraft dual-router MoE agent / 双路由MoE游戏智能体" },
+              { "paper": "Sim-to-Real MoE (2602.00678)", "affiliation": "Xi'an Jiaotong Univ / 西交", "venue": "Preprint", "task": "Quadrupedal locomotion / 四足运动" },
+              { "paper": "Phase-Aware MoE (2602.17038)", "affiliation": "NTU / 南洋理工大学", "venue": "Preprint", "task": "Agentic RL for LLM tasks / LLM智能体强化学习" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 8: Healthcare & Science", "zh": "主题八：医疗与科学" }, "icon": "info" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "affiliation", "label": { "en": "Affiliation", "zh": "单位" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "task", "label": { "en": "Task", "zh": "任务" } }
+            ],
+            "rows": [
+              { "paper": "ECG-MoE (2603.04589)", "affiliation": "Emory University", "venue": "Preprint", "task": "ECG analysis / 心电图分析" },
+              { "paper": "RANGER (2603.04348)", "affiliation": "Ohio State University", "venue": "Preprint", "task": "Pathology report generation / 病理报告生成" },
+              { "paper": "Head CT MoE (2603.00675)", "affiliation": "Siemens Healthineers", "venue": "Preprint", "task": "Head CT finding detection / 头部CT检测" },
+              { "paper": "SegMoTE (2602.19213)", "affiliation": "Sichuan University / 四川大学", "venue": "Preprint", "task": "Medical image segmentation / 医学图像分割" },
+              { "paper": "Protein MoE (2603.01511)", "affiliation": "Tencent & Univ of Macau / 腾讯 & 澳门大学", "venue": "Preprint", "task": "Protein active site identification / 蛋白质活性位点识别" },
+              { "paper": "mpLLM (2509.25889)", "affiliation": "UCLA", "venue": "Preprint", "task": "3D brain MRI VQA / 3D脑MRI视觉问答" },
+              { "paper": "MEDNA-DFM (2602.22850)", "affiliation": "Lanzhou Univ & CityU HK / 兰州大学 & 港城大", "venue": "Preprint", "task": "DNA methylation prediction / DNA甲基化预测" },
+              { "paper": "Scaling MLIPs (2603.07977)", "affiliation": "PKU & DP Technology / 北大 & 深势科技", "venue": "Preprint", "task": "Machine learning interatomic potentials / 机器学习原子间势能" },
+              { "paper": "MoEMba (2502.17457)", "affiliation": "Concordia University", "venue": "Preprint", "task": "EMG hand gesture recognition / 肌电手势识别" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 9: NLP, Speech & LLM Applications", "zh": "主题九：NLP、语音与 LLM 应用" }, "icon": "paper" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "affiliation", "label": { "en": "Affiliation", "zh": "单位" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "task", "label": { "en": "Task", "zh": "任务" } }
+            ],
+            "rows": [
+              { "paper": "Yuan3.0 Ultra (2601.14327)", "affiliation": "YuanLab.ai (IEIT Systems)", "venue": "Preprint", "task": "1T-param enterprise MoE LLM / 万亿参数企业MoE LLM" },
+              { "paper": "SteerMoE (2509.09660)", "affiliation": "UCLA & LMU Munich & Adobe", "venue": "ICLR 2026", "task": "Expert (de)activation for behavior steering / 专家(去)激活引导行为" },
+              { "paper": "MoEEdit (2602.10965)", "affiliation": "Georgia Tech", "venue": "Preprint", "task": "Knowledge editing for MoE LLMs / MoE LLM知识编辑" },
+              { "paper": "GRIP (2601.16905)", "affiliation": "Georgia Tech", "venue": "Preprint", "task": "Machine unlearning for MoE / MoE机器遗忘" },
+              { "paper": "Decoder-only Conformer (2602.12546)", "affiliation": "Kyoto University / 京都大学", "venue": "ICASSP 2026", "task": "Modality-aware MoE for ASR / 模态感知MoE语音识别" },
+              { "paper": "MiSTER-E (2602.23300)", "affiliation": "IISc Bangalore", "venue": "Elsevier CSL", "task": "Multimodal emotion recognition / 多模态情感识别" },
+              { "paper": "LIBMoE (2411.00918)", "affiliation": "VinAI & Singapore / VinAI & 新加坡", "venue": "ICLR 2026", "task": "MoE benchmarking library / MoE基准测试库" },
+              { "paper": "DeepSVU (2602.18019)", "affiliation": "Soochow University / 苏州大学", "venue": "Preprint", "task": "Security video understanding / 安防视频理解" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Theme 10: Federated Learning, Recommendation & Others", "zh": "主题十：联邦学习、推荐与其他" }, "icon": "link" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "paper", "label": { "en": "Paper", "zh": "论文" } },
+              { "key": "affiliation", "label": { "en": "Affiliation", "zh": "单位" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "发表" } },
+              { "key": "task", "label": { "en": "Task", "zh": "任务" } }
+            ],
+            "rows": [
+              { "paper": "CAMMSR (2603.04320)", "affiliation": "HKU / 香港大学", "venue": "ICDE 2026", "task": "Multimodal sequential recommendation / 多模态序列推荐" },
+              { "paper": "Modality-Guided MoE (2602.20723)", "affiliation": "Zhejiang University / 浙江大学", "venue": "Preprint", "task": "Multimodal recommendation / 多模态推荐" },
+              { "paper": "Fed-GAME (2603.01363)", "affiliation": "NUS / 新加坡国立大学", "venue": "Preprint", "task": "Federated time-series forecasting / 联邦时序预测" },
+              { "paper": "EMS-FL (2602.19485)", "affiliation": "CUHK-Shenzhen / 港中深", "venue": "IEEE TMC", "task": "MoE tuning in satellite networks / 卫星网络MoE微调" },
+              { "paper": "DeepFusion (2602.14301)", "affiliation": "Univ of Exeter", "venue": "Preprint", "task": "Federated knowledge distillation / 联邦知识蒸馏" },
+              { "paper": "Split-MoPE (2602.12708)", "affiliation": "Flower Labs", "venue": "Preprint", "task": "Vertical federated learning / 垂直联邦学习" },
+              { "paper": "Networked MoE FL (2511.01743)", "affiliation": "Georgia State University", "venue": "Preprint", "task": "MoE federated learning for edge / 边缘MoE联邦学习" },
+              { "paper": "MME Mesh (2603.00828)", "affiliation": "Technion", "venue": "Preprint", "task": "Mesh analysis / 网格分析" },
+              { "paper": "Malware MoE (2602.19025)", "affiliation": "Western University", "venue": "Preprint", "task": "Malware detection / 恶意软件检测" },
+              { "paper": "Adversarial MoE (2512.20821)", "affiliation": "Western University", "venue": "Preprint", "task": "Adversarial defense / 对抗防御" },
+              { "paper": "TiMi (2602.21693)", "affiliation": "Tsinghua University / 清华大学", "venue": "Preprint", "task": "Multimodal time series / 多模态时序" },
+              { "paper": "Switch-Hurdle (2602.22685)", "affiliation": "eMag (Romania)", "venue": "Preprint", "task": "Intermittent demand forecasting / 间歇需求预测" },
+              { "paper": "Massively Multimodal (2509.25678)", "affiliation": "CMU & JHU", "venue": "ICLR 2026", "task": "Many-sensor multimodal framework / 多传感器多模态框架" },
+              { "paper": "One-Prompt (2509.24483)", "affiliation": "UT Austin", "venue": "ICLR 2026", "task": "Prompt-based continual learning / 基于Prompt的持续学习" },
+              { "paper": "Analog-Digital (2603.02633)", "affiliation": "IBM Research", "venue": "Preprint", "task": "Analog in-memory computing for MoE / MoE模拟存内计算" },
+              { "paper": "In-Memory (2602.10254)", "affiliation": "Rice University", "venue": "ISCAS 2026", "task": "Area-efficient PIM for MoE / 面积高效MoE存内计算" },
+              { "paper": "Rule-Based MoE (2602.05100)", "affiliation": "Univ of Cincinnati", "venue": "Preprint", "task": "Explainable edge detection / 可解释边缘检测" },
+              { "paper": "BERT-MoE (2602.12778)", "affiliation": "Iran (Academic)", "venue": "Preprint", "task": "Persian sentiment analysis / 波斯语情感分析" },
+              { "paper": "QoS MoE (2601.11036)", "affiliation": "China (Academic)", "venue": "Preprint", "task": "QoS prediction / 服务质量预测" }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Institutional Landscape", "zh": "机构版图" }, "icon": "chart" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "The MoE research ecosystem reveals clear institutional patterns across industry and academia.",
+              "zh": "MoE 研究生态呈现出清晰的产学格局。"
+            }
+          }
+        },
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Industry", "zh": "产业界" },
+                "title": { "en": "Industry Leaders", "zh": "产业领军者" },
+                "description": { "en": "**NVIDIA** (3 papers: Megatron Core, Parallel Folding, Puzzle) dominates training infrastructure. **ByteDance** (4 papers: FP4, ReviveMoE, Grouter, AFD) is heavily invested in both training and serving. **Alibaba** (Expert Divergence, KBVQ-MoE, Routing Matters) focuses on architecture. **Huawei** (Semantic Parallelism), **Siemens** (Head CT), **Adobe** (SteerMoE), **IBM** (Analog-Digital), **Samsung** (Router Calibration), **Tencent** (Protein), and **YuanLab.ai** (Yuan3.0 Ultra) each contribute domain-specific work.", "zh": "**NVIDIA**（3篇：Megatron Core、Parallel Folding、Puzzle）主导训练基础设施。**字节跳动**（4篇：FP4、ReviveMoE、Grouter、AFD）在训练和推理上均有大量投入。**阿里巴巴**（Expert Divergence、KBVQ-MoE、Routing Matters）聚焦架构创新。**华为**（Semantic Parallelism）、**西门子**（Head CT）、**Adobe**（SteerMoE）、**IBM**（模拟计算）、**三星**（Router Calibration）、**腾讯**（蛋白质）和 **YuanLab.ai**（Yuan3.0 Ultra）各有垂直领域贡献。" }
+              },
+              {
+                "badge": { "en": "China", "zh": "中国高校" },
+                "title": { "en": "Chinese Universities", "zh": "中国高校" },
+                "description": { "en": "**Peking University** (LAER-MoE ASPLOS, Grouter, Expressive Power), **Tsinghua** (MoESD NeurIPS, TiMi, MEGADance), **Fudan** (SD-MoE, MHA Forgetting), **Zhejiang** (ExpertWeaver, CoMoL), **SJTU** (MoDE-VLA), **Xi'an Jiaotong** (Quant Experts CVPR, Sim-to-Real), **Renmin** (ERC Loss ICLR Oral), **Beihang** (MoDES CVPR), **DUT** (UniMMAD CVPR). Chinese institutions are particularly strong in architecture design and vision applications.", "zh": "**北京大学**（LAER-MoE ASPLOS、Grouter、表达能力）、**清华大学**（MoESD NeurIPS、TiMi、MEGADance）、**复旦大学**（SD-MoE、MHA Forgetting）、**浙江大学**（ExpertWeaver、CoMoL）、**上海交大**（MoDE-VLA）、**西安交大**（Quant Experts CVPR、Sim-to-Real）、**人民大学**（ERC Loss ICLR Oral）、**北航**（MoDES CVPR）、**大连理工**（UniMMAD CVPR）。中国高校在架构设计和视觉应用方面尤为突出。" }
+              },
+              {
+                "badge": { "en": "HK/Singapore", "zh": "港新" },
+                "title": { "en": "Hong Kong & Singapore", "zh": "香港与新加坡" },
+                "description": { "en": "**HKU** (Super Experts ICLR, SlimCaching, CAMMSR), **CUHK** (Make LoRA ICML, Lamer-SSL), **NUS** (MoNE ICLR, Fed-GAME). These institutions bridge theory and applications effectively.", "zh": "**香港大学**（Super Experts ICLR、SlimCaching、CAMMSR）、**香港中文大学**（Make LoRA ICML、Lamer-SSL）、**新加坡国立**（MoNE ICLR、Fed-GAME）。港新高校在理论与应用之间有效衔接。" }
+              },
+              {
+                "badge": { "en": "US", "zh": "美国" },
+                "title": { "en": "US Universities", "zh": "美国高校" },
+                "description": { "en": "**Stanford** (Sparse Checkpointing NSDI), **Harvard/Princeton** (HP Transfer, Expressive Power), **Georgia Tech** (MoEEdit, GRIP, Lynx, MoE Lens), **UCLA** (Multilingual Routing, SteerMoE, PiKV, mpLLM), **Yale** (Space Experts), **CMU** (Massively Multimodal, EvoESAP), **UT Austin** (One-Prompt). US universities dominate theory and systems.", "zh": "**斯坦福**（Sparse Checkpointing NSDI）、**哈佛/普林斯顿**（HP Transfer、表达能力）、**Georgia Tech**（MoEEdit、GRIP、Lynx、MoE Lens）、**UCLA**（Multilingual Routing、SteerMoE、PiKV、mpLLM）、**耶鲁**（Space Experts）、**CMU**（Massively Multimodal、EvoESAP）、**UT Austin**（One-Prompt）。美国高校在理论和系统方面占主导。" }
+              },
+              {
+                "badge": { "en": "Japan/Korea", "zh": "日韩" },
+                "title": { "en": "Japan & Korea", "zh": "日本与韩国" },
+                "description": { "en": "**Tokyo Tech + Tohoku** (Optimal Sparsity ICLR Oral), **Univ of Tokyo** (NeuronMoE), **Kyoto** (Conformer ASR), **KAIST** (IMSE ICLR), **KT** (MoE-GS ICLR). Japan excels in MoE theory; Korea in practical applications.", "zh": "**东工大+东北大学**（最优稀疏度 ICLR Oral）、**东京大学**（NeuronMoE）、**京都大学**（Conformer ASR）、**KAIST**（IMSE ICLR）、**KT**（MoE-GS ICLR）。日本在MoE理论方面出色，韩国在实际应用方面突出。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Key Trends & Observations", "zh": "关键趋势与观察" }, "icon": "bulb" },
+      "children": [
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Trend 1", "zh": "趋势 1" },
+                "title": { "en": "Expert Specialization Is the New Frontier", "zh": "专家特化成为新前沿" },
+                "description": { "en": "ERC Loss (Renmin Univ, ICLR Oral), Expert Divergence (Alibaba, ICLR), SD-MoE (Fudan), Synergistic Losses (ByteDance) all address expert homogenization from different angles.", "zh": "ERC Loss（人大，ICLR Oral）、Expert Divergence（阿里，ICLR）、SD-MoE（复旦）、Synergistic Losses（字节）从不同角度解决专家同质化问题。" }
+              },
+              {
+                "badge": { "en": "Trend 2", "zh": "趋势 2" },
+                "title": { "en": "Systems Reaching Production Maturity", "zh": "系统工作进入生产级成熟期" },
+                "description": { "en": "NVIDIA (Megatron Core), ByteDance (FP4, ReviveMoE), Stanford (NSDI), PKU (ASPLOS) driving MoE from prototype to production infrastructure.", "zh": "NVIDIA（Megatron Core）、字节跳动（FP4、ReviveMoE）、斯坦福（NSDI）、北大（ASPLOS）推动 MoE 从原型走向生产基础设施。" }
+              },
+              {
+                "badge": { "en": "Trend 3", "zh": "趋势 3" },
+                "title": { "en": "Chinese Institutions Dominate Architecture & Vision", "zh": "中国机构主导架构设计和视觉应用" },
+                "description": { "en": "Over 40% of papers come from Chinese universities or companies. Particularly strong in MoE architecture innovation (ERC Loss, MoUE, ExpertWeaver) and vision applications (MoDES, UniMMAD, Quant Experts — all CVPR 2026).", "zh": "超过 40% 的论文来自中国高校或企业。在 MoE 架构创新（ERC Loss、MoUE、ExpertWeaver）和视觉应用（MoDES、UniMMAD、Quant Experts — 均为 CVPR 2026）方面尤为突出。" }
+              },
+              {
+                "badge": { "en": "Trend 4", "zh": "趋势 4" },
+                "title": { "en": "Theory Led by US-Japan-China Triangle", "zh": "理论研究由美日中三角主导" },
+                "description": { "en": "Harvard/Princeton (HP Transfer, Expressive Power), Tokyo Tech/Tohoku (Optimal Sparsity ICLR Oral), HKU (Super Experts), Georgia Tech (Crosscoders, MoE Lens) form the theory core.", "zh": "哈佛/普林斯顿（HP Transfer、表达能力）、东工大/东北大学（最优稀疏度 ICLR Oral）、港大（超级专家）、Georgia Tech（Crosscoders、MoE Lens）构成理论研究的核心。" }
+              },
+              {
+                "badge": { "en": "Trend 5", "zh": "趋势 5" },
+                "title": { "en": "MoE for Robotics Emerging from China & Europe", "zh": "MoE 机器人应用从中国和欧洲兴起" },
+                "description": { "en": "SJTU (MoDE-VLA), BIT (SAMoE-VLA), PKU Shenzhen (CMoE), Xi'an Jiaotong (Sim-to-Real) from China; NCT/TU Dresden (LAR-MoE) from Germany. MoE naturally fits multi-skill robotics.", "zh": "上交（MoDE-VLA）、北理（SAMoE-VLA）、北大深圳（CMoE）、西交（Sim-to-Real）来自中国；NCT/TU Dresden（LAR-MoE）来自德国。MoE 天然适合多技能机器人。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Notable Venue Acceptances", "zh": "重要会议录用汇总" }, "icon": "star" },
+      "children": [
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "venue", "label": { "en": "Venue", "zh": "会议" } },
+              { "key": "papers", "label": { "en": "Papers (Affiliation)", "zh": "论文（单位）" } }
+            ],
+            "rows": [
+              { "venue": "ICLR 2026 Oral", "papers": "ERC Loss (Renmin Univ), Optimal Sparsity (Tokyo Tech + Tohoku)" },
+              { "venue": "ICLR 2026", "papers": "IMSE (KAIST), Expert Divergence (Alibaba), Multilingual Routing (UCLA), Routing Matters (Alibaba+HKU), SteerMoE (UCLA+Adobe), MoE-GS (KT), Super Experts (HKU), MoNE (NUS), KBVQ-MoE (CAS), LD-MoLE (UConn), Semantic Parallelism (Huawei), One-Prompt (UT Austin), Massively Multimodal (CMU+JHU), LIBMoE (VinAI)" },
+              { "venue": "CVPR 2026", "papers": "Quant Experts (Xi'an Jiaotong), MoDES (Beihang), NESTOR (Anhui Univ), UniMMAD (DUT)" },
+              { "venue": "ASPLOS 2026", "papers": "LAER-MoE (Peking University)" },
+              { "venue": "DAC 2026", "papers": "TriMoE (CAS ICT)" },
+              { "venue": "NSDI 2026", "papers": "Sparse Checkpointing (Stanford)" },
+              { "venue": "ICDE 2026", "papers": "CAMMSR (HKU)" },
+              { "venue": "NeurIPS 2025", "papers": "Mozart (UNC+NVIDIA), Expressive Power (PKU+Princeton), MoESD (Tsinghua), MEGADance (Tsinghua)" },
+              { "venue": "ICML 2025", "papers": "Make LoRA Great Again (CUHK+PKU)" }
+            ],
+            "striped": true,
+            "compact": false
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Sources", "zh": "信息来源" }, "icon": "link" },
+      "children": [
+        {
+          "type": "LinkGroup",
+          "props": {
+            "links": [
+              { "href": "https://arxiv.org/search/advanced", "label": "arXiv Advanced Search (Primary Source)", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2603.07685", "label": "Megatron Core MoE — NVIDIA", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2512.23447", "label": "ERC Loss — Renmin Univ (ICLR 2026 Oral)", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2508.18672", "label": "Optimal Sparsity — Tokyo Tech (ICLR 2026 Oral)", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2507.23279", "label": "Super Experts — HKU (ICLR 2026)", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2603.04971", "label": "MoUE — Baidu", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2602.11686", "label": "LAER-MoE — PKU (ASPLOS 2026)", "icon": "paper" },
+              { "href": "https://arxiv.org/abs/2505.24205", "label": "Expressive Power — PKU+Princeton (NeurIPS 2025)", "icon": "paper" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "BrandFooter",
+      "props": {
+        "timestamp": "2026-03-10T17:50:00Z",
+        "attribution": "Powered by Actionbook",
+        "disclaimer": {
+          "en": "This report was generated by AI. Author affiliations are based on arxiv metadata, OpenReview, and known researcher profiles. Some affiliations may be approximate — verify independently for critical use. Paper counts are approximate due to search query overlap.",
+          "zh": "本报告由 AI 生成。作者单位信息基于 arXiv 元数据、OpenReview 及已知研究者资料，部分单位信息可能为近似值，关键用途请独立核实。论文计数因搜索查询重叠可能存在近似。"
+        }
+      }
+    }
+  ]
+}
