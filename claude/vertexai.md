@@ -25,6 +25,7 @@ curl -fsSL https://claude.ai/install.sh | bash
 
 ```bash
 gcloud auth login
+# gcloud auth login --no-browser
 gcloud auth application-default login
 gcloud config set project neu-research
 gcloud auth application-default set-quota-project neu-research
