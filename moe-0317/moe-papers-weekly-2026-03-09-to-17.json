@@ -1,0 +1,524 @@
+{
+  "type": "Report",
+  "props": { "theme": "auto" },
+  "children": [
+    {
+      "type": "BrandHeader",
+      "props": {
+        "badge": { "en": "Deep Research Report", "zh": "深度研究报告" },
+        "poweredBy": "Actionbook"
+      }
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "MoE Papers on arXiv (2026/03/09 – 2026/03/17)", "zh": "arXiv MoE 论文周报（2026/03/09 – 2026/03/17）" }, "icon": "paper" },
+      "children": [
+        {
+          "type": "Prose",
+          "props": {
+            "content": {
+              "en": "This report summarizes **31 papers** related to Mixture-of-Experts (MoE) that appeared on arXiv during the week of March 9–17, 2026. These include newly submitted papers and updated versions of earlier works. The papers span a wide range of topics including **LLM training infrastructure** (NVIDIA Megatron Core), **MoE compression and efficiency** (LightMoE, REAP, SliceMoE), **robotics and VLA** (MoE-ACT, LAR-MoE, MoDE-VLA, SAMoE-VLA), **computer vision** (M2IR, SPMTrack, UniMMAD), **time series forecasting** (MoHETS, Seg-MoE), **scaling laws** (Optimal Expert-Attention Allocation, qs Inequality), and **theoretical foundations** (Variational Routing, Optimal Transport Aggregation).\n\nInstitutions represented include **NVIDIA**, **KAIST**, **Tsinghua University**, **Peking University**, **HKUST**, **Imperial College London**, **Weizmann Institute**, **AMD Research**, **Cerebras Systems**, and many more from across 10+ countries.",
+              "zh": "本报告汇总了 2026 年 3 月 9 日至 17 日期间在 arXiv 上出现的 **31 篇** MoE（Mixture-of-Experts，混合专家）相关论文，包括新提交论文和早期工作的更新版本。\n\n这些论文涵盖多个研究方向：**LLM 训练基础设施**（NVIDIA Megatron Core）、**MoE 压缩与效率优化**（LightMoE、REAP、SliceMoE）、**机器人与 VLA**（MoE-ACT、LAR-MoE、MoDE-VLA、SAMoE-VLA）、**计算机视觉**（M2IR、SPMTrack、UniMMAD）、**时间序列预测**（MoHETS、Seg-MoE）、**Scaling Law**（Optimal Expert-Attention Allocation、qs Inequality）以及**理论基础**（Variational Routing、Optimal Transport）。\n\n涉及的机构包括 **NVIDIA**、**KAIST**、**清华大学**、**北京大学**、**香港科技大学**、**帝国理工学院**、**Weizmann Institute**、**AMD Research**、**Cerebras Systems** 等，来自全球 10 多个国家。"
+            }
+          }
+        },
+        {
+          "type": "MetricsGrid",
+          "props": {
+            "cols": 4,
+            "metrics": [
+              { "label": { "en": "Total Papers", "zh": "论文总数" }, "value": "31", "suffix": "" },
+              { "label": { "en": "New Submissions (Mar 2026)", "zh": "3月新提交" }, "value": "18", "suffix": "" },
+              { "label": { "en": "Updated Versions", "zh": "更新版本" }, "value": "13", "suffix": "" },
+              { "label": { "en": "Countries Represented", "zh": "涉及国家" }, "value": "10+", "suffix": "" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Paper List with Affiliations", "zh": "论文列表及单位信息" }, "icon": "star" },
+      "children": [
+        {
+          "type": "Callout",
+          "props": {
+            "type": "info",
+            "title": { "en": "LLM Training & Systems", "zh": "LLM 训练与系统" },
+            "content": { "en": "Papers focused on training infrastructure, scaling, and systems optimization for MoE models.", "zh": "围绕 MoE 模型的训练基础设施、扩展性和系统优化的论文。" }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "id", "label": { "en": "arXiv ID", "zh": "arXiv ID" } },
+              { "key": "title", "label": { "en": "Title", "zh": "标题" } },
+              { "key": "affiliations", "label": { "en": "Affiliations", "zh": "单位" } },
+              { "key": "date", "label": { "en": "Submitted", "zh": "提交日期" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "会议/期刊" } }
+            ],
+            "rows": [
+              {
+                "id": "2603.07685",
+                "title": "Scalable Training of Mixture-of-Experts Models with Megatron Core",
+                "affiliations": "NVIDIA",
+                "date": "2026-03-08",
+                "venue": "Technical Report"
+              },
+              {
+                "id": "2603.10379",
+                "title": "Optimal Expert-Attention Allocation in MoE: A Scalable Law for Dynamic Model Design",
+                "affiliations": "HKUST (Guangzhou), HKUST, Ant Group",
+                "date": "2026-03-10",
+                "venue": "-"
+              },
+              {
+                "id": "2603.08960",
+                "title": "The qs Inequality: Quantifying the Double Penalty of MoE at Inference",
+                "affiliations": "AMD Research",
+                "date": "2026-03-09",
+                "venue": "-"
+              },
+              {
+                "id": "2603.11114",
+                "title": "Task-Conditioned Routing Signatures in Sparse MoE Transformers",
+                "affiliations": "Independent Researcher / Asthra Labs",
+                "date": "2026-03-11",
+                "venue": "-"
+              }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "info",
+            "title": { "en": "MoE Compression & Efficiency", "zh": "MoE 压缩与效率" },
+            "content": { "en": "Papers on expert pruning, replacing, compression, and inference optimization.", "zh": "专家剪枝、替换、压缩和推理优化相关论文。" }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "id", "label": { "en": "arXiv ID", "zh": "arXiv ID" } },
+              { "key": "title", "label": { "en": "Title", "zh": "标题" } },
+              { "key": "affiliations", "label": { "en": "Affiliations", "zh": "单位" } },
+              { "key": "date", "label": { "en": "Submitted", "zh": "提交日期" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "会议/期刊" } }
+            ],
+            "rows": [
+              {
+                "id": "2603.12645",
+                "title": "LightMoE: Reducing MoE Redundancy through Expert Replacing",
+                "affiliations": "BIT, CityU HK, Sun Yat-sen Univ, Wuhan Univ, Shanghai Univ",
+                "date": "2026-03-13",
+                "venue": "-"
+              },
+              {
+                "id": "2510.13999",
+                "title": "REAP the Experts: Why Pruning Prevails for One-Shot MoE Compression",
+                "affiliations": "Cerebras Systems, University of Calgary",
+                "date": "2025-10-15 (updated)",
+                "venue": "ICLR 2026"
+              },
+              {
+                "id": "2512.12990",
+                "title": "SliceMoE: Bit-Sliced Expert Caching for Efficient MoE Inference",
+                "affiliations": "KAIST",
+                "date": "2025-12-15 (updated)",
+                "venue": "DAC 2026"
+              },
+              {
+                "id": "2603.13213",
+                "title": "MoEKD: MoE Knowledge Distillation for Robust Compressed Code Models",
+                "affiliations": "University of Saskatchewan, Canada",
+                "date": "2026-03-13",
+                "venue": "EASE 2026"
+              }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "info",
+            "title": { "en": "Robotics & VLA", "zh": "机器人与 VLA" },
+            "content": { "en": "MoE applied to robotic imitation learning and Vision-Language-Action models.", "zh": "MoE 在机器人模仿学习和视觉-语言-动作模型中的应用。" }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "id", "label": { "en": "arXiv ID", "zh": "arXiv ID" } },
+              { "key": "title", "label": { "en": "Title", "zh": "标题" } },
+              { "key": "affiliations", "label": { "en": "Affiliations", "zh": "单位" } },
+              { "key": "date", "label": { "en": "Submitted", "zh": "提交日期" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "会议/期刊" } }
+            ],
+            "rows": [
+              {
+                "id": "2603.15265",
+                "title": "MoE-ACT: Scaling Multi-Task Bimanual Manipulation with Sparse MoE Transformers",
+                "affiliations": "HKUST (Guangzhou), HKUST",
+                "date": "2026-03-16",
+                "venue": "-"
+              },
+              {
+                "id": "2603.08476",
+                "title": "LAR-MoE: Latent-Aligned Routing for MoE in Robotic Imitation Learning",
+                "affiliations": "NCT/UCC Dresden, TU Dresden",
+                "date": "2026-03-09",
+                "venue": "Submitted to IROS 2026"
+              },
+              {
+                "id": "2603.08122",
+                "title": "MoDE-VLA: Towards Human-Like Manipulation through RL-Augmented Teleoperation",
+                "affiliations": "Shanghai Jiao Tong Univ, Sharpa, Shanghai AI Lab, Zhongguancun Academy, NUS",
+                "date": "2026-03-09",
+                "venue": "-"
+              },
+              {
+                "id": "2603.08113",
+                "title": "SAMoE-VLA: Scene Adaptive MoE Vision-Language-Action for Autonomous Driving",
+                "affiliations": "AIR/Tsinghua Univ, Southeast Univ, HUST, USTC, USTB",
+                "date": "2026-03-09",
+                "venue": "-"
+              }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "info",
+            "title": { "en": "Computer Vision & Tracking", "zh": "计算机视觉与追踪" },
+            "content": { "en": "MoE for image restoration, visual tracking, anomaly detection, and image generation.", "zh": "MoE 在图像恢复、视觉追踪、异常检测和图像生成中的应用。" }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "id", "label": { "en": "arXiv ID", "zh": "arXiv ID" } },
+              { "key": "title", "label": { "en": "Title", "zh": "标题" } },
+              { "key": "affiliations", "label": { "en": "Affiliations", "zh": "单位" } },
+              { "key": "date", "label": { "en": "Submitted", "zh": "提交日期" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "会议/期刊" } }
+            ],
+            "rows": [
+              {
+                "id": "2603.14816",
+                "title": "M2IR: Proactive All-in-One Image Restoration via Mamba-style Modulation and MoE",
+                "affiliations": "NUAA, Anhui Univ of Tech, Tsinghua Univ (Shenzhen), Taiyuan Univ of Tech",
+                "date": "2026-03-16",
+                "venue": "-"
+              },
+              {
+                "id": "2603.13719",
+                "title": "Sparse-Dense Mixture of Experts Adapter for Multi-Modal Tracking",
+                "affiliations": "Anhui Univ of Sci & Tech, Anhui University",
+                "date": "2026-03-13",
+                "venue": "-"
+              },
+              {
+                "id": "2603.12538",
+                "title": "SERA: Spatio-Semantic Expert Routing Architecture with MoE for Referring Image Segmentation",
+                "affiliations": "KFUPM, SDAIA-KFUPM (Saudi Arabia)",
+                "date": "2026-03-12",
+                "venue": "-"
+              },
+              {
+                "id": "2503.18338",
+                "title": "SPMTrack: Spatio-Temporal Parameter-Efficient Fine-Tuning with MoE for Visual Tracking",
+                "affiliations": "Beihang University, Zhongguancun Laboratory",
+                "date": "2025-03-24 (updated)",
+                "venue": "CVPR 2025"
+              },
+              {
+                "id": "2509.25934",
+                "title": "UniMMAD: Unified Multi-Modal and Multi-Class Anomaly Detection via MoE-Driven Feature Decompression",
+                "affiliations": "Dalian Univ of Tech, X3000 Inspection, NTU",
+                "date": "2025-09-30 (updated)",
+                "venue": "CVPR 2026"
+              },
+              {
+                "id": "2510.08629",
+                "title": "Dynamic Mixture-of-Experts for Visual Autoregressive Model",
+                "affiliations": "Univ of Amsterdam / UvA-Bosch Delta Lab, Imperial College London",
+                "date": "2025-10-08 (updated)",
+                "venue": "DeLTa Workshop, ICLR 2026"
+              },
+              {
+                "id": "2603.07926",
+                "title": "IMSE: Intrinsic Mixture of Spectral Experts Fine-tuning for Test-Time Adaptation",
+                "affiliations": "KAIST, LG Energy Solution",
+                "date": "2026-03-08",
+                "venue": "ICLR 2026"
+              }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "info",
+            "title": { "en": "Theoretical & Bayesian", "zh": "理论与贝叶斯方法" },
+            "content": { "en": "Theoretical analysis, Bayesian approaches, and foundational MoE research.", "zh": "理论分析、贝叶斯方法及 MoE 基础研究。" }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "id", "label": { "en": "arXiv ID", "zh": "arXiv ID" } },
+              { "key": "title", "label": { "en": "Title", "zh": "标题" } },
+              { "key": "affiliations", "label": { "en": "Affiliations", "zh": "单位" } },
+              { "key": "date", "label": { "en": "Submitted", "zh": "提交日期" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "会议/期刊" } }
+            ],
+            "rows": [
+              {
+                "id": "2603.09453",
+                "title": "Variational Routing: A Scalable Bayesian Framework for Calibrated MoE Transformers",
+                "affiliations": "Imperial College London",
+                "date": "2026-03-10",
+                "venue": "-"
+              },
+              {
+                "id": "2312.09877",
+                "title": "Optimal Transport Aggregation for Distributed Mixture-of-Experts",
+                "affiliations": "IRT SystemX, Normandie Univ / UNICAEN / CNRS (France)",
+                "date": "2023-12-15 (updated)",
+                "venue": "-"
+              },
+              {
+                "id": "2602.04105",
+                "title": "Expert Selections In MoE Models Reveal (Almost) As Much As Text",
+                "affiliations": "MBZUAI, RAND / Oregon State University",
+                "date": "2026-02-03 (updated)",
+                "venue": "ICLR 2026 Workshop"
+              },
+              {
+                "id": "2509.24483",
+                "title": "One-Prompt Strikes Back: Sparse MoE for Prompt-based Continual Learning",
+                "affiliations": "Trivita AI, UT Austin, Northeastern Univ, HUST, Rutgers Univ",
+                "date": "2025-09-29 (updated)",
+                "venue": "ICLR 2026"
+              }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "info",
+            "title": { "en": "Time Series, Weather & Speech", "zh": "时间序列、气象与语音" },
+            "content": { "en": "MoE for time series forecasting, weather prediction, speech recognition, and speaker verification.", "zh": "MoE 在时间序列预测、气象预报、语音识别和说话人验证中的应用。" }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "id", "label": { "en": "arXiv ID", "zh": "arXiv ID" } },
+              { "key": "title", "label": { "en": "Title", "zh": "标题" } },
+              { "key": "affiliations", "label": { "en": "Affiliations", "zh": "单位" } },
+              { "key": "date", "label": { "en": "Submitted", "zh": "提交日期" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "会议/期刊" } }
+            ],
+            "rows": [
+              {
+                "id": "2601.21866",
+                "title": "MoHETS: Long-term Time Series Forecasting with Mixture-of-Heterogeneous-Experts",
+                "affiliations": "Weizmann Institute of Science, MBZUAI",
+                "date": "2026-01-29 (updated)",
+                "venue": "Under review"
+              },
+              {
+                "id": "2601.21641",
+                "title": "Seg-MoE: Multi-Resolution Segment-wise MoE for Time Series Forecasting Transformers",
+                "affiliations": "Weizmann Institute of Science, MBZUAI",
+                "date": "2026-01-29 (updated)",
+                "venue": "Under review"
+              },
+              {
+                "id": "2603.13818",
+                "title": "PA-Net: Precipitation-Adaptive MoE for Long-Tail Rainfall Nowcasting",
+                "affiliations": "Fudan Univ, Southwest Jiaotong Univ, Zhejiang Univ, CAS (CASIA), China Met. Admin.",
+                "date": "2026-03-14",
+                "venue": "-"
+              },
+              {
+                "id": "2601.00557",
+                "title": "A Language-Agnostic Hierarchical LoRA-MoE Architecture for CTC-based Multilingual ASR",
+                "affiliations": "Shanghai Normal University",
+                "date": "2026-01-01 (updated)",
+                "venue": "IEEE Communications Letters (submitted)"
+              },
+              {
+                "id": "2510.18533",
+                "title": "Noise-Conditioned Mixture-of-Experts Framework for Robust Speaker Verification",
+                "affiliations": "NUDT (National University of Defense Technology)",
+                "date": "2025-10-21 (updated)",
+                "venue": "IEEE Signal Processing Letters"
+              }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        },
+        {
+          "type": "Callout",
+          "props": {
+            "type": "info",
+            "title": { "en": "Other Applications", "zh": "其他应用" },
+            "content": { "en": "MoE in scientific computing, networking, and biological data analysis.", "zh": "MoE 在科学计算、网络路由和生物数据分析中的应用。" }
+          }
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              { "key": "id", "label": { "en": "arXiv ID", "zh": "arXiv ID" } },
+              { "key": "title", "label": { "en": "Title", "zh": "标题" } },
+              { "key": "affiliations", "label": { "en": "Affiliations", "zh": "单位" } },
+              { "key": "date", "label": { "en": "Submitted", "zh": "提交日期" } },
+              { "key": "venue", "label": { "en": "Venue", "zh": "会议/期刊" } }
+            ],
+            "rows": [
+              {
+                "id": "2603.07977",
+                "title": "Scaling Machine Learning Interatomic Potentials with Mixtures of Experts",
+                "affiliations": "AI for Science Institute, DP Technology, Peking University, IAPCM",
+                "date": "2026-03-09",
+                "venue": "-"
+              },
+              {
+                "id": "2603.15541",
+                "title": "Bridging Local and Global Knowledge: Ca-MoE for Near-Shortest Path Routing",
+                "affiliations": "The Ohio State University",
+                "date": "2026-03-16",
+                "venue": "-"
+              },
+              {
+                "id": "2507.01375",
+                "title": "Mixtures of Neural Network Experts with Application to Phytoplankton Flow Cytometry Data",
+                "affiliations": "UC Santa Cruz, University of Washington",
+                "date": "2025-07-02 (updated)",
+                "venue": "Under review (Environmetrics)"
+              }
+            ],
+            "striped": true,
+            "compact": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "Key Highlights", "zh": "重点亮点" }, "icon": "bulb" },
+      "children": [
+        {
+          "type": "ContributionList",
+          "props": {
+            "items": [
+              {
+                "badge": { "en": "Industry", "zh": "工业界" },
+                "title": { "en": "NVIDIA Megatron Core MoE Training Report", "zh": "NVIDIA Megatron Core MoE 训练报告" },
+                "description": { "en": "NVIDIA published an 88-page technical report on scaling MoE training with Megatron Core, achieving 1,233 TFLOPS/GPU on GB300 for DeepSeek-V3-685B. This is a production-ready, open-source framework used across academia and industry for training trillion-parameter MoE models.", "zh": "NVIDIA 发布了一份 88 页的技术报告，介绍 Megatron Core 的 MoE 训练优化。在 GB300 上训练 DeepSeek-V3-685B 达到 1,233 TFLOPS/GPU。这是一个已在学术界和工业界广泛使用的开源框架，支持万亿参数级 MoE 模型训练。" }
+              },
+              {
+                "badge": { "en": "Theory", "zh": "理论" },
+                "title": { "en": "AMD's qs Inequality: MoE Inference Double Penalty", "zh": "AMD 提出 qs 不等式：MoE 推理的双重惩罚" },
+                "description": { "en": "AMD Research formalized the 'double penalty' of MoE at inference—routing fragmentation reduces weight reuse while massive expert pools reduce KV cache headroom. For DeepSeek-V3 at 128k context, a quality-matched dense model achieves 4.5x throughput advantage.", "zh": "AMD Research 将 MoE 推理的「双重惩罚」形式化：路由碎片化降低权重复用，同时大规模专家池挤压 KV Cache 空间。DeepSeek-V3 在 128k 上下文下，等质量的 Dense 模型吞吐量优势达 4.5 倍。" }
+              },
+              {
+                "badge": { "en": "ICLR 2026", "zh": "ICLR 2026" },
+                "title": { "en": "Multiple ICLR 2026 Acceptances", "zh": "多篇论文被 ICLR 2026 录用" },
+                "description": { "en": "Several papers in this week's collection have been accepted to ICLR 2026: IMSE (KAIST), REAP the Experts (Cerebras/Calgary), One-Prompt Strikes Back (UT Austin et al.), Dynamic MoE for VAR (Amsterdam/Imperial), and Expert Selections privacy attack (MBZUAI/RAND).", "zh": "本周收录的多篇论文已被 ICLR 2026 录用：IMSE（KAIST）、REAP the Experts（Cerebras/Calgary）、One-Prompt Strikes Back（UT Austin 等）、Dynamic MoE for VAR（Amsterdam/Imperial）以及 Expert Selections 隐私攻击（MBZUAI/RAND）。" }
+              },
+              {
+                "badge": { "en": "Robotics", "zh": "机器人" },
+                "title": { "en": "MoE Booming in Robotics VLA", "zh": "MoE 在机器人 VLA 领域持续爆发" },
+                "description": { "en": "Four papers this week apply MoE to robotic manipulation and autonomous driving VLA models: MoE-ACT (HKUST), LAR-MoE (TU Dresden), MoDE-VLA (SJTU/Shanghai AI Lab), and SAMoE-VLA (Tsinghua AIR). This indicates MoE is becoming a standard component in multi-task robotic policies.", "zh": "本周有四篇论文将 MoE 应用于机器人操作和自动驾驶 VLA 模型：MoE-ACT（港科大）、LAR-MoE（TU Dresden）、MoDE-VLA（上交/上海 AI Lab）和 SAMoE-VLA（清华 AIR）。MoE 正成为多任务机器人策略的标配组件。" }
+              },
+              {
+                "badge": { "en": "Scaling Law", "zh": "Scaling Law" },
+                "title": { "en": "Expert-Attention Compute Allocation Scaling Law", "zh": "Expert-Attention 计算分配的 Scaling Law" },
+                "description": { "en": "Researchers from HKUST and Ant Group derived an explicit formula for the optimal expert-attention compute ratio in MoE models, extending the Chinchilla scaling law to incorporate this new architectural parameter.", "zh": "香港科技大学和蚂蚁集团的研究者推导出 MoE 模型中 Expert-Attention 计算比例的最优分配公式，将 Chinchilla Scaling Law 扩展到了这一新的架构参数维度。" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Section",
+      "props": { "title": { "en": "arXiv Links", "zh": "arXiv 链接汇总" }, "icon": "link" },
+      "children": [
+        {
+          "type": "LinkGroup",
+          "props": {
+            "links": [
+              { "href": "https://arxiv.org/abs/2603.07685", "label": "2603.07685 - Megatron Core MoE Training (NVIDIA)" },
+              { "href": "https://arxiv.org/abs/2603.15541", "label": "2603.15541 - Ca-MoE Routing (Ohio State)" },
+              { "href": "https://arxiv.org/abs/2603.15265", "label": "2603.15265 - MoE-ACT (HKUST)" },
+              { "href": "https://arxiv.org/abs/2603.14816", "label": "2603.14816 - M2IR Image Restoration (NUAA)" },
+              { "href": "https://arxiv.org/abs/2603.13818", "label": "2603.13818 - PA-Net Rainfall Nowcasting (Fudan)" },
+              { "href": "https://arxiv.org/abs/2603.13719", "label": "2603.13719 - SDMoEA Multi-Modal Tracking (Anhui)" },
+              { "href": "https://arxiv.org/abs/2603.13213", "label": "2603.13213 - MoEKD Code Models (U Saskatchewan)" },
+              { "href": "https://arxiv.org/abs/2603.12645", "label": "2603.12645 - LightMoE Expert Replacing (BIT)" },
+              { "href": "https://arxiv.org/abs/2603.12538", "label": "2603.12538 - SERA Referring Segmentation (KFUPM)" },
+              { "href": "https://arxiv.org/abs/2603.11114", "label": "2603.11114 - Routing Signatures (Independent)" },
+              { "href": "https://arxiv.org/abs/2603.10379", "label": "2603.10379 - Expert-Attention Scaling Law (HKUST/Ant)" },
+              { "href": "https://arxiv.org/abs/2603.09453", "label": "2603.09453 - Variational Routing (Imperial College)" },
+              { "href": "https://arxiv.org/abs/2603.08960", "label": "2603.08960 - qs Inequality (AMD)" },
+              { "href": "https://arxiv.org/abs/2603.08476", "label": "2603.08476 - LAR-MoE Robotic IL (TU Dresden)" },
+              { "href": "https://arxiv.org/abs/2603.08122", "label": "2603.08122 - MoDE-VLA Dexterous Manipulation (SJTU)" },
+              { "href": "https://arxiv.org/abs/2603.08113", "label": "2603.08113 - SAMoE-VLA Autonomous Driving (Tsinghua)" },
+              { "href": "https://arxiv.org/abs/2603.07977", "label": "2603.07977 - MoE for MLIPs (AISI/PKU)" },
+              { "href": "https://arxiv.org/abs/2603.07926", "label": "2603.07926 - IMSE Test-Time Adaptation (KAIST)" },
+              { "href": "https://arxiv.org/abs/2602.04105", "label": "2602.04105 - Expert Selections Privacy (MBZUAI/RAND)" },
+              { "href": "https://arxiv.org/abs/2601.21866", "label": "2601.21866 - MoHETS Time Series (Weizmann)" },
+              { "href": "https://arxiv.org/abs/2601.21641", "label": "2601.21641 - Seg-MoE Time Series (Weizmann)" },
+              { "href": "https://arxiv.org/abs/2601.00557", "label": "2601.00557 - LoRA-MoE ASR (Shanghai Normal Univ)" },
+              { "href": "https://arxiv.org/abs/2512.12990", "label": "2512.12990 - SliceMoE Inference (KAIST)" },
+              { "href": "https://arxiv.org/abs/2510.18533", "label": "2510.18533 - Noise-Conditioned MoE SV (NUDT)" },
+              { "href": "https://arxiv.org/abs/2510.13999", "label": "2510.13999 - REAP Expert Pruning (Cerebras)" },
+              { "href": "https://arxiv.org/abs/2510.08629", "label": "2510.08629 - Dynamic MoE for VAR (Amsterdam)" },
+              { "href": "https://arxiv.org/abs/2509.25934", "label": "2509.25934 - UniMMAD Anomaly Detection (DUT/NTU)" },
+              { "href": "https://arxiv.org/abs/2509.24483", "label": "2509.24483 - SMoPE Continual Learning (UT Austin)" },
+              { "href": "https://arxiv.org/abs/2507.01375", "label": "2507.01375 - Phytoplankton MoE (UC Santa Cruz)" },
+              { "href": "https://arxiv.org/abs/2503.18338", "label": "2503.18338 - SPMTrack Visual Tracking (Beihang)" },
+              { "href": "https://arxiv.org/abs/2312.09877", "label": "2312.09877 - OT Aggregation for MoE (IRT SystemX)" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "BrandFooter",
+      "props": {
+        "timestamp": "2026-03-17T18:30:00Z",
+        "attribution": "Powered by Actionbook",
+        "disclaimer": {
+          "en": "This report was generated by AI using web sources. Verify critical information independently. Paper affiliations were extracted from PDFs and may not include all co-authors' institutions.",
+          "zh": "本报告由 AI 基于网络来源生成，请独立验证关键信息。作者单位信息从 PDF 中提取，可能未涵盖所有共同作者的机构。"
+        }
+      }
+    }
+  ]
+}
