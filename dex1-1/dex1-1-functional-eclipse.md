@@ -8,6 +8,8 @@
 - **输入源**：手柄"扳机键"（Trigger，前端食指那个模拟键）或手部"拇食指捏合距离"。两路输入都被归一到同一量纲（`~10.0 → 0.0`），共用同一套映射代码。
 - **是否模拟量**：**是**。扳机有 `bool` 和 `float` 两种暴露，dex1 用的是 `float`。
 - **是否有快慢/力控**：**没有**。纯位置映射，扳机扣多深就指令夹爪张多大；速度由服务端速率限幅约束（≈ 36 rad/s）。
+- **是否有力反馈/堵转保护**：**没有**。主机端只读位置 `q`，不读 `tau_est`；不写 `tau_max`；夹住物体后由固件 PD（`kp=5.0, kd=0.05`）持续输出 `τ ≈ kp × Δq`，无时长上限。
+- **启动行为**：**两步**——进程一启动，夹爪先自动到 **半开 (2.70 rad)**；按 `r` 后第 1 帧主循环喂入 wrapper 默认值 10.0，target 跳到 **全开 (5.40 rad)**。
 - **重要细节**：扳机有效行程只占原始量程的 30%~50% 这 20% 的窗口，前后都是饱和死区。
 
 ---
@@ -160,29 +162,123 @@ LEFT_MAPPED_MAX          = 5.40    # 电机角度上限（=MIN+5.40）
 
 ---
 
-## 五、速度/力 控制说明
+## 五、速度/力控制 与 抓握后行为
 
-| 维度 | 是否支持 |
+### 5.1 各维度支持情况
+
+| 维度 | 是否支持 | 说明 |
+|---|:-:|---|
+| 位置控制 | ✅ | 唯一控制方式 |
+| 速度控制（`dq`）| ❌ | 命令字段恒为 0 |
+| 力矩控制（`tau`）| ❌ | 命令字段恒为 0 |
+| 力矩反馈（`tau_est`）| ❌ | IDL 有字段，但主机不读（`robot_hand_unitree.py:299-307` 只读 `q`）|
+| 电流监测 / 温度监测 | ❌ | 同上，主机不读 |
+| 堵转检测 / 自动释放 | ❌ | 主机代码完全没有 |
+| 力上限 / 力矩封顶 | ❌ | `MotorCmd_` IDL 没有 `tau_max` 字段 |
+| 用户扳机扣得快/慢 | ❌ | 只看当前位置 |
+
+### 5.2 速度上限（唯一存在的"硬约束"）
+
+`DELTA_GRIPPER_CMD = 0.18 rad/step` @ 200 Hz：
+- 极速 = 0.18 × 200 = **36 rad/s**
+- 全开 ↔ 全闭（5.40 rad）耗时 ≈ **150 ms**
+- 用户扳机切换若 < 150 ms，夹爪能跟上；> 150 ms 按用户节奏走
+
+### 5.3 抓住物体后会发生什么
+
+主机层**没有任何介入机制**。整个力学行为完全交给固件 PD：
+
+```
+τ_motor = kp × (q_cmd − q_actual) + kd × (dq_cmd − dq_actual) + tau_ff
+        = 5.00 × Δq + 0.05 × (−dq_actual) + 0
+```
+
+举例：扳机扣到底（`triggerValue = 0.0` → `q_cmd = 0.0`），但物体阻挡 `q_actual` 卡在 `2.0`：
+- 速率限幅每周期把 `q_cmd` 朝 0 推进 0.18，最终稳态 `q_cmd = 0.0`
+- 误差 `Δq = −2.0` 持续存在
+- 固件输出 `τ ≈ 5.00 × (−2.0) = −10`（朝合力方向）
+- **无时长上限、无力上限**——只受电机本体最大输出能力 / 驱动器自身的过流过温保护约束（仓库外）
+
+### 5.4 主机层的"准上限"机制（不是力控，是位置约束）
+
+| 机制 | 实际效果 |
 |---|---|
-| 位置控制 | ✅ 唯一控制方式 |
-| 速度控制（dq） | ❌ 恒为 0 |
-| 力矩控制（tau） | ❌ 恒为 0 |
-| 力反馈 | ❌ 不读取夹爪力矩 |
-| 用户扳机扣得快/慢 | ❌ 无差异（只看当前位置）|
+| 命令位置硬截断 `[0.0, 5.40]` | `np.interp` 自动钳位，指令本身不会超出物理行程 |
+| 速率限幅 `±0.18 rad/step` | 限制**指令变化速率**，不是力。物体阻挡时 `q_cmd` 仍以 0.18 rad/step 持续逼近目标 |
+| WMA 滤波（仅物理机） | 让 `q_cmd` 平滑，间接降低瞬时冲击力 |
 
-**唯一的速度上限**来自服务端速率限幅：
-- `DELTA_GRIPPER_CMD = 0.18 rad/step` @ 200 Hz → **极速 36 rad/s**
-- 全开↔全闭（5.40 rad）≈ **150 ms**
-- 用户扳机切换若 < 150 ms，夹爪能跟上；若 > 150 ms，夹爪按用户节奏；中间不存在"力控/速度控/加速度控"语义
+> 💡 `kp=5.0` 比较弱（对照 `robot_arm.py` 的 `kp_high` 通常几百），所以**事实上的"软"力控**——夹紧力不会非常大，但这不是显式力上限，物体硬度足够时电机会持续吃电。
+>
+> 如果需要"夹到一定力就停止 / 触觉反馈"，必须自己读 `MotorStates_.tau_est`（IDL 已有但没人读），在主机环里做闭环。
 
-**仿真模式（`--sim`）的差异**：
+### 5.5 安全释放手段
+
+| 操作 | 效果 |
+|---|---|
+| 用户松扳机 | `q_cmd → 5.40`，夹爪打开 |
+| 按 `q` 退出主程序 | 进程结束，DDS 命令停发；电机保留最后状态（具体看固件）|
+| 双手柄 thumbstick 同时按下（`--motion`）| 调 `loco_wrapper.Damp()`，全身阻尼模式（夹爪是否进阻尼看固件，主机这一侧没单独处理）|
+| 仓库外手段 | 物理急停按钮、断电 |
+
+### 5.6 仿真模式（`--sim`）的差异
+
 - 跳过速率限幅（`robot_hand_unitree.py:367-372`）
 - 跳过 WMA 滤波（`robot_hand_unitree.py:262-265`）
-- → 仿真里夹爪可瞬间到位，物理机里有限速
+- → 仿真里夹爪可瞬间到位，物理机有限速
 
 ---
 
-## 六、手柄其它按键功能（仅供参考）
+## 六、启动行为时间线
+
+> **结论**：抓夹**不是一步张到最大**，而是分两步：①进程启动→**半开 2.70 rad**；②按 `r` 后第 1 帧→**全开 5.40 rad**。
+
+### 6.1 完整时间线
+
+| 时刻 | 事件 | 命令位置 `q_cmd` | 物理位置 |
+|---|---|---|---|
+| `t = 0` | 主程序构造 `Dex1_1_Gripper_Controller`（`teleop_hand_and_arm.py:177`）| 还未发布 | 上次断电时停的位置 X |
+| `t = 0+` | 控制线程立刻以 200 Hz 启动；`target = 2.70`；守卫挡住 wrapper 数据 | **2.70**（半开）| 从 X 以 36 rad/s 朝 2.70 走 |
+| `t ≈ 150 ms` 内 | DDS 持续发 `q=2.70` | 2.70 | **稳定在 2.70**（半开）|
+| 用户按 `r` | `START=True`，进入主循环（`teleop_hand_and_arm.py:251-260`）| — | — |
+| 主循环第 1 帧 | `tele_data.triggerValue` 默认 10.0（手柄未扣）；写共享内存 | target → 5.40（全开）| 从 2.70 朝 5.40 走 |
+| `t + ~75 ms` | — | 5.40 | **稳定在 5.40**（全开）|
+| 用户开始扣扳机 | trigger ↓ → target ↓ | 跟随 | 跟随 |
+
+### 6.2 为什么是这个行为
+
+**第一步（半开）的原因**——`Dex1_1_Gripper_Controller.control_thread` 启动时（`robot_hand_unitree.py:329-330`）：
+```python
+left_target_action  = (LEFT_MAPPED_MAX - LEFT_MAPPED_MIN) / 2.0   # = 2.70
+right_target_action = (RIGHT_MAPPED_MAX - RIGHT_MAPPED_MIN) / 2.0  # = 2.70
+```
+而共享内存 `Value('d', 0.0)` 初值为 0，触发守卫（`robot_hand_unitree.py:362`）：
+```python
+if left_gripper_value != 0.0 or right_gripper_value != 0.0:   # ← False，跳过
+    left_target_action = np.interp(...)
+```
+→ target 维持类内默认 mid-range = 2.70。
+
+**第二步（全开）的原因**——按 `r` 后主循环（`teleop_hand_and_arm.py:290`）开始 `tele_data = tv_wrapper.get_tele_data()`，wrapper 默认值（`tv_wrapper.py:169,186`）：
+```python
+left_ctrl_triggerValue = 10.0 - raw × 10   # 扳机未扣 raw=0 → 输出 10.0
+left_hand_pinchValue   = raw × 100         # 手张开默认 ≈ 10.0
+```
+10.0 喂入控制线程后守卫为 True：
+```python
+np.interp(10.0, [5.0, 7.0], [0.0, 5.40])  # 钳位到 5.40
+```
+→ target 立刻跳到 5.40（全开）。
+
+### 6.3 注意事项 / 潜在风险
+
+- **进程一构造就开跑**——构造发生在 `r` 等待循环之前（`teleop_hand_and_arm.py:177` vs `:250-255`），用户在 VR 里看到"按 r 启动"提示前，夹爪已经在物理移动。
+- **没有等待用户确认的握手机制**。
+- 上电时若夹爪夹着东西、或卡在最闭合位置，进程一启动就会以 36 rad/s 朝 2.70 移动，无法人工干预。`kp=5.0` 不算硬但持续力矩仍存在。
+- 仿真模式（`--sim`）下没有速率限幅，target 直接跳变；具体行为看仿真器自身的物理积分。
+
+---
+
+## 七、手柄其它按键功能（仅供参考）
 
 | 按键 | 调用位置 | 作用 |
 |---|---|---|
@@ -195,9 +291,9 @@ LEFT_MAPPED_MAX          = 5.40    # 电机角度上限（=MIN+5.40）
 
 ---
 
-## 七、数据采集（仅 dex1 视角）
+## 八、数据采集（仅 dex1 视角）
 
-### 7.1 触发方式
+### 8.1 触发方式
 
 - **键盘 `s`**：主循环切换录制（`teleop_hand_and_arm.py:278-285`）
   - 第一次按 → `recorder.create_episode()` 创建新 episode 目录
@@ -205,7 +301,7 @@ LEFT_MAPPED_MAX          = 5.40    # 电机角度上限（=MIN+5.40）
 - **IPC**：发送 `CMD_RECORD_TOGGLE`（参考 `utils/ipc.py`）
 - **采样率**：跟随主循环，由 `--frequency` 决定（默认 30 Hz）
 
-### 7.2 目录结构（每段 episode）
+### 8.2 目录结构（每段 episode）
 
 ```
 <task-dir>/<task-name>/
@@ -222,7 +318,7 @@ LEFT_MAPPED_MAX          = 5.40    # 电机角度上限（=MIN+5.40）
 
 `episode_writer.py:106-114` 负责创建上述目录；图像命名 `{6 位帧号}_{key}.jpg`。
 
-### 7.3 `data.json` 顶层
+### 8.3 `data.json` 顶层
 
 ```json
 {
@@ -237,7 +333,7 @@ LEFT_MAPPED_MAX          = 5.40    # 电机角度上限（=MIN+5.40）
 
 **`text`**（`episode_writer.py:20-30`）：默认占位 `goal/desc/steps`，需通过 CLI 覆盖。
 
-### 7.4 每帧字段（dex1 视角）
+### 8.4 每帧字段（dex1 视角）
 
 主循环每帧调用 `recorder.add_item(...)`（`teleop_hand_and_arm.py:471/473`），写入：
 
@@ -254,7 +350,7 @@ LEFT_MAPPED_MAX          = 5.40    # 电机角度上限（=MIN+5.40）
 }
 ```
 
-### 7.5 `states` / `actions` 结构
+### 8.5 `states` / `actions` 结构
 
 `teleop_hand_and_arm.py:419-468`，state（当前实测）和 action（指令目标）字段对称：
 
@@ -288,7 +384,7 @@ LEFT_MAPPED_MAX          = 5.40    # 电机角度上限（=MIN+5.40）
 > ```
 > 当前 `LEFT_MAPPED_MIN = RIGHT_MAPPED_MIN = 0.0`，等价于直通；若以后改偏移，记录的 qpos 自动是相对值。
 
-### 7.6 缺省 / 不录制的字段（dex1 主路径）
+### 8.6 缺省 / 不录制的字段（dex1 主路径）
 
 | 字段 | 状态 | 说明 |
 |---|---|---|
@@ -299,7 +395,7 @@ LEFT_MAPPED_MAX          = 5.40    # 电机角度上限（=MIN+5.40）
 | `joint_names` | `{}` 空 | 元信息里就是空 |
 | `sim_state` | 仅 `--sim` 模式 | 物理机不存 |
 
-### 7.7 写盘异步性
+### 8.7 写盘异步性
 
 - `add_item` 把数据塞进 `Queue(-1)`，**主循环立刻返回**（`episode_writer.py:144`）
 - 后台 `worker_thread` 调用 `_process_item_data` 异步：
@@ -310,22 +406,27 @@ LEFT_MAPPED_MAX          = 5.40    # 电机角度上限（=MIN+5.40）
 
 ---
 
-## 八、关键文件索引
+## 九、关键文件索引
 
 | 文件 | 行号 | 内容 |
 |---|---|---|
 | `teleop/televuer/src/televuer/televuer.py` | 241-245 | WebXR 原始 trigger 取数 |
 | `teleop/televuer/src/televuer/tv_wrapper.py` | 168-169 / 417 | trigger 反相+缩放到 `10.0→0.0` |
 | `teleop/televuer/src/televuer/tv_wrapper.py` | 156 / 375 | pinch 同上（×100，单位 cm）|
+| `teleop/teleop_hand_and_arm.py` | 172-178 | dex1 共享内存初始化 + `Dex1_1_Gripper_Controller` 构造 |
+| `teleop/teleop_hand_and_arm.py` | 251-260 | `r` 等待循环 → 进入主循环（START 状态机）|
 | `teleop/teleop_hand_and_arm.py` | 296-305 | 输入源选择，写共享内存 |
 | `teleop/teleop_hand_and_arm.py` | 346-363 | dex1 ee/body state/action 组装 |
 | `teleop/teleop_hand_and_arm.py` | 419-473 | states/actions 字典构造 + `add_item` |
 | `teleop/robot_control/robot_hand_unitree.py` | 232-390 | `Dex1_1_Gripper_Controller` 主体 |
+| `teleop/robot_control/robot_hand_unitree.py` | 299-307 | 状态订阅线程（**只读 `q`，不读 `tau_est`**）|
 | `teleop/robot_control/robot_hand_unitree.py` | 321-328 | 关键常量（DELTA、DISTANCE_MIN/MAX、MAPPED）|
+| `teleop/robot_control/robot_hand_unitree.py` | 329-330 | **启动时 target 初值 = mid-range 2.70（半开）**|
+| `teleop/robot_control/robot_hand_unitree.py` | 332-350 | `dq=0, tau=0, kp=5.0, kd=0.05` 命令字段 |
+| `teleop/robot_control/robot_hand_unitree.py` | 362 | **守卫 `!= 0.0`，启动初期跳过映射**|
 | `teleop/robot_control/robot_hand_unitree.py` | 364-365 | 线性映射 `np.interp` |
 | `teleop/robot_control/robot_hand_unitree.py` | 367-372 | 速率限幅 |
 | `teleop/robot_control/robot_hand_unitree.py` | 309-316 | DDS 下发（`MotorCmds_`）|
-| `teleop/robot_control/robot_hand_unitree.py` | 334-335 | `kp=5.00, kd=0.05` |
 | `teleop/robot_control/robot_hand_unitree.py` | 381-382 | 共享内存输出减偏移归零 |
 | `teleop/utils/episode_writer.py` | 13-233 | `EpisodeWriter` 完整实现 |
 | `teleop/utils/episode_writer.py` | 67-87 | `info` 元信息字段 |
@@ -335,7 +436,9 @@ LEFT_MAPPED_MAX          = 5.40    # 电机角度上限（=MIN+5.40）
 
 ---
 
-## 九、一句话总结
+## 十、一句话总结
 
 - **控制**：dex1-1 是模拟量位置控制——手柄前端"扳机键"扣多深 → wrapper 反相缩放成 `[10, 0]` → `np.interp` 映射到电机角度 `[0.0, 5.40] rad` → 经速率限幅与 WMA 滤波 → 通过 DDS `rt/dex1/{left,right}/cmd` 以 `MotorCmds_` 下发；**不走 IK，无力控/速度控**，扳机有效行程仅原始量程的 30%~50% 这 20%，夹爪极速约 36 rad/s（全程 150 ms）。
+- **抓握后**：主机层无力反馈、无堵转检测、无 `tau_max`；夹住物体后由固件 PD（`kp=5.0`）持续输出 `τ ≈ kp × Δq`，无时间/力矩上限，仅靠 kp 偏弱 + 电机自身保护兜底。
+- **启动**：进程一构造就开跑——先到**半开 (2.70 rad)**（守卫挡 wrapper 数据，target 用类内 mid-range 默认值）；按 `r` 后第 1 帧 wrapper 默认 10.0 喂入 → 立刻跳到**全开 (5.40 rad)**。
 - **采集**：每帧把头/腕相机 JPEG + 双臂 7+7 关节 `qpos`（state/action 各一份）+ **双夹爪每边 1 个电机角度的 `qpos`** 写进 `data.json`；`qvel/torque/tactile/audio/depth/joint_names` 全部为空；夹爪存的是**经过完整映射链路后下发到电机的角度（0=闭，5.40=开）**，不是扳机原始值。
